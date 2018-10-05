@@ -9,4 +9,4 @@
 5. In the spock:
    set path with 'Pool_demo1_1.put_property({"PoolPath":["/controllers"]})'
 6. Restart the Sardana server
-7. spock commands:'wa''lsdef''lsm''lsctrllib''mv top 20''net.value''ct'
+7. spock commands:'wa''lsdef''addctrllib''lsm''lsctrl''mv top 20''net.value''ct'
