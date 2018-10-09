@@ -1,0 +1,37 @@
+<sequence>
+  <macro name="umv">
+    <paramrepeat name="motor_pos_list">
+      <repeat nr="1">
+        <param name="motor" value="top"/>
+        <param name="pos" value="10.0"/>
+      </repeat>
+    </paramrepeat>
+  </macro>
+  <macro name="ascan">
+    <param name="motor" value="top"/>
+    <param name="start_pos" value="10.0"/>
+    <param name="final_pos" value="20.0"/>
+    <param name="nr_interv" value="5"/>
+    <param name="integ_time" value="3.0"/>
+    <macro name="ct">
+      <param name="integ_time" value="3.0"/>
+      <param name="mnt_grp" value="mntgrp03"/>
+    </macro>
+    <macro name="senv">
+      <param name="name" value="scan.h5"/>
+      <paramrepeat name="value_list">
+        <repeat nr="1">
+          <param name="value" value="11111"/>
+        </repeat>
+      </paramrepeat>
+    </macro>
+  </macro>
+  <macro name="umv">
+    <paramrepeat name="motor_pos_list">
+      <repeat nr="1">
+        <param name="motor" value="top"/>
+        <param name="pos" value="0.0"/>
+      </repeat>
+    </paramrepeat>
+  </macro>
+</sequence>
