@@ -11,3 +11,4 @@ taurustrend top/position "eval:bool({top/state})" -r 10
 9.	In sequencer. step2: add commands such as umv ascan senv 
 10.	 In sequencer. step3: set parameters of the  commands in the ‘parameter/value’ windows
 11.	 In sequencer. step4: run with the green small arrow. Then the results are shown in the taurus trend and the spock console. The xml file of this execution can be also stored.
+12. In the image 'sequencer_display', we can use the commands in sequncer to controll of the top blender motor. We can see the movement in blenderplayer and also get the record in the spock and taurus trend. 
