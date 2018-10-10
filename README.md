@@ -1,4 +1,22 @@
 # sardana_practise
+summary: After knowing how to controll the blender blades motion, I have followed these steps according to the introduction(https://github.com/sardana-org/sardana-training/tree/master/users):
+
+    Introduction (finished)
+    Overview (finished)
+    Sardana from scratch (finished)
+    Pool (finished)
+    Controllers (finished)
+    Macros1 (finished)
+    Macros2 (processing)
+    Macros3
+    Taurusgui
+    Tauruscore1
+    Tauruscore2
+    
+So far, I have reached to Macros2. In this part, I have finished the content of 'MACROGUI - MACROEXECUTOR' and 'MACROGUI - SEQUENCER'. Due to the problem of the macro random_image(The problem is shown in the image 'problem_with_macro(random_image).png'), I have looked for the solution. Then I have broken the debian 9 system. Then I use windows system today.
+
+
+How to use Sardana. 
 1. In MATE Terminal:
   Start Sardana Server with: 'Sardana demo1 --log-level=debug'
 2. In another MATE Terminal: 
