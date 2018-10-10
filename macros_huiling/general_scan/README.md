@@ -1,6 +1,6 @@
 The process of using sequencer is as follows.
 1.	Open blender server, sardana server, spock
-2.	Premise: In spock, there are 4 blender blades motors:  top, bottom, right, left, which we have already set before.  ‘net’ is the counter in measurement group ‘mntgrp03’.
+2.	Premise: In spock, there are 4 blender blades motors:  top, bottom, right, left, which we have already set before.  ‘net’ is the counter in measurement group ‘mntgrp03’. Define a new measurement group in spock: defmeas mntgrp03 net
 3.	Open Taurus Trend in MATE Terminal with the command: 
 taurustrend top/position "eval:bool({top/state})" -r 10
 4.	Open sequencer in another MATE Terminal with the command: ‘sequencer’
