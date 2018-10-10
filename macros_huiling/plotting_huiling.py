@@ -1,4 +1,5 @@
 import math
+import numpy
 from numpy import linspace
 from scipy.integrate import quad
 from scipy.special import j0
