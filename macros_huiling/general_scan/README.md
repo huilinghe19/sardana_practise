@@ -12,3 +12,4 @@ taurustrend top/position "eval:bool({top/state})" -r 10
 10.	 In sequencer. step3: set parameters of the  commands in the ‘parameter/value’ windows
 11.	 In sequencer. step4: run with the green small arrow. Then the results are shown in the taurus trend and the spock console. The xml file of this execution can be also stored.
 12. The image 'sequencer_display.png' shows the results, we can use the commands in sequncer to controll of the top blender motor(of course all motors can be controlled). We can see the movement in blenderplayer and also get the record in the spock and taurus trend.  
+13. See the state of motors in the Taurus widgets with the command: 'taurusform mot01' or 'taurustrend mot01/position'.
