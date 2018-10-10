@@ -23,6 +23,11 @@ def J0_plot():
     pyplot.xlabel('$x$')
     pyplot.legend()
 
+def random_image():
+    """Shows a random image 32x32"""
+    img = numpy.random.rand(32, 32)
+    pyplot.matshow(img)
+    
 j0i(32)
 J0_plot()
-
+random_image()
