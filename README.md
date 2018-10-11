@@ -24,17 +24,17 @@ Here are the steps to use spock at the beginning:
 
 1. In MATE Terminal: 
   
-  Create /controllers directory with: 'mkdir /controllers'. All new controller files are placed in '/controllers'.
+    Create /controllers directory with: 'mkdir /controllers'. All new controller files are placed in '/controllers'.
   
-  Create /macros directory with: 'mkdir /macros'. All new macro files are placed in '/macros'.
+    Create /macros directory with: 'mkdir /macros'. All new macro files are placed in '/macros'.
   
 2. In MATE Terminal:
   
-  Start Sardana Server with: 'Sardana demo1 --log-level=debug' 
+    Start Sardana Server with: 'Sardana demo1 --log-level=debug' 
   
 3. In another MATE Terminal: 
   
-  Start spock with: 'spock' or 'spock --profile=testprofile'
+    Start spock with: 'spock' or 'spock --profile=testprofile'
  
   
 4. In the spock console:
