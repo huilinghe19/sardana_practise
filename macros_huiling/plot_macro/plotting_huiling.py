@@ -29,6 +29,28 @@ def random_image():
     img = numpy.random.rand(32, 32)
     pyplot.matshow(img)
     
+def mandelbrot(interactions, density):
+
+    x_min, x_max = -2, 1
+    y_min, y_max = -1.5, 1.5
+
+    x, y = numpy.meshgrid(numpy.linspace(x_min, x_max, density),
+                          numpy.linspace(y_min, y_max, density))
+
+    c = x + 1j * y
+    z = c.copy()
+
+    fractal = numpy.zeros(z.shape, dtype=numpy.uint8) + 255
+
+    finteractions = float(interactions)
+    for n in range(interactions):
+        z *= z
+        z += c
+        mask = (fractal == 255) & (abs(z) > 10)
+        fractal[mask] = 254 * n / finteractions
+    pyplot.imshow(fractal)
+    
 j0i(32)
 J0_plot()
 random_image()
+mandelbrot(20, 512)
