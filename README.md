@@ -8,7 +8,7 @@ summary: After knowing how to controll the blender blades motion, I have followe
     Controllers (finished)
     Macros1 (finished)
     Macros2 (processing)
-    Macros3
+    Macros3 (processing)
     Taurusgui
     Tauruscore1
     Tauruscore2
