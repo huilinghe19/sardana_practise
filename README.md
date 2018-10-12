@@ -9,10 +9,10 @@ After knowing how to controll the blender blades motion and how to write some co
     Pool (finished)
     Controllers (finished)
     Macros1 (finished)
-    Macros2 (processing)
+    Macros2 (finished)
     Macros3 (processing)
-    Taurusgui
-    Tauruscore1
+    Taurusgui(finished)
+    Tauruscore1(processing)
     Tauruscore2
 
 Besides two functions: docker and pseudo counter and trigger/gate, I have reached to Macros2 and Marcos3. I have finished the content of 'MACROGUI - MACROEXECUTOR' and 'MACROGUI - SEQUENCER' in Macros2. 
