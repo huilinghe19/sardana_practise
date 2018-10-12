@@ -3,12 +3,11 @@ Usage of macros:
 1. Set path of macros in Spock: _MACRO_SERVER.put_property({"MacroPath":["/macros", "/usr/lib/python2.7/dist-packages/sardana/macroserver/macros/examples"]}), "/macros" is the path of the new custom macros, which we define by ourselves.
 
 
-2. Problem: image can not shown in spock. Hinweis:'TypeError: 'figure' is an unknown keyword argument
-(For more detailed information type: python_error)' has been solved. 
+2. The Problem: image can not shown in spock. Hinweis:'TypeError: 'figure' is an unknown keyword argument
+(For more detailed information type: python_error)' has been solved. In the new debian system and after the correction for expconf, the macro random_image works well. The program is proved to be right. But the usage of random.random((32,32)) is not normal. In the documentation: 
+    
 
-In the new debian system and after the correction for expconf, the macro random_image works well. The program is proved to be right. But the usage of random.random((32,32)) is not normal. In the documentation: 
-
-random.random()
+    random.random()
 
     Return the next random floating point number in the range [0.0, 1.0).
     
