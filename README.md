@@ -63,13 +63,13 @@ Some tips:
     python -c 'import lxml.etree; print lxml.etree.LXML_VERSION'
    
     
-2. About MacroServer, Pool and Sardana.
+2. About MacroServer, Pool, Sardana, spock.
     
-    MacroServer and Pool are two components of Sardana. So we need to use either Sardana or MacroServer and Pool. Due to the version of my PyTango is 9.2.0, so I can use Sardana directly.  MacroServer and Pool will not be used any more. If one has Tango <= 7.2.6 without all patches applied, Sardana server will not work, then he should use Pool and MacroServer.
+    MacroServer and Pool are two components of Sardana. In oder to open spock, we need to at first open either Sardana server or both of MacroServer and Pool. Due to the version of my installed PyTango is 9.2.0, so Sardana can be opened directly. If Sardana server is opened, then MacroServer and Pool do not need to be opened. If one has Tango <= 7.2.6 without all patches applied, Sardana server will not work, then he should use Pool and MacroServer.
     
      If something wrong about sardana server happens, use 'jive' command to open jive frame, delete the sardana server, restart or re-create Pool and MacroServer, in oder to make sure Pool and MacroServer has no problem at first. After checking Pool and MacroServer, then we testen sardana server. When we open sardana server correctly, then we do not use the commands concerning about Pool and MacroServer any more. Before we start spock, opening Sardana server has the same function with opening both of the Pool and MacroServer. 
      
-    Sometimes we want to restart Sardana but the sardana server is already running. Then we can use command 'ps uax' to see the process and use command 'kill ', then we can restart the Sardana server. 
+    Sometimes we want to restart Sardana, but the sardana server is already running. Then we can use command 'ps uax' to see the process and use command 'kill ', then we can restart the Sardana server. 
 
 
 3. The start-up order of the servers cannot be changed. First, The blender server or other device servers must be started. Then the sardana server can be started, and finally the spock is available. Once the controllers or macros are changed, the sardana server needs to be restarted. The command '%relctrlcls' can also be used in the spock to reloads the new controller class.
