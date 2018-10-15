@@ -71,7 +71,8 @@ Some tips:
      
     Sometimes we want to restart Sardana, but the sardana server is already running. Then we can use command 'ps uax' to see the process and use command 'kill ', then we can restart the Sardana server. 
 
-
+    During my use of sardana, I found that when I first booted up after the weekend, the connection to the tango database could not be connected, but as soon as I restarted again, the problem was solved. 
+    
 3. The start-up order of the servers cannot be changed. First, The blender server or other device servers must be started. Then the sardana server can be started, and finally the spock is available. Once the controllers or macros are changed, the sardana server needs to be restarted. The command '%relctrlcls' can also be used in the spock to reloads the new controller class.
 
 
