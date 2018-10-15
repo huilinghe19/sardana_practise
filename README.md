@@ -40,9 +40,9 @@ Here are the steps to use spock at the beginning:
    
    Set path of Pool with 'Pool_demo1_1.put_property({"PoolPath":["/controllers"]})'
    
-   Set path of Macro Server with '_MACRO_SERVER.put_property({"MacroPath":["/macros", "/usr/local/lib/python2.7/dist-packages/sardana/macroserver/macros/examples"]})
+   Set path of Macro Server with '_MACRO_SERVER.put_property({"MacroPath":["/macros", "/usr/lib/python2.7/dist-packages/sardana/macroserver/macros/examples"]})
    
-   Set path of recorder with _MACRO_SERVER.put_property({"RecorderPath":["/usr/local/lib/python2.7/dist-packages/sardana-2.3.3a0-py2.7.egg/sardana/macroserver/recorders/examples"]})
+   Set path of recorder with _MACRO_SERVER.put_property({"RecorderPath":["/usr/lib/python2.7/dist-packages/sardana/macroserver/recorders/examples"]})
    
    Using Spock commands to execute operation:'wa', 'lsdef','addctrllib', 'defctrl''lsm', 'lsctrl', 'mv top 20', 'net.value', 'defmeas', 'ct 1'
    
