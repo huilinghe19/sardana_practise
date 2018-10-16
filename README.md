@@ -11,7 +11,7 @@ After knowing how to controll the blender blades motion and how to write some co
     Macros1 (finished)
     Macros2 (finished)
     Macros3 (finished)
-    Taurusgui(finished)
+    Taurusgui(processing)
     Tauruscore1(processing)
     Tauruscore2
 
