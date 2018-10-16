@@ -17,7 +17,11 @@ Usage of macros:
 4.  We need to change something in the file "/usr/lib/python2.7/dist-packages/taurus/qt/qtgui/tree/qtree.py", in oder to make both the commands 'tauruspanel' and 'taurusform' in the terminal and the command 'expconf' in spock run well at the same time. createViewWidget() method can not work well all the time, use following commands instead of h.setResizeMode(0, Qt.QHeaderView.Stretch) is the solution.  
 
 
-    try:
+    
+        try:
+    
          h.setResizeMode(0, Qt.QHeaderView.Stretch)
-     except:
+         
+        except:
+     
          h.setSectionResizeMode(0, Qt.QHeaderView.Stretch)
