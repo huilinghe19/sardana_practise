@@ -1,7 +1,12 @@
 Usage of macros: 
 
-1. Set path of macros in Spock: _MACRO_SERVER.put_property({"MacroPath":["/macros", "/usr/lib/python2.7/dist-packages/sardana/macroserver/macros/examples"]}), "/macros" is the path of the new custom macros, which we define by ourselves.
+1. Set path of macros in Spock: _MACRO_SERVER.put_property({"MacroPath":["/macros", "/usr/lib/python2.7/dist-packages/sardana/macroserver/macros/examples"]}), "/macros" is the path of the new custom macros, which we define by ourselves. 
 
+How to write new macros:(example)
+
+    1. Create a module 'salute.py' under the '/macros'. In the file there is a new macro, which is called 'hello_world'. Change the right and the owner of the file, to make sure spock can use it. 
+
+    2. In spock console, add the '/macros' as the MacroPath, use the command 'edmac hello_world salute', edmac is the edit command, hello_world is the macro name, salute is the module name. Then we can use it in spock. 
 
 2. The Problem: image can not shown in spock. Hinweis:'TypeError: 'figure' is an unknown keyword argument
 (For more detailed information type: python_error)' has been solved. In the new debian system and after the correction for expconf, the macro random_image works well. The program is proved to be right. But the usage of random.random((32,32)) is not normal. In the documentation: 
