@@ -12,7 +12,7 @@ In MATE console, for starting tango test, we use '/usr/lib/tango/TangoTest Test'
 For starting Starter, we use " /usr/lib/tango/Starter debian sys/starter/dide17", then the following result occurs in the console. If the result is not good, you should try once more. 
 
 
-Starter::Starter() init device sys/starter/dide17
+"""Starter::Starter() init device sys/starter/dide17
 UseEvents  = False
 interStartupLevelWait  = 1
 serverStartupTimeout   = 1
@@ -27,7 +27,7 @@ Starter::dev_start_all(): entering for level 2... !
 Starter::dev_start_all(): entering for level 3... !
 Starter::dev_start_all(): entering for level 4... !
 Starter::dev_start_all(): entering for level 5... !
-Ready to accept request
+Ready to accept request"""
 
 
 
