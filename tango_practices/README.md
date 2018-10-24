@@ -37,4 +37,9 @@ At the same time , we should also configure the device and server in jive, namel
 
 My mistake was that, I was used to start the service with the command 'sudo systemctl start TangoTest.service'. And this result was always 'active(exited)'. I was always trying to fix this, which is a waste of time. In fact, we do not use systemctl to start tango test.
 
+If I use the command "/usr/lib/tango/tango_admin --server-list", then the result is as follows.
 
+" /usr/lib/tango/tango_admin --server-list
+DataBaseds Sardana Starter Tango-admin TangoAccessControl TangoTest "
+
+Where is the problem?
