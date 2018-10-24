@@ -40,6 +40,5 @@ My mistake was that, I was used to start the service with the command 'sudo syst
 If I use the command "/usr/lib/tango/tango_admin --server-list", then the result is as follows.
 
 " /usr/lib/tango/tango_admin --server-list
-DataBaseds Sardana Starter Tango-admin TangoAccessControl TangoTest "
+DataBaseds Sardana Starter TangoAccessControl TangoTest "
 
-Where is the problem?
