@@ -1,14 +1,15 @@
 When I use the function of taurusform, the functions about sardana and spock work well. But some device servers do not work well, such as tango test, and tango starter. 
 I have spent lots of time to check the problem, why tango test and tango starter can not work. During this time, I have learned somthing about tango control,  how to operate the tango device servers or devices in jive, and also astor.  Up to now, tango test and starter work. 
 
-Process to make the tango test work:
+Process:
 
-In jive, add server and device. Now these can not work well. 
+In jive, add server and device. At this point, these can not work well. 
 
 In spock, use the commands shown in the image "tango_test_problem.png" to determine the functions of tango test. 
 
 In MATE console, for starting tango test, we use '/usr/lib/tango/TangoTest Test', then 'ready to accecpt request' occurs in the console.
-For starting Starter, we use " /usr/lib/tango/Starter debian sys/starter/dide17", then following occurs in the console. 
+
+For starting Starter, we use " /usr/lib/tango/Starter debian sys/starter/dide17", then the following result occurs in the console. If the result is not good, you should try once more. 
 
 
 Starter::Starter() init device sys/starter/dide17
