@@ -50,6 +50,39 @@ Tips: The order of the macro paths determines the priority. If there are 2 same 
         Inherit from Macro
         Implement the run() method
 
+52 parameter types are defined in MacroServer e.g. Float, String, Motor, MeasurementGroup, etc. A parameter is characterized by: name, type, default value and description.
+Parameters are defined either as argument of the macro decorator for the macro function or as param_def class member for the macro class.
+Example 1:
+
+    @macro([["moveable", Type.Moveable, None, "moveable to get position"]])
+    def fixed_ascan(self, moveable):
+        """This does an ascan starting at 0 ending at 100, in 10 intervals
+        with integration time of 0.1s"""
+        self.ascan(moveable, 0, 100, 10, 0.1)
+
+
+Example 2:
+
+    from sardana.macroserver.macro import Macro, Type, Optional
+    class count(Macro):
+
+        param_def = [
+            ['itime', Type.Float, 1, 'integration time'],
+            ['mntgrp', Type.MeasurementGroup, Optional, 'MntGrp to use']
+        ]
+
+        def run(self, itime, mntgrp):
+            bkp_active_mntgrp = None
+            try:
+                if mntgrp is not None:
+                    bkp_active_mntgrp = self.getEnv('ActiveMntGrp')
+                    mntgrp_name = mntgrp.name
+                    self.setEnv('ActiveMntGrp', mntgrp_name)
+                self.info('Use "{0}" measurement group'.format(mntgrp_name))
+                self.ct(itime)
+            finally:
+                if bkp_active_mntgrp is not None:
+                    self.setEnv('ActiveMntGrp', bkp_active_mntgrp)
 
    
    
