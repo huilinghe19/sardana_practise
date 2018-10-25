@@ -1,5 +1,5 @@
 When I use the function of taurusform, the functions about sardana and spock work well. But some device servers do not work well, such as tango test, and tango starter. 
-I have spent lots of time to check the problem, why tango test and tango starter can not work. During this time, I have learned somthing about tango control,  how to operate the tango device servers or devices in jive, and also astor.  Up to now, tango test and starter work. 
+I have spent lots of time to check the problem, why tango test and tango starter can not work. During this time, I have learned somthing about tango control,  how to operate the tango device servers or devices in jive, and also astor.  Up to now, I have already known how tango test and starter work and how to start them. 
 
 Process:
 
@@ -37,7 +37,7 @@ At the same time , we should also configure the device and server in jive, namel
 
 My mistake was that, I was used to start the service with the command 'sudo systemctl start TangoTest.service'. And this result was always 'active(exited)'. I was always trying to fix this, which is a waste of time. In fact, we do not use systemctl to start tango test.
 
-If I use the command "/usr/lib/tango/tango_admin --server-list", then the result is as follows.
+About tango admin, we can use the command "/usr/lib/tango/tango_admin --server-list", then the servers will be shown.
 
 " /usr/lib/tango/tango_admin --server-list
 DataBaseds Sardana Starter TangoAccessControl TangoTest "
