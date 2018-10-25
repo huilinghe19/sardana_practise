@@ -42,3 +42,4 @@ About tango admin, we can use the command "/usr/lib/tango/tango_admin --server-l
 " /usr/lib/tango/tango_admin --server-list
 DataBaseds Sardana Starter TangoAccessControl TangoTest "
 
+About Atkpanel, we can use the command"atkpanel" and then input the device name, then we can see the device in atkpanel.
