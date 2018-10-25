@@ -72,6 +72,8 @@ Some tips:
 
     During my use of sardana, I found that sometimes when I first booted up after a day or the weekend , the connection to the tango database could not be connected, then sardana or jive can not be opened, but as soon as I restarted again, the problem was solved. 
     
+    About Door, it is the entry point to the MacroServer, With different doors we can use different macros. 
+    
 3. The start-up order of the servers cannot be changed. First, The blender server or other device servers must be started. Then the sardana server can be started, and finally the spock is available. If a new device server has just been started, or the controllers or macros are changed, the sardana server needs to be restarted. In the spock console these changes will be automatically displayed after a few seconds, we do not need to restart spock. The commands 'lsctrl','lsmac' can also be used in the spock to check the controllers and macros.
 
 
