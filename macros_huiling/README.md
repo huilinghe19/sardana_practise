@@ -64,25 +64,25 @@ def fixed_ascan(self, moveable):
 Example 2:
 
     from sardana.macroserver.macro import Macro, Type, Optional
-class count(Macro):
+    class count(Macro):
 
-    param_def = [
-        ['itime', Type.Float, 1, 'integration time'],
-        ['mntgrp', Type.MeasurementGroup, Optional, 'MntGrp to use']
-    ]
+        param_def = [
+            ['itime', Type.Float, 1, 'integration time'],
+            ['mntgrp', Type.MeasurementGroup, Optional, 'MntGrp to use']
+        ]
 
-    def run(self, itime, mntgrp):
-        bkp_active_mntgrp = None
-        try:
-            if mntgrp is not None:
-                bkp_active_mntgrp = self.getEnv('ActiveMntGrp')
-                mntgrp_name = mntgrp.name
-                self.setEnv('ActiveMntGrp', mntgrp_name)
-            self.info('Use "{0}" measurement group'.format(mntgrp_name))
-            self.ct(itime)
-        finally:
-            if bkp_active_mntgrp is not None:
-                self.setEnv('ActiveMntGrp', bkp_active_mntgrp)
+        def run(self, itime, mntgrp):
+            bkp_active_mntgrp = None
+            try:
+                if mntgrp is not None:
+                    bkp_active_mntgrp = self.getEnv('ActiveMntGrp')
+                    mntgrp_name = mntgrp.name
+                    self.setEnv('ActiveMntGrp', mntgrp_name)
+                self.info('Use "{0}" measurement group'.format(mntgrp_name))
+                self.ct(itime)
+            finally:
+                if bkp_active_mntgrp is not None:
+                    self.setEnv('ActiveMntGrp', bkp_active_mntgrp)
 
    
    
