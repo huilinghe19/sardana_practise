@@ -2,7 +2,7 @@
 
 Summary: 
 
-After knowing how to controll the blender blades motion and how to write some controllers , I have learned sardana according to the sardana trainning (https://github.com/sardana-org/sardana-training). Now I am reading the part of tango-control (https://github.com/tango-controls/pytango/tree/develop/tango):
+After knowing how to controll the blender blades motion and how to write some controllers , I have learned sardana according to the sardana trainning (https://github.com/sardana-org/sardana-training). Now I am reading the part of tango-control (https://github.com/tango-controls/tango-doc/tree/master/source/tutorials-and-howtos/how-tos) and PyTango (https://github.com/tango-controls/pytango/tree/develop/tango):
 
 
 Here are the steps to use spock at the beginning:
