@@ -46,7 +46,8 @@ import PyTango
 import sys
 # Add additional import
 #----- PROTECTED REGION ID(HhlServer.additionnal_import) ENABLED START -----#
-from socketAPI import BlenderBlades
+from socketAPI import TopCtrl
+
 #----- PROTECTED REGION END -----#	//	HhlServer.additionnal_import
 
 # Device States Description
@@ -58,7 +59,7 @@ class HhlServer (PyTango.Device_4Impl):
     
     # -------- Add you global variables here --------------------------
     #----- PROTECTED REGION ID(HhlServer.global_variables) ENABLED START -----#
-   
+    
     #----- PROTECTED REGION END -----#	//	HhlServer.global_variables
 
     def __init__(self, cl, name):
@@ -66,13 +67,13 @@ class HhlServer (PyTango.Device_4Impl):
         self.debug_stream("In __init__()")
         HhlServer.init_device(self)
         #----- PROTECTED REGION ID(HhlServer.__init__) ENABLED START -----#
-        self.blender_blades = BlenderBlades('127.0.0.1', 9999)
+        self.topCtrl = TopCtrl()
         #----- PROTECTED REGION END -----#	//	HhlServer.__init__
         
     def delete_device(self):
         self.debug_stream("In delete_device()")
         #----- PROTECTED REGION ID(HhlServer.delete_device) ENABLED START -----#
-        del self.blender_blades
+      
         #----- PROTECTED REGION END -----#	//	HhlServer.delete_device
 
     def init_device(self):
@@ -96,14 +97,12 @@ class HhlServer (PyTango.Device_4Impl):
     def read_Position(self, attr):
         self.debug_stream("In read_Position()")
         #----- PROTECTED REGION ID(HhlServer.Position_read) ENABLED START -----#
-        #attr.set_value(self.attr_Position_read)
-        blender_blades = self.blender_blades        
-        ans = blender_blades.get_position(1)      
+        #attr.set_value(self.attr_Position_read)  
+        topCtrl = self.topCtrl
+        ans = topCtrl.get_position()      
         attr.set_value(ans)
         #----- PROTECTED REGION END -----#	//	HhlServer.Position_read
-        
-    
-    
+          
             
     def read_attr_hardware(self, data):
         self.debug_stream("In read_attr_hardware()")
@@ -123,10 +122,9 @@ class HhlServer (PyTango.Device_4Impl):
         """
         self.debug_stream("In dev_state()")
         argout = PyTango.DevState.UNKNOWN
-        #----- PROTECTED REGION ID(HhlServer.State) ENABLED START -----#
-        blender_blades = self.blender_blades
-        argout = blender_blades.get_state(1)
-     
+        #----- PROTECTED REGION ID(HhlServer.State) ENABLED START -----#    
+        topCtrl = self.topCtrl
+        argout = topCtrl.get_state()     
         if argout != PyTango.DevState.ALARM:
             PyTango.Device_4Impl.dev_state(self)
             argout = PyTango.DevState.ON
@@ -145,12 +143,10 @@ class HhlServer (PyTango.Device_4Impl):
         self.debug_stream("In dev_status()")
         argout = ""
         #----- PROTECTED REGION ID(HhlServer.Status) ENABLED START -----#
-        blender_blades = self.blender_blades
-        ans = blender_blades.ask("?states")
-        state_raw = ans.split()[0]
-        if argout != state_raw:
-            argout='Status ON'
-        return argout
+        topCtrl = self.topCtrl
+        ans = topCtrl.get_status()      
+        return ans
+    
         #----- PROTECTED REGION END -----#	//	HhlServer.Status
         self.set_status(self.argout)
         self.__status = PyTango.Device_4Impl.dev_status(self)
@@ -165,10 +161,9 @@ class HhlServer (PyTango.Device_4Impl):
         self.debug_stream("In Move()")
         argout = False
         #----- PROTECTED REGION ID(HhlServer.Move) ENABLED START -----#
-        blender_blades = self.blender_blades
-        ans = blender_blades.moveMotor(1, argin)
-        if ans != None:
-            argout = True
+        topCtrl = self.topCtrl
+        topCtrl.moveMotor(argin)
+        argout = True
         #----- PROTECTED REGION END -----#	//	HhlServer.Move
         return argout
         
@@ -177,8 +172,8 @@ class HhlServer (PyTango.Device_4Impl):
         """
         self.debug_stream("In Stop()")
         #----- PROTECTED REGION ID(HhlServer.Stop) ENABLED START -----#
-        blender_blades = self.blender_blades
-        blender_blades.stop(1)
+        topCtrl = self.topCtrl
+        topCtrl.stop()
         
         #----- PROTECTED REGION END -----#	//	HhlServer.Stop
         
@@ -188,12 +183,12 @@ class HhlServer (PyTango.Device_4Impl):
         """
         self.debug_stream("In GetAcceleration()")
         argout = 0.0
-        #----- PROTECTED REGION ID(HhlServer.GetAcceleration) ENABLED START -----#
-        blender_blades = self.blender_blades
-        v = blender_blades.GetAxisPar(1, "acceleration")
-    
+        #----- PROTECTED REGION ID(HhlServer.GetAcceleration) ENABLED START -----#    
+        topCtrl = self.topCtrl
+        v = topCtrl.getAxisPar( "acceleration")   
         if argout != v:
             argout = v
+            
         #----- PROTECTED REGION END -----#	//	HhlServer.GetAcceleration
         return argout
         
@@ -206,11 +201,40 @@ class HhlServer (PyTango.Device_4Impl):
         self.debug_stream("In SetAcceleration()")
         argout = ""
         #----- PROTECTED REGION ID(HhlServer.SetAcceleration) ENABLED START -----#
-        blender_blades = self.blender_blades
-        ans = blender_blades.SetAxisPar(1,"acceleration", argin)
+        topCtrl = self.topCtrl
+        ans = topCtrl.setAxisPar("acceleration", argin)
+        
         #----- PROTECTED REGION END -----#	//	HhlServer.SetAcceleration     
         return argout
         
+    def GetVelocity(self):
+        """ 
+        :rtype: PyTango.DevFloat
+        """
+        self.debug_stream("In GetVelocity()")
+        argout = 0.0
+        #----- PROTECTED REGION ID(HhlServer.GetVelocity) ENABLED START -----#
+        topCtrl = self.topCtrl
+        v = topCtrl.getAxisPar("velocity")
+        if argout != v:
+            argout = v
+        #----- PROTECTED REGION END -----#	//	HhlServer.GetVelocity
+        return argout
+        
+    def SetVelocity(self, argin):
+        """ 
+        :param argin: 
+        :type argin: PyTango.DevFloat
+        :rtype: PyTango.DevString
+        """
+        self.debug_stream("In SetVelocity()")
+        argout = ""
+        #----- PROTECTED REGION ID(HhlServer.SetVelocity) ENABLED START -----#
+        topCtrl = self.topCtrl
+        ans = topCtrl.setAxisPar("velocity", argin)
+        
+        #----- PROTECTED REGION END -----#	//	HhlServer.SetVelocity
+        return argout
 
     #----- PROTECTED REGION ID(HhlServer.programmer_methods) ENABLED START -----#
     
@@ -253,6 +277,12 @@ class HhlServerClass(PyTango.DeviceClass):
             [[PyTango.DevVoid, "none"],
             [PyTango.DevFloat, "none"]],
         'SetAcceleration':
+            [[PyTango.DevFloat, "none"],
+            [PyTango.DevString, "none"]],
+        'GetVelocity':
+            [[PyTango.DevVoid, "none"],
+            [PyTango.DevFloat, "none"]],
+        'SetVelocity':
             [[PyTango.DevFloat, "none"],
             [PyTango.DevString, "none"]],
         }

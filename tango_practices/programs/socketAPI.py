@@ -1,5 +1,4 @@
 import socket
-
 from sardana import State
 from sardana.pool.controller import MotorController, Type, Description,\
     DefaultValue
@@ -8,18 +7,11 @@ from sardana.pool.controller import MotorController, Type, Description,\
 class CommunicationError(Exception):
     pass
 
-
-class BlenderBlades(object):
+class ClientSocket(object):
 
     CMD = 0
     ANS_START = 1
-    AXIS_NAMES = {1: "top", 2: "bot", 3: "left", 4: "right"}
-    # blender blades axis state to sardana motor state map
-    STATES = {"ON": State.On, "MOVING": State.Moving}
-    # parameter name position in blender blades answer
-    AXIS_ID = 0
-    # parameter value position in blender blades answer
-    VALUE = 1
+
     def __init__(self, host, port):
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self._socket.connect((host, port))
@@ -37,60 +29,84 @@ class BlenderBlades(object):
         data = raw_data.split()
         ans = " ".join(data[self.ANS_START:])
         return ans
+
     
-    def get_state(self, axis):
-        axis_name = self.AXIS_NAMES[axis]
-        ans = self.ask("?state {0}".format(axis_name))
+class TopCtrl(object):
+       
+    STATES = {"ON": State.On, "MOVING": State.Moving}
+    AXIS_ID = 0
+    VALUE = 1
+    MOTOR = 'top'
+    
+    def __init__(self):        
+        self.blenderBladesSocket = ClientSocket('127.0.0.1', 9999)
+        
+    def __del__(self):
+        del self.blenderBladesSocket
+        
+    def get_state(self):     
+        blenderBlades = self.blenderBladesSocket
+        ans = blenderBlades.ask("?state {0}".format(self.MOTOR))
         state_raw = ans.split()[1]
-        state = self.STATES[state_raw]
-        
+        state = self.STATES[state_raw]        
         return state
-    
-    def get_position(self, axis):
-        axis_name = self.AXIS_NAMES[axis]
-        ans = self.ask("?pos {0}".format(axis_name))
-        position_raw = ans.split()[self.VALUE]
-        position = float(position_raw)
-        return position
-    
-    def moveMotor(self, axis, position):
-        axis_name = self.AXIS_NAMES[axis]      
-        ans = self.ask("move {0} {1}".format(axis_name, position))
+    def get_status(self):     
+        blenderBlades = self.blenderBladesSocket
+        ans = blenderBlades.ask("?state {0}".format(self.MOTOR))
+        state_raw = ans.split()[1]       
+        if state_raw == 'ON':
+            return 'Status is ON'
+        elif state_raw == 'MOVING':
+            return 'Status is MOVING'
+        else:
+            return ''
         
-    def GetAxisPar(self, axis, name):
-        axis_name = self.AXIS_NAMES[axis]
+    def get_position(self):        
+        blenderBlades = self.blenderBladesSocket
+        ans = blenderBlades.ask("?pos {0}".format(self.MOTOR))
+        position_raw = ans.split()[1]
+        position = float(position_raw)
+        return position    
+    
+    def moveMotor(self, position):  
+        blenderBlades = self.blenderBladesSocket
+        blenderBlades.ask("move {0} {1}".format(self.MOTOR, position))
+        
+    def getAxisPar(self, name):
+        blenderBlades = self.blenderBladesSocket
         name = name.lower()
         if name == "acceleration":
-            ans = self.ask("?acc {0}".format(axis_name))
-            acc_raw = ans.split()[self.VALUE]
+            ans = blenderBlades.ask("?acc {0}".format(self.MOTOR))
+            acc_raw = ans.split()[1]
             v = float(acc_raw)
         elif name == "deceleration":
-            ans = self.ask("?dec {0}".format(axis_name))
-            dec_raw = ans.split()[self.VALUE]
+            ans = blenderBlades.ask("?dec {0}".format(self.MOTOR))
+            dec_raw = ans.split()[1]
             v = float(dec_raw)
         elif name == "base_rate":
             v = 0
         elif name == "velocity":
-            ans = self.ask("?vel {0}".format(axis_name))
-            vel_raw = ans.split()[self.VALUE]
+            ans = blenderBlades.ask("?vel {0}".format(self.MOTOR))
+            vel_raw = ans.split()[1]
             v = float(vel_raw)
         elif name == "step_per_unit":
             v = 1
         return v
 
-    def SetAxisPar(self, axis, name, value):
-        axis_name = self.AXIS_NAMES[axis]
+    def setAxisPar(self, name, value):
+        blenderBlades = self.blenderBladesSocket
         name = name.lower()
         if name == "acceleration":
-            self.ask("acc {0} {1}".format(axis_name, value))
+            blenderBlades.ask("acc {0} {1}".format(self.MOTOR, value))
         elif name == "deceleration":
-            self.ask("dec {0} {1}".format(axis_name, value))
+            blenderBlades.ask("dec {0} {1}".format(self.MOTOR, value))
         elif name == "base_rate":
             raise Exception("base_rate is always 0")
         elif name == "velocity":
-            self.ask("vel {0} {1}".format(axis_name, value))
+            blenderBlades.ask("vel {0} {1}".format(self.MOTOR, value))
         elif name == "step_per_unit":
             raise Exception("step_per_unit is always 1")
             
-    def stop(self, axis):      
-        self.ask("abort")
+    def stop(self):      
+        blenderBlades = self.blenderBladesSocket
+        blenderBlades.ask("abort")
