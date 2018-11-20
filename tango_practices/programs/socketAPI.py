@@ -1,8 +1,5 @@
 import socket
-from sardana import State
-from sardana.pool.controller import MotorController, Type, Description,\
-    DefaultValue
-
+  
 
 class CommunicationError(Exception):
     pass
@@ -32,14 +29,13 @@ class ClientSocket(object):
 
     
 class TopCtrl(object):
-       
-    STATES = {"ON": State.On, "MOVING": State.Moving}
+    
     AXIS_ID = 0
     VALUE = 1
     MOTOR = 'top'
-    
-    def __init__(self):        
-        self.blenderBladesSocket = ClientSocket('127.0.0.1', 9999)
+  
+    def __init__(self, host, port):       
+        self.blenderBladesSocket = ClientSocket(host,port)
         
     def __del__(self):
         del self.blenderBladesSocket
@@ -48,8 +44,7 @@ class TopCtrl(object):
         blenderBlades = self.blenderBladesSocket
         ans = blenderBlades.ask("?state {0}".format(self.MOTOR))
         state_raw = ans.split()[1]
-        state = self.STATES[state_raw]        
-        return state
+        return state_raw
     def get_status(self):     
         blenderBlades = self.blenderBladesSocket
         ans = blenderBlades.ask("?state {0}".format(self.MOTOR))
@@ -59,7 +54,7 @@ class TopCtrl(object):
         elif state_raw == 'MOVING':
             return 'Status is MOVING'
         else:
-            return ''
+            return 'Status is UNKNOWN'
         
     def get_position(self):        
         blenderBlades = self.blenderBladesSocket
