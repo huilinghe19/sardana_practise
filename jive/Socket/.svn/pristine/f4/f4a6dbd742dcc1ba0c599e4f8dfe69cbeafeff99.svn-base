@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>super-pom-C-CPP-tango</artifactId>
+    <groupId>fr.soleil</groupId>
+    <version>RELEASE</version>
+  </parent>
+  <groupId>org.tango.lib</groupId>
+  <artifactId>Socket-${aol}-${library}-${mode}</artifactId>
+  <version>1.4.2-SNAPSHOT</version>
+  <packaging>nar</packaging>
+  <name>Socket</name>
+  <description>Socket Device</description>
+  <developers>
+    <developer>
+      <id>pons</id>
+      <name>pons</name>
+      <url>${scm.connection.svn.tango-ds}/DeviceClasses/Communication/Socket/trunk/</url>
+      <organization>ESRF</organization>
+      <organizationUrl>http://www.esrf.eu/</organizationUrl>
+      <roles>
+        <role>manager</role>
+      </roles>
+      <timezone>1</timezone>
+    </developer>
+  </developers>
+  <scm>
+    <connection>${scm.connection.svn.tango-ds}/DeviceClasses/Communication/Socket/trunk/</connection>
+    <developerConnection>${scm.connection.svn.tango-ds}/DeviceClasses/Communication/Socket/trunk/</developerConnection>
+    <url>${scm.url.cvs.tango-ds}/Communication/Socket</url>
+  </scm>
+  <build>
+    <sourceDirectory>${project.basedir}</sourceDirectory>
+    <plugins>
+      <plugin>
+        <groupId>org.freehep</groupId>
+        <artifactId>freehep-nar-plugin</artifactId>
+        <configuration>
+          <os>Linux</os>
+          <cpp>
+<!--            <includePaths>
+              <includePath>${project.basedir}</includePath>
+            </includePaths>
+            <sourceDirectory>${project.basedir}</sourceDirectory> -->
+            <options>
+             <option>-std=c++0x</option>
+             <option>-D_USING_TANGO_8_OR_ABOVE_</option>
+            </options> 
+          </cpp>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+   <dependencies>
+<!-- compilation tango8 debut -->
+      <dependency>
+        <groupId>org.omnigroup</groupId>
+        <artifactId>omniORB-${aol}-shared-release</artifactId>
+        <version>4.1.7</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.zeromq</groupId>
+        <artifactId>zeromq-${aol}-shared-release</artifactId>
+        <version>3.2.4</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.tango</groupId>
+        <artifactId>tango-cpp-api-${aol}-shared-release</artifactId>
+        <version>8.1.2</version>
+      </dependency>
+<!-- compilation tango8 fin -->
+  </dependencies> 
+</project>
