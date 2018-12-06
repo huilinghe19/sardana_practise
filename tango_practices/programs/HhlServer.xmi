@@ -110,21 +110,48 @@
       </argout>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </commands>
-    <commands name="SetPosition" description="" execMethod="set_position" displayLevel="OPERATOR" polledPeriod="0" isDynamic="false">
+    <commands name="MoveTo20" description="" execMethod="move_to20" displayLevel="OPERATOR" polledPeriod="0" isDynamic="false">
       <argin description="">
-        <type xsi:type="pogoDsl:FloatType"/>
+        <type xsi:type="pogoDsl:VoidType"/>
       </argin>
       <argout description="">
         <type xsi:type="pogoDsl:BooleanType"/>
       </argout>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </commands>
-    <commands name="move" description="" execMethod="move" displayLevel="OPERATOR" polledPeriod="0" isDynamic="false">
+    <commands name="MoveTo30" description="" execMethod="move_to30" displayLevel="OPERATOR" polledPeriod="0" isDynamic="false">
       <argin description="">
-        <type xsi:type="pogoDsl:FloatType"/>
+        <type xsi:type="pogoDsl:VoidType"/>
       </argin>
       <argout description="">
+        <type xsi:type="pogoDsl:BooleanType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="SetPosition" description="" execMethod="set_position" displayLevel="OPERATOR" polledPeriod="0" isDynamic="false">
+      <argin description="">
+        <type xsi:type="pogoDsl:DoubleType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:BooleanType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="GetHostname" description="" execMethod="get_hostname" displayLevel="OPERATOR" polledPeriod="0" isDynamic="false">
+      <argin description="">
         <type xsi:type="pogoDsl:VoidType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:StringType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <commands name="GetPort" description="" execMethod="get_port" displayLevel="OPERATOR" polledPeriod="0" isDynamic="false">
+      <argin description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:IntType"/>
       </argout>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </commands>
@@ -137,7 +164,7 @@
       <properties description="" label="" unit="" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
     </attributes>
     <attributes name="Port" attType="Scalar" rwType="READ" displayLevel="OPERATOR" polledPeriod="0" maxX="" maxY="" allocReadMember="true" isDynamic="false">
-      <dataType xsi:type="pogoDsl:LongType"/>
+      <dataType xsi:type="pogoDsl:IntType"/>
       <changeEvent fire="false" libCheckCriteria="false"/>
       <archiveEvent fire="false" libCheckCriteria="false"/>
       <dataReadyEvent fire="false" libCheckCriteria="true"/>

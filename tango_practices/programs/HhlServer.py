@@ -84,9 +84,9 @@ class HhlServer (PyTango.Device_4Impl):
         self.attr_Port_read = 0
         self.attr_Host_read = ""
         #----- PROTECTED REGION ID(HhlServer.init_device) ENABLED START -----#      
-        self.attr_Host_read = "localhost"     
-        self.attr_Port_read = 9999
-        self.topCtrl = TopCtrl(self.attr_Host_read, self.attr_Port_read)
+        socket_host = self.GetHostname()
+        socket_port = self.GetPort()
+        self.topCtrl = TopCtrl(socket_host, socket_port)
        
         #----- PROTECTED REGION END -----#	//	HhlServer.init_device
 
@@ -271,34 +271,81 @@ class HhlServer (PyTango.Device_4Impl):
         #----- PROTECTED REGION END -----#	//	HhlServer.GetPosition
         return argout
         
+    def MoveTo20(self):
+        """ 
+        :rtype: PyTango.DevBoolean
+        """
+        self.debug_stream("In MoveTo20()")
+        argout = False
+        #----- PROTECTED REGION ID(HhlServer.MoveTo20) ENABLED START -----#
+       
+        topCtrl = self.topCtrl
+        topCtrl.moveMotor('20')
+        argout = True
+        #----- PROTECTED REGION END -----#	//	HhlServer.MoveTo20
+        return argout
+        
+    def MoveTo30(self):
+        """ 
+        :rtype: PyTango.DevBoolean
+        """
+        self.debug_stream("In MoveTo30()")
+        argout = False
+        #----- PROTECTED REGION ID(HhlServer.MoveTo30) ENABLED START -----#
+        topCtrl = self.topCtrl
+        topCtrl.moveMotor('30')
+        argout = True
+        #----- PROTECTED REGION END -----#	//	HhlServer.MoveTo30
+        return argout
+        
     def SetPosition(self, argin):
         """ 
         :param argin: 
-        :type argin: PyTango.DevFloat
+        :type argin: PyTango.DevDouble
         :rtype: PyTango.DevBoolean
         """
         self.debug_stream("In SetPosition()")
         argout = False
         #----- PROTECTED REGION ID(HhlServer.SetPosition) ENABLED START -----#
-        topCtrl = self.topCtrl
+        
+        #hostname = self.GetHostname()
+      
+        #port = self.GetPort()
+        topCtrl= self.topCtrl
         topCtrl.moveMotor(argin)
         argout = True
         #----- PROTECTED REGION END -----#	//	HhlServer.SetPosition
         return argout
-    
-    def GetId(self):
-        dev = DeviceProxy(self)
-        a = dev.get_property('id')
-        return a
-    def move(self, argin):
-        """ 
-        :param argin: 
-        :type argin: PyTango.DevFloat
-        """
-        self.debug_stream("In move()")
-        #----- PROTECTED REGION ID(HhlServer.move) ENABLED START -----#
         
-        #----- PROTECTED REGION END -----#	//	HhlServer.move
+    def GetHostname(self):
+        """ 
+        :rtype: PyTango.DevString
+        """
+        self.debug_stream("In GetHostname()")
+        argout = ""
+        #----- PROTECTED REGION ID(HhlServer.GetHostname) ENABLED START -----#
+        dev = PyTango.DeviceProxy('s/hhl/1')
+        s = dev.get_property('hostname')
+        m = s['hostname']  
+        argout = m[0]
+        
+        #----- PROTECTED REGION END -----#	//	HhlServer.GetHostname
+        return argout
+        
+    def GetPort(self):
+        """ 
+        :rtype: PyTango.DevLong
+        """
+        self.debug_stream("In GetPort()")
+        argout = 0
+        #----- PROTECTED REGION ID(HhlServer.GetPort) ENABLED START -----#
+        dev = PyTango.DeviceProxy('s/hhl/1')
+        s = dev.get_property('port')
+        m = s['port']  
+        argout = int(m[0])
+      
+        #----- PROTECTED REGION END -----#	//	HhlServer.GetPort
+        return argout
         
 
     #----- PROTECTED REGION ID(HhlServer.programmer_methods) ENABLED START -----#
@@ -365,12 +412,21 @@ class HhlServerClass(PyTango.DeviceClass):
         'GetPosition':
             [[PyTango.DevVoid, "none"],
             [PyTango.DevFloat, "none"]],
-        'SetPosition':
-            [[PyTango.DevFloat, "none"],
+        'MoveTo20':
+            [[PyTango.DevVoid, "none"],
             [PyTango.DevBoolean, "none"]],
-        'move':
-            [[PyTango.DevFloat, "none"],
-            [PyTango.DevVoid, "none"]],
+        'MoveTo30':
+            [[PyTango.DevVoid, "none"],
+            [PyTango.DevBoolean, "none"]],
+        'SetPosition':
+            [[PyTango.DevDouble, "none"],
+            [PyTango.DevBoolean, "none"]],
+        'GetHostname':
+            [[PyTango.DevVoid, "none"],
+            [PyTango.DevString, "none"]],
+        'GetPort':
+            [[PyTango.DevVoid, "none"],
+            [PyTango.DevLong, "none"]],
         }
 
 
@@ -381,7 +437,7 @@ class HhlServerClass(PyTango.DeviceClass):
             PyTango.SCALAR,
             PyTango.READ]],
         'Port':
-            [[PyTango.DevLong64,
+            [[PyTango.DevLong,
             PyTango.SCALAR,
             PyTango.READ]],
         'Host':
