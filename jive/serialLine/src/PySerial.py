@@ -41,6 +41,7 @@ import PyTango
 import sys
 import serial
 import array
+
 #==================================================================
 #   PySerial Class Description:
 #
@@ -165,7 +166,7 @@ class PySerial(PyTango.Device_4Impl):
 #------------------------------------------------------------------
 	def write_Port(self, attr):
 		print "In ", self.get_name(), "::write_Port()"
-		data=[]
+		data=['simulation/huiling/1']
 		attr.get_write_value(data)
 		print "Attribute value = ", data
         
@@ -467,7 +468,7 @@ class PySerial(PyTango.Device_4Impl):
 	def Open(self):
 		print "In ", self.get_name(), "::Open()"
 		#	Add your own code here
-		
+		self.port = '/dev/ttyS0'
 		# configure port
 		if self.configure:
 			self.serial.baudrate = self.baudrate
@@ -592,17 +593,17 @@ class PySerial(PyTango.Device_4Impl):
 #
 #	Description: Write the string to the serial line
 #                
-#	argin:  DevVarCharArray	
+#	argin:  DevVarStringArray	
 #------------------------------------------------------------------
 	def Write(self, argin):
 		print "In ", self.get_name(), "::Write()"
 		#	Add your own code here
-		print "char array ", argin
-		s = array.array('B', argin).tostring()
-		value = s + self.terminatorchar
-		print "string " ,value
-		self.serial.write(value)
-
+		#print "char array ", argin
+		#s = array.array('B', argin).tostring()
+		#value = s + self.terminatorchar
+		#dev = serial.Serial("/dev/ttyS0", baudrate=9600, timeout=2)
+		print "string " , argin
+		self.serial.write(argin[0]+ '\n')
 
 #---- Write command State Machine -----------------
 	def is_Write_allowed(self):
@@ -620,17 +621,18 @@ class PySerial(PyTango.Device_4Impl):
 #	Description: 
 #	argin:  DevUShort	Characters to read
 #	argout: DevVarCharArray	Characters readed
-#------------------------------------------------------------------
+#----------------------------------------------------------------
 	def Read(self, argin):
 		print "In ", self.get_name(), "::Read()"
 		#	Add your own code here
-		argout =  []
+		#argout =  []
 		s = self.serial.read(argin)
 		print s
-		b = array.array('B', s)
-		argout = b.tolist()
-		return argout
+		#b = array.array('B', s)
+		#argout = b.tolist()
+		return s
     
+
 
 
 #---- Read command State Machine -----------------
@@ -715,10 +717,10 @@ class PySerialClass(PyTango.DeviceClass):
 			[[PyTango.DevVoid, ""],
 			[PyTango.DevVoid, ""]],
 		'Write':
-			[[PyTango.DevVarCharArray, ""],
+			[[PyTango.DevVarStringArray, ""],
 			[PyTango.DevVoid, ""]],
 		'Read':
-			[[PyTango.DevUShort, "Characters to read"],
+			[[PyTango.DevString, "Characters to read"],
 			[PyTango.DevVarCharArray, "Characters readed"]],
 		'ReadLine':
 			[[PyTango.DevVoid, ""],
@@ -840,3 +842,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+   
