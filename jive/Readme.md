@@ -19,7 +19,8 @@ In the first process, I have used "ManageServer" to controll the device"s/hhl/1"
 
 In the second process, I add some commands in "ManageServer" device server, to communicate with the PySerial class. I wanted to send the raw command such as "t 1" to the device "/pyserial/hhl/1". It works at the first time without problems. But after I try to change something many times, some communication problems occur, such as SerialPort can be set as "simulation/hhl/1" automatically. But it is not the serial port. After that, I create a new class"CopleyControl", which is just copley control DS. In addition, I have also changed the ManageServer.
 
-4. 
+4. Source Code
+
 Some standard Tango device server class code can be found from:
 http://svn.code.sf.net/p/tango-ds/code/DeviceClasses/Communication/
 
