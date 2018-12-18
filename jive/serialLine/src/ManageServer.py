@@ -46,7 +46,7 @@ import PyTango
 import sys
 # Add additional import
 #----- PROTECTED REGION ID(ManageServer.additionnal_import) ENABLED START -----#
-import copley
+
 #----- PROTECTED REGION END -----#	//	ManageServer.additionnal_import
 
 # Device States Description
@@ -79,7 +79,8 @@ class ManageServer (PyTango.Device_4Impl):
         self.debug_stream("In init_device()")
         self.get_device_properties(self.get_device_class())
         #----- PROTECTED REGION ID(ManageServer.init_device) ENABLED START -----#
-        
+        self.dev = PyTango.DeviceProxy("s/hhl/1")
+        #self.dev = PyTango.DeviceProxy("serial/hhl/1")
         #----- PROTECTED REGION END -----#	//	ManageServer.init_device
 
     def always_executed_hook(self):
@@ -134,55 +135,26 @@ class ManageServer (PyTango.Device_4Impl):
         self.__status = PyTango.Device_4Impl.dev_status(self)
         return self.__status
         
-    def MoveMotors(self):
-        """ 
-        """
-        self.debug_stream("In MoveMotors()")
-        #----- PROTECTED REGION ID(ManageServer.MoveMotors) ENABLED START -----#
-        
-        dev1 = PyTango.DeviceProxy("s/hhl/1")
-     
-        dev1.Write('move top 30')
-        #----- PROTECTED REGION END -----#	//	ManageServer.MoveMotors
-        
-    def init_move(self):
-        """ 
-        :rtype: PyTango.DevString
-        """
-        self.debug_stream("In init_move()")
-        argout = ""
-        #----- PROTECTED REGION ID(ManageServer.init_move) ENABLED START -----#
-        dev2 = PyTango.DeviceProxy('pyserial/hhl/1')     
-        dev2.Write(['s r0x24 31'])
-        dev2.Write(['s r0xc8 257'])        
-        dev2.Write(['s r0xA1 268435455'])
-        #dev2.Write(['s r0xca 10000'])
-        #dev2.Write(['t 1'])
-        #----- PROTECTED REGION END -----#	//	ManageServer.init_move
-        return argout
-        
-    def move(self):
-        """ 
-        """
-        self.debug_stream("In move()")
-        #----- PROTECTED REGION ID(ManageServer.move) ENABLED START -----#
-        dev2 = PyTango.DeviceProxy('pyserial/hhl/1')
-        dev2.Write(['t 1'])
-        #----- PROTECTED REGION END -----#	//	ManageServer.move
-        
-    def SendCommand(self, argin):
+    def Write(self, argin):
         """ 
         :param argin: 
         :type argin: PyTango.DevString
-        :rtype: PyTango.DevString
         """
-        self.debug_stream("In SendCommand()")
-        argout = ""
-        #----- PROTECTED REGION ID(ManageServer.SendCommand) ENABLED START -----#
-        dev2 = PyTango.DeviceProxy('pyserial/hhl/1')
-        argout = str(dev2.Write([argin]))
-        #----- PROTECTED REGION END -----#	//	ManageServer.SendCommand
-        return argout
+        self.debug_stream("In Write()")
+        #----- PROTECTED REGION ID(ManageServer.Write) ENABLED START -----#        
+        dev = self.dev     
+        dev.Write(argin)
+        #----- PROTECTED REGION END -----#	//	ManageServer.Write
+        
+    def ConnectInstrument(self):
+        """ 
+        """
+        self.debug_stream("In ConnectInstrument()")
+        #----- PROTECTED REGION ID(ManageServer.ConnectInstrument) ENABLED START -----#
+        dev = self.dev
+        dev.Init()
+        #dev.Open()
+        #----- PROTECTED REGION END -----#	//	ManageServer.ConnectInstrument
         
 
     #----- PROTECTED REGION ID(ManageServer.programmer_methods) ENABLED START -----#
@@ -208,18 +180,12 @@ class ManageServerClass(PyTango.DeviceClass):
 
     #    Command definitions
     cmd_list = {
-        'MoveMotors':
-            [[PyTango.DevVoid, "none"],
-            [PyTango.DevVoid, "none"]],
-        'init_move':
-            [[PyTango.DevVoid, "none"],
-            [PyTango.DevString, "none"]],
-        'move':
-            [[PyTango.DevVoid, "none"],
-            [PyTango.DevVoid, "none"]],
-        'SendCommand':
+        'Write':
             [[PyTango.DevString, "none"],
-            [PyTango.DevString, "none"]],
+            [PyTango.DevVoid, "none"]],
+        'ConnectInstrument':
+            [[PyTango.DevVoid, "none"],
+            [PyTango.DevVoid, "none"]],
         }
 
 
