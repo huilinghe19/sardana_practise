@@ -1,8 +1,10 @@
 Jive 
 
-1. How to open jive.
+1. Basis of jive.
+
 Link: https://tango-controls.readthedocs.io/en/latest/tools-and-extensions/jive/
-In console: jive
+
+Open jive in console: jive
 
 2. My work: blenderbladescontroll device server(finished). Socket DS(finished). PySerial DS(finished). ManageServer(finished). CopleyControl DS(processing)
 
@@ -23,10 +25,10 @@ During my work with the motors, sometimes I send "t 1" to the motor, it does not
 
 4. Source Code
 
-Some standard Tango device server class code can be found from:
+Some common Tango device server class code can be found from:
 http://svn.code.sf.net/p/tango-ds/code/DeviceClasses/Communication/
 
-using "svn co <link>" on the console, then you can download all the source code.
+using "svn co <<link>>" on the console, then you can download all the source code. Some codes are old and not be available, you should change something in it. See the doc: https://pytango.readthedocs.io/en/stable/server_api/index.html
 
 
 5.How to use the Socket class c++ source code:
