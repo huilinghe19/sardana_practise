@@ -57,4 +57,4 @@ I have also used the Write and Read method of PySerial class, Read method works 
 
 We can use "Write" method to send the commands. "Read" and "ReadLine" commands are used to read the result. One point is that, you can only "Read"/"ReadLine" after "Write". After "Read"/"ReadLine", "Read"/"ReadLine" can also work but the answer is always 0, because you have not "Write" somthing but already finished "Read"/"ReadLine".
 
-
+In jive interface,the input type is strict. "A" is a string, 'A' is signed 8 bits.
