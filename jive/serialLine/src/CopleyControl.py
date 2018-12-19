@@ -141,7 +141,7 @@ class CopleyControl (PyTango.Device_4Impl):
         #----- PROTECTED REGION ID(CopleyControl.MoveMotor0) ENABLED START -----#
         print "In ", self.get_name(), "::Move()"
         dev = self.dev
-        dev.Write(['t 1'])
+        dev.Write('t 1')
         #----- PROTECTED REGION END -----#	//	CopleyControl.MoveMotor0
         
     def SendCommand(self, argin):
@@ -155,7 +155,7 @@ class CopleyControl (PyTango.Device_4Impl):
         #----- PROTECTED REGION ID(CopleyControl.SendCommand) ENABLED START -----#
         print "In ", self.get_name(), "::SendComand()"
         dev = self.dev
-        argout = str(dev.Write([argin]))
+        argout = str(dev.Write(argin))
         #argout = dev.Write(argin)
         print argout
         #----- PROTECTED REGION END -----#	//	CopleyControl.SendCommand
@@ -196,30 +196,30 @@ class CopleyControl (PyTango.Device_4Impl):
         #----- PROTECTED REGION ID(CopleyControl.MoveMotor2) ENABLED START -----#
         print "In ", self.get_name(), "::Move()"
         dev = self.dev
-        dev.Write(['2 t 1'])
+        dev.Write('2 t 1')
         #----- PROTECTED REGION END -----#	//	CopleyControl.MoveMotor2
         
-    def SetProgrammedPositionMode(self):
+    def InitMotor0(self):
         """ 
         """
-        self.debug_stream("In SetProgrammedPositionMode()")
-        #----- PROTECTED REGION ID(CopleyControl.SetProgrammedPositionMode) ENABLED START -----#
+        self.debug_stream("In InitMotor0()")
+        #----- PROTECTED REGION ID(CopleyControl.InitMotor0) ENABLED START -----#
         print "In ", self.get_name(), "::SetProgrammedPositionMode()"
         dev = self.dev
-        dev.Write(['s r0x24 31'])
+        dev.Write('s r0x24 31\n s r0xC8 257')
     
         
-        #----- PROTECTED REGION END -----#	//	CopleyControl.SetProgrammedPositionMode
+        #----- PROTECTED REGION END -----#	//	CopleyControl.InitMotor0
         
-    def SetTrajectoryProfileMode(self):
+    def InitMotor2(self):
         """ 
         """
-        self.debug_stream("In SetTrajectoryProfileMode()")
-        #----- PROTECTED REGION ID(CopleyControl.SetTrajectoryProfileMode) ENABLED START -----#
+        self.debug_stream("In InitMotor2()")
+        #----- PROTECTED REGION ID(CopleyControl.InitMotor2) ENABLED START -----#
         print "In ", self.get_name(), "::SetTrajectoryProfileMode()"
         dev = self.dev
-        dev.Write(['s r0xC8 257'])
-        #----- PROTECTED REGION END -----#	//	CopleyControl.SetTrajectoryProfileMode
+        dev.Write('2 s r0x24 31\n 2 s r0xC8 257')
+        #----- PROTECTED REGION END -----#	//	CopleyControl.InitMotor2
         
     def Write(self, argin):
         """ 
@@ -272,10 +272,10 @@ class CopleyControlClass(PyTango.DeviceClass):
         'MoveMotor2':
             [[PyTango.DevVoid, "none"],
             [PyTango.DevVoid, "none"]],
-        'SetProgrammedPositionMode':
+        'InitMotor0':
             [[PyTango.DevVoid, "none"],
             [PyTango.DevVoid, "none"]],
-        'SetTrajectoryProfileMode':
+        'InitMotor2':
             [[PyTango.DevVoid, "none"],
             [PyTango.DevVoid, "none"]],
         'Write':

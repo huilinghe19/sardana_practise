@@ -166,7 +166,7 @@ class PySerial(PyTango.Device_4Impl):
 #------------------------------------------------------------------
 	def write_Port(self, attr):
 		print "In ", self.get_name(), "::write_Port()"
-		data=['simulation/huiling/1']
+		data=[]
 		attr.get_write_value(data)
 		print "Attribute value = ", data
         
@@ -468,7 +468,7 @@ class PySerial(PyTango.Device_4Impl):
 	def Open(self):
 		print "In ", self.get_name(), "::Open()"
 		#	Add your own code here
-		self.port = '/dev/ttyS0'
+		#self.port = '/dev/ttyS0'
 		# configure port
 		if self.configure:
 			self.serial.baudrate = self.baudrate
@@ -593,7 +593,7 @@ class PySerial(PyTango.Device_4Impl):
 #
 #	Description: Write the string to the serial line
 #                
-#	argin:  DevVarStringArray	
+#	argin:  DevString	
 #------------------------------------------------------------------
 	def Write(self, argin):
 		print "In ", self.get_name(), "::Write()"
@@ -601,9 +601,11 @@ class PySerial(PyTango.Device_4Impl):
 		#print "char array ", argin
 		#s = array.array('B', argin).tostring()
 		#value = s + self.terminatorchar
-		#dev = serial.Serial("/dev/ttyS0", baudrate=9600, timeout=2)
+		#print "string " ,value
+		#self.serial.write(value)
+ 
 		print "string " , argin
-		self.serial.write(argin[0]+ '\n')
+		self.serial.write(argin+ '\n')
 
 #---- Write command State Machine -----------------
 	def is_Write_allowed(self):
@@ -620,12 +622,12 @@ class PySerial(PyTango.Device_4Impl):
 #
 #	Description: 
 #	argin:  DevUShort	Characters to read
-#	argout: DevVarCharArray	Characters readed
+#	argout: DevString	Characters readed
 #----------------------------------------------------------------
 	def Read(self, argin):
 		print "In ", self.get_name(), "::Read()"
 		#	Add your own code here
-		#argout =  []
+		argout =  []
 		s = self.serial.read(argin)
 		print s
 		#b = array.array('B', s)
@@ -717,11 +719,11 @@ class PySerialClass(PyTango.DeviceClass):
 			[[PyTango.DevVoid, ""],
 			[PyTango.DevVoid, ""]],
 		'Write':
-			[[PyTango.DevVarStringArray, ""],
+			[[PyTango.DevString, ""],
 			[PyTango.DevVoid, ""]],
 		'Read':
-			[[PyTango.DevString, "Characters to read"],
-			[PyTango.DevVarCharArray, "Characters readed"]],
+			[[PyTango.DevUShort, "Characters to read"],
+			[PyTango.DevString, "Characters readed"]],
 		'ReadLine':
 			[[PyTango.DevVoid, ""],
 			[PyTango.DevVarCharArray, "Characters readed"]],
