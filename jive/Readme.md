@@ -39,10 +39,10 @@ Actually, the TangoTest DS is also using this method. We use "/usr/lib/tango/Tan
 6. How to use the PySerial source code:
 I have downloaded the code:http://svn.code.sf.net/p/tango-ds/code/DeviceClasses/Communication/PySerialLine/.
 
-There is a "PySerial.py" file. but no xmi file. So I use "python PySerial.py test" to open the PySerial DS. It works. 
+An "PySerial.py" file can be found, but no xmi file. So I tried to use "python PySerial.py test" to open the PySerial DS. It does not work at the first time, because this file is created by the old pogo version, so some sentences and structure can not be availble now. Then I change something in the old "PySerial.py" and save the new "PySerial.py". At the end, "python PySerial.py test" works and the PySerial DS can be available. 
 
-But if I want to change something in the PySerial.py file, I must be careful to use the original format which I think is from the old version of POGO.
+When you want to change something in the old "PySerial.py" file, you must be careful to use the original format which I think is from the old version of POGO. The symbol such as "------->" in front of each sentence must be kept.  "PyTango.Device_3Impl"  can not be used, "PyTango.Device_4Impl" is the newest version. 
 
-I have used the Write and Read method of PySerial class, Read method works but Write method does not work. So i change something in the Write method. Now I can use the new Write method. 
+I have also used the Write and Read method of PySerial class, Read method works but Write method does not work. So I have changed something in the Write method. Now I can use the new Write method. 
 
 
