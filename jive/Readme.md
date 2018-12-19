@@ -48,7 +48,7 @@ I have downloaded the code:http://svn.code.sf.net/p/tango-ds/code/DeviceClasses/
 
 A "PySerial.py" file can be found, but no xmi file exists. So I tried to use "python PySerial.py test" to open the PySerial DS. It did not work at the first time, because this file is created by the old pogo version, so some sentences and structure can not be availble now. Then I have changed something in the old "PySerial.py" and saved the new "PySerial.py". At the end, "python PySerial.py test" worked and the PySerial DS could be available. 
 
-When you want to change something in the old "PySerial.py" file, you must be careful to use the original format which I think is from the old version of POGO. The symbol such as "------->" in front of each sentence must be kept.  "PyTango.Device_3Impl"  can not be used, "PyTango.Device_4Impl" is the newest version. 
+When you want to change something in the old "PySerial.py" file, you must be careful to use the original format which I think is from the old version of POGO. The symbol such as "------->" in front of each sentence must be kept.  "PyTango.Device_3Impl"  can not be used, "PyTango.Device_4Impl" is the newest version. "PyTango.PyDeviceClass" should be changed as "PyTango.DeviceClass".
 
 I have also used the Write and Read method of PySerial class, Read method works but Write method did not work. So I have changed something in the Write method. Now the new Write method is available. But it is not like the original write method. Now I write command string into serial,  it works. But from the old code of write method, the input type is not string, but chararray. So I try to figure out this problem.
 
