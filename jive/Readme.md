@@ -13,11 +13,13 @@ About the functions in PySerial, it should be changed a little to adjust your ow
 In the SendCommand method in jive, we must write the "" symbol. Such as "t 1". Without the symbol the command will not work.
 
 
-3. Tips: 
+3. Interaction:
 
 In the first process, I have used "ManageServer" to controll the device"s/hhl/1". I can write "move top 30" directly to the device "s/hhl/1", and the top blenderblades move to 30. 
 
-In the second process, I add some commands in "ManageServer" device server, to communicate with the PySerial class. I wanted to send the raw command such as "t 1" to the device "/pyserial/hhl/1". It works at the first time without problems. But after I try to change something many times, some communication problems occur, such as SerialPort can be set as "simulation/hhl/1" automatically. But it is not the serial port. After that, I create a new class"CopleyControl", which is just copley control DS. In addition, I have also changed the ManageServer.
+In the second process, I add some commands in "ManageServer" device server, to communicate with the PySerial class. I wanted to send the raw command such as "t 1" to the device "/pyserial/hhl/1". It works at the first time without problems. But after I try to change something many times, some communication problems occur, such as SerialPort can be set as "simulation/hhl/1" automatically. But it is not the serial port. After that, I create a new class"CopleyControl", which is just copley control DS. In addition, I have also changed the function of ManageServer.
+
+During my work with the motors, sometimes I send "t 1" to the motor, it does not turn at once, then I send "t 1" once again, the motor turns. This is not because of the program. Even if I am writing instructions directly at the console, this will also happen occasionally. Maybe the motor itself has a hysteresis effect under some conditions.
 
 4. Source Code
 
@@ -39,10 +41,14 @@ Actually, the TangoTest DS is also using this method. We use "/usr/lib/tango/Tan
 6. How to use the PySerial source code:
 I have downloaded the code:http://svn.code.sf.net/p/tango-ds/code/DeviceClasses/Communication/PySerialLine/.
 
-An "PySerial.py" file can be found, but no xmi file. So I tried to use "python PySerial.py test" to open the PySerial DS. It does not work at the first time, because this file is created by the old pogo version, so some sentences and structure can not be availble now. Then I change something in the old "PySerial.py" and save the new "PySerial.py". At the end, "python PySerial.py test" works and the PySerial DS can be available. 
+A "PySerial.py" file can be found, but no xmi file exists. So I tried to use "python PySerial.py test" to open the PySerial DS. It did not work at the first time, because this file is created by the old pogo version, so some sentences and structure can not be availble now. Then I have changed something in the old "PySerial.py" and saved the new "PySerial.py". At the end, "python PySerial.py test" worked and the PySerial DS could be available. 
 
 When you want to change something in the old "PySerial.py" file, you must be careful to use the original format which I think is from the old version of POGO. The symbol such as "------->" in front of each sentence must be kept.  "PyTango.Device_3Impl"  can not be used, "PyTango.Device_4Impl" is the newest version. 
 
-I have also used the Write and Read method of PySerial class, Read method works but Write method does not work. So I have changed something in the Write method. Now I can use the new Write method. 
+I have also used the Write and Read method of PySerial class, Read method works but Write method did not work. So I have changed something in the Write method. Now the new Write method is available. But it is not like the original write method. Now I write command string into serial,  it works. But from the old code of write method, the input type is not string, but chararray. So I try to figure out this problem.
+
+7.About Write and Read and ReadLine method. 
+
+We can use "Write" method to send the commands. "Read" and "ReadLine" commands are used to read the result. One point is that, you can only "Read"/"ReadLine" after "Write". After "Read"/"ReadLine", "Read"/"ReadLine" can also work but the answer is always 0, because you have not "Write" somthing but already finished "Read"/"ReadLine".
 
 
