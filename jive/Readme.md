@@ -6,6 +6,7 @@ Link: https://tango-controls.readthedocs.io/en/latest/tools-and-extensions/jive/
 
 Open jive in console: jive
 
+
 2. My work: blenderbladescontroll device server(finished). Socket DS(finished). PySerial DS(finished). ManageServer(finished). CopleyControl DS(processing)
 
 PySerial and CopleyControl class:
@@ -22,6 +23,7 @@ In the first process, I have used "ManageServer" to controll the device"s/hhl/1"
 In the second process, I add some commands in "ManageServer" device server, to communicate with the PySerial class. I wanted to send the raw command such as "t 1" to the device "/pyserial/hhl/1". It works at the first time without problems. But after I try to change something many times, some communication problems occur, such as SerialPort can be set as "simulation/hhl/1" automatically. But it is not the serial port. After that, I create a new class"CopleyControl", which is just copley control DS. In addition, I have also changed the function of ManageServer.
 
 During my work with the motors, sometimes I send "t 1" to the motor, it does not turn at once, then I send "t 1" once again, the motor turns. This is not because of the program. Even if I am writing instructions directly at the console, this will also happen occasionally. Maybe the motor itself has a hysteresis effect under some conditions.
+
 
 4. Source Code
 
@@ -40,6 +42,7 @@ At first, open pogo, then open the source code "Socket.xmi" in pogo, then click 
 After that, you can find "DeviceServers/Socket" in your home folder. Using "DeviceServers/Socket test", you can open the socket device server. hostname and port can be defined by us. The following steps are like the normal DS.
 Actually, the TangoTest DS is also using this method. We use "/usr/lib/tango/TangoTest test" to open the TangoTest DS.
 
+
 6. How to use the PySerial source code:
 I have downloaded the code:http://svn.code.sf.net/p/tango-ds/code/DeviceClasses/Communication/PySerialLine/.
 
@@ -49,7 +52,8 @@ When you want to change something in the old "PySerial.py" file, you must be car
 
 I have also used the Write and Read method of PySerial class, Read method works but Write method did not work. So I have changed something in the Write method. Now the new Write method is available. But it is not like the original write method. Now I write command string into serial,  it works. But from the old code of write method, the input type is not string, but chararray. So I try to figure out this problem.
 
-7.About Write and Read and ReadLine method. 
+
+7.About Write and Read and ReadLine method in "PySerial.py". 
 
 We can use "Write" method to send the commands. "Read" and "ReadLine" commands are used to read the result. One point is that, you can only "Read"/"ReadLine" after "Write". After "Read"/"ReadLine", "Read"/"ReadLine" can also work but the answer is always 0, because you have not "Write" somthing but already finished "Read"/"ReadLine".
 
