@@ -65,14 +65,15 @@ We can use "Write" method to send the commands. "Read" and "ReadLine" commands a
 In jive interface,the input type of Write method of PySerial is strict. "t 1" is a string and it can make the motor 0 move. 't 1' is signed 8 bits and can not make the Motor 0 work.
 
 8.Usage of the commands of Coopley Control with Motor
+
 The format of the message is:
-[<optional node ID>] <command code> [<command specific parameters>...] <CR>
+"[<optional node ID>] <command code> [<command specific parameters>...] <CR>"
   
 Due to the memory capacity of the motor, the written value will be saved, so only the move command can be used to detect whether the motor can be used: "t 1". "t 1\n" should be written into the serial port. Some other init commands such as "s r0x24 31" "s r0xc8 257" can be used to initialize the motor mode. A long string such as "s r0x24\n s r0xc8 257\r\n" can be also used to set something in motor mode at a time. "\n" can not be ignored, "\r" can be ignored by the write method. 
 
 There are 2 Motors. The node ID is used to distinguish the different motors. The node ID of the first one is 0, the node ID of the second one is 2. 2 should be at the beginning of all the commands, when the second motor is used. "2 t 1\n" is used to move the second motor. 
 
-8,Questions:
+9,Questions:
 
 In the document of the serial port, the data is transmitted bit by bit. In the old "PySerial.py" file, the input of the write method is also chararray. But it does not work. I have also tried it in the ipython console, and the message is: "ValueError: string must be of size 1". So I change the input type as String. Have I done right?
 
