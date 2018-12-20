@@ -64,7 +64,7 @@ We can use "Write" method to send the commands. "Read" and "ReadLine" commands a
 
 In jive interface,the input type of Write method of PySerial is strict. "t 1" is a string and it can make the motor 0 move. 't 1' is signed 8 bits and can not make the Motor 0 work.
 
-8.Coopley Control 
+8.Copley Control 
 
 At first, wine should be downloaded. The copley software should be downladed and installed by the help of wine. The install method is under the "~/.wine", use the command "wine start /unix "$HOME/Desktop/TronSetup.exe", then the "CME 2" is installed. 
 
