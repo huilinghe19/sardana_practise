@@ -24,6 +24,8 @@ In the second process, I add some commands in "ManageServer" device server, to c
 
 During my work with the motors, sometimes I send "t 1" to the motor, it does not turn at once, then I send "t 1" once again, the motor turns. This is not because of the program. Even if I am writing instructions directly at the console, this will also happen occasionally. Maybe the motor itself has a hysteresis effect under some conditions.
 
+There is also a problem about the server start and close. When you do not close the server correctly, then the server will be started many times. You can check it with "ps uax". This situation is bad. This will cause the runtimeout problem. 
+
 
 4. Source Code
 
