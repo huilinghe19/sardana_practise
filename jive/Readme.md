@@ -33,7 +33,7 @@ http://svn.code.sf.net/p/tango-ds/code/DeviceClasses/Communication/
 using "svn co <<link>>" on the console, then you can download all the source code. Some codes are old and not be available, you should change something in it. See the doc: https://pytango.readthedocs.io/en/stable/server_api/index.html
 
 
-5.How to use the Socket class c++ source code:
+5.How to use the Socket class c++ source code to create Socket Server class:
 
 After I have downloaded the code:http://svn.code.sf.net/p/tango-ds/code/DeviceClasses/Communication/Socket/, I use make command in the console, it does not work. 
 
@@ -42,6 +42,7 @@ At first, open pogo, then open the source code "Socket.xmi" in pogo, then click 
 After that, you can find "DeviceServers/Socket" in your home folder. Using "DeviceServers/Socket test", you can open the socket device server. hostname and port can be defined by us. The following steps are like the normal DS.
 Actually, the TangoTest DS is also using this method. We use "/usr/lib/tango/TangoTest test" to open the TangoTest DS.
 
+6. Usage of Socket Server class in jive:
 
 6. How to use the PySerial source code:
 I have downloaded the code:http://svn.code.sf.net/p/tango-ds/code/DeviceClasses/Communication/PySerialLine/.
@@ -57,4 +58,10 @@ I have also used the Write and Read method of PySerial class, Read method works 
 
 We can use "Write" method to send the commands. "Read" and "ReadLine" commands are used to read the result. One point is that, you can only "Read"/"ReadLine" after "Write". After "Read"/"ReadLine", "Read"/"ReadLine" can also work but the answer is always 0, because you have not "Write" somthing but already finished "Read"/"ReadLine".
 
-In jive interface,the input type is strict. "A" is a string, 'A' is signed 8 bits.
+In jive interface,the input type is strict. "t 1" is a string and it can work. 't 1' is signed 8 bits and can not work.
+
+
+8,Questions:
+
+In the document of the serial port, the data is transmitted bit by bit. In the old "PySerial.py" file, the input of the write method is also chararray. But it does not work. I have also tried it in the ipython console, and the message is: "ValueError: string must be of size 1". So I change the input type as String. Have I done right?
+
