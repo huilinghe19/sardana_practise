@@ -27,3 +27,9 @@ In  copley/hhl/1 ::ResetMotors()
 In  copley/hhl/1 ::SendComand()
 """
 It can work, but the result is not stable. So do not use many different things in one command. The function of the command is just a certain function, not a complex function.
+
+4.Commands
+
+Reset: "r"
+Check Motion: "g r0xA0" if the answer is "v 0", it means motion stop,
+"v ..." means in motion.
