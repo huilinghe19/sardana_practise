@@ -9,3 +9,21 @@ Copley Control
  2.ReadCheckReply 
  
  This is a method to check if the motor works well. When the answer is not as the same as expected, the answer is "unexpected reply from Copley controller". 
+
+3. Wait 
+
+Once a command in jive is activated, another method is always followed with this method:
+In  pyserial/hhl/1 ::always_excuted_hook()
+In  pyserial/hhl/1 ::Read()
+
+This function is supported by the always_excuted_hook() method. This can prevent the mutual interference of command transmission. 
+
+If you use many commands in one method in jive such as "ReadCheckReply", the it is not right. Because each method shall be used individually. 
+
+"""
+In  copley/hhl/1 ::always_excuted_hook()
+In  copley/hhl/1 ::CheckReply()
+In  copley/hhl/1 ::ResetMotors()
+In  copley/hhl/1 ::SendComand()
+"""
+It can work, but the result is not stable. So do not use many different things in one command. The function of the command is just a certain function, not a complex function.
