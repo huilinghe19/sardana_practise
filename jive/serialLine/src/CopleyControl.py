@@ -179,7 +179,7 @@ class CopleyControl (PyTango.Device_4Impl):
         #----- PROTECTED REGION ID(CopleyControl.Read) ENABLED START -----#
         print "In ", self.get_name(), "::Read()"
         dev = self.dev
-        argout = dev.Read(50) 
+        argout = dev.Read(1) 
         #----- PROTECTED REGION END -----#	//	CopleyControl.Read
         return argout
         
@@ -231,7 +231,7 @@ class CopleyControl (PyTango.Device_4Impl):
 
        
         #----- PROTECTED REGION END -----#	//	CopleyControl.ReadCheckReply
-        return result
+        return argout
         
     def ResetMotors(self):
         """ 
@@ -250,6 +250,47 @@ class CopleyControl (PyTango.Device_4Impl):
         print "In ", self.get_name(), "::SendCheckCommand()"
         self.SendCommand("g r0xA1")
         #----- PROTECTED REGION END -----#	//	CopleyControl.SendCheckCommand
+        
+    def SendCommandGetResult(self, argin):
+        """ 
+        :param argin: 
+        :type argin: PyTango.DevString
+        :rtype: PyTango.DevString
+        """
+        self.debug_stream("In SendCommandGetResult()")
+        argout = ""
+        #----- PROTECTED REGION ID(CopleyControl.SendCommandGetResult) ENABLED START -----#
+        print "In ", self.get_name(), "::Write()"
+        print argin
+        dev = self.dev
+        dev.Write(argin)
+        result = ""
+        dev = self.dev
+        time.sleep(0.5)
+        data = dev.Read(1) 
+        result += data
+        while True:
+        # read reply until LF
+            data = dev.Read(1) 
+           
+            try:
+                
+                result += data
+                if data is None: # no data means errors or timeout
+                    break
+                if data == "\n": # LF -> expected
+                    break
+                if data == '\r': # CR -> ignored
+                    continue
+            except ValueError:
+                print "Oops!  That was no valid number.  Try again..."
+        # store data
+                
+        # store data
+            
+        return result
+        #----- PROTECTED REGION END -----#	//	CopleyControl.SendCommandGetResult
+        return argout
         
 
     #----- PROTECTED REGION ID(CopleyControl.programmer_methods) ENABLED START -----#
@@ -317,6 +358,9 @@ class CopleyControlClass(PyTango.DeviceClass):
         'SendCheckCommand':
             [[PyTango.DevVoid, "none"],
             [PyTango.DevVoid, "none"]],
+        'SendCommandGetResult':
+            [[PyTango.DevString, "none"],
+            [PyTango.DevString, "none"]],
         }
 
 
