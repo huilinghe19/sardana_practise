@@ -33,5 +33,5 @@ It can work, but the result is not stable. So do not use many different things i
 Reset: "r"
 Check Motion: "g r0xA0" if the answer is "v 0", it means motion stop,
 "v ..." means in motion. 
-I have used "t 1" in ipython interface to make the motors move, and then I use the commands in jive to test the motion status. The response is true, but there is a small problem. At the first time, sometimes the response is not true. But the results are correct at the second time and afterwards.
+I have used "t 1" in ipython interface to make the motors move, and then I use the commands in jive to test the motion status. The response is true, but there is a small problem. At the first time, sometimes the response is not true. But the results are correct at the second time and afterwards. Because there is still content left in the read, so you must first clear the contents of the read. 
 
