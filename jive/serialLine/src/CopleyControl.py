@@ -79,6 +79,8 @@ class CopleyControl (PyTango.Device_4Impl):
         self.debug_stream("In init_device()")
         self.get_device_properties(self.get_device_class())
         #----- PROTECTED REGION ID(CopleyControl.init_device) ENABLED START -----#
+        
+        self.set_state(PyTango.DevState.OFF)
         self.dev= PyTango.DeviceProxy("pyserial/hhl/1")
         #----- PROTECTED REGION END -----#	//	CopleyControl.init_device
 
@@ -224,10 +226,8 @@ class CopleyControl (PyTango.Device_4Impl):
         argout = ""
         #----- PROTECTED REGION ID(CopleyControl.ReadCheckReply) ENABLED START -----#
         print "In ", self.get_name(), "::CheckReply()"
-        self.SendCheckCommand()
-        time.sleep(0.5)
-        result = self.Read()  
-        self.getResult(result)
+        result = self.SendCommandGetResult("g r0xA0")
+        return self.getResult(result)
 
        
         #----- PROTECTED REGION END -----#	//	CopleyControl.ReadCheckReply
@@ -248,7 +248,7 @@ class CopleyControl (PyTango.Device_4Impl):
         self.debug_stream("In SendCheckCommand()")
         #----- PROTECTED REGION ID(CopleyControl.SendCheckCommand) ENABLED START -----#
         print "In ", self.get_name(), "::SendCheckCommand()"
-        self.SendCommand("g r0xA1")
+        self.SendCommand("s r0xA1 268435455")
         #----- PROTECTED REGION END -----#	//	CopleyControl.SendCheckCommand
         
     def SendCommandGetResult(self, argin):
@@ -262,51 +262,59 @@ class CopleyControl (PyTango.Device_4Impl):
         #----- PROTECTED REGION ID(CopleyControl.SendCommandGetResult) ENABLED START -----#
         print "In ", self.get_name(), "::Write()"
         print argin
-        dev = self.dev
-        dev.Write(argin)
         result = ""
-        dev = self.dev
-        time.sleep(0.5)
-        data = dev.Read(1) 
-        result += data
+        # send command with LF (line feed)
+        self.SendCommand(argin+"\n")
         while True:
-        # read reply until LF
-            data = dev.Read(1) 
-           
-            try:
-                
-                result += data
-                if data is None: # no data means errors or timeout
-                    break
-                if data == "\n": # LF -> expected
-                    break
-                if data == '\r': # CR -> ignored
-                    continue
-            except ValueError:
-                print "Oops!  That was no valid number.  Try again..."
-        # store data
-                
-        # store data
-            
+            # read reply until LF
+            data = self.Read()
+            if not data: # no data means errors or timeout
+                break
+            if data == "\n": # LF -> expected
+                break
+            if data == '\r': # CR -> ignored
+                continue     
+            result += data
+      
         return result
         #----- PROTECTED REGION END -----#	//	CopleyControl.SendCommandGetResult
         return argout
         
+    def Open(self):
+        """ 
+        """
+        self.debug_stream("In Open()")
+        #----- PROTECTED REGION ID(CopleyControl.Open) ENABLED START -----#
+        self.set_state(PyTango.DevState.ON)
+        #----- PROTECTED REGION END -----#	//	CopleyControl.Open
+        
+    def Close(self):
+        """ 
+        """
+        self.debug_stream("In Close()")
+        #----- PROTECTED REGION ID(CopleyControl.Close) ENABLED START -----#
+        try:
+            self.serial.close()
+            self.set_state(PyTango.DevState.OFF)
+        except:
+            pass
+
+        #----- PROTECTED REGION END -----#	//	CopleyControl.Close
+        
 
     #----- PROTECTED REGION ID(CopleyControl.programmer_methods) ENABLED START -----#
     def getResult(self, readString):
-        if readString:
-            if readString[0:2] != "v ":
-                print("unexpected reply from Copley controller")
-                return "unexpected reply from Copley controller"
-            elif (int(readString[2:]) & (1<<27)) == 0:
-                print("motion stopped")
-                return "motion stopped"
-            else:
-                return readString
+        print(readString)        
+        if readString[0:2] != "v ":
+            print("unexpected reply from Copley controller")
+            return "unexpected reply from Copley controller"
+        elif (int(readString[2:]) & (1<<27)) == 0:
+            print("motion stopped")
+            return "motion stopped"
         else:
-            print("No readable content")
-        
+            return readString
+       
+  
     #----- PROTECTED REGION END -----#	//	CopleyControl.programmer_methods
 
 class CopleyControlClass(PyTango.DeviceClass):
@@ -361,6 +369,12 @@ class CopleyControlClass(PyTango.DeviceClass):
         'SendCommandGetResult':
             [[PyTango.DevString, "none"],
             [PyTango.DevString, "none"]],
+        'Open':
+            [[PyTango.DevVoid, "none"],
+            [PyTango.DevVoid, "none"]],
+        'Close':
+            [[PyTango.DevVoid, "none"],
+            [PyTango.DevVoid, "none"]],
         }
 
 
