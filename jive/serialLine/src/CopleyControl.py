@@ -78,9 +78,8 @@ class CopleyControl (PyTango.Device_4Impl):
     def init_device(self):
         self.debug_stream("In init_device()")
         self.get_device_properties(self.get_device_class())
-        #----- PROTECTED REGION ID(CopleyControl.init_device) ENABLED START -----#
-        
-        self.set_state(PyTango.DevState.OFF)
+        #----- PROTECTED REGION ID(CopleyControl.init_device) ENABLED START -----#        
+        self.set_state(PyTango.DevState.ON)
         self.dev= PyTango.DeviceProxy("pyserial/hhl/1")
         #----- PROTECTED REGION END -----#	//	CopleyControl.init_device
 
@@ -130,9 +129,9 @@ class CopleyControl (PyTango.Device_4Impl):
         self.debug_stream("In dev_status()")
         argout = ""
         #----- PROTECTED REGION ID(CopleyControl.Status) ENABLED START -----#
-        
+      
         #----- PROTECTED REGION END -----#	//	CopleyControl.Status
-        self.set_status(self.argout)
+        #self.set_status(self.argout)
         self.__status = PyTango.Device_4Impl.dev_status(self)
         return self.__status
         
@@ -142,7 +141,7 @@ class CopleyControl (PyTango.Device_4Impl):
         self.debug_stream("In MoveMotor0()")
         #----- PROTECTED REGION ID(CopleyControl.MoveMotor0) ENABLED START -----#
         print "In ", self.get_name(), "::Move()"
-        self.SendCommand('t 1')
+        self.Write('t 1')
         #----- PROTECTED REGION END -----#	//	CopleyControl.MoveMotor0
         
     def SendCommand(self, argin):
@@ -153,7 +152,6 @@ class CopleyControl (PyTango.Device_4Impl):
         self.debug_stream("In SendCommand()")
         #----- PROTECTED REGION ID(CopleyControl.SendCommand) ENABLED START -----#
         print "In ", self.get_name(), "::SendComand()"
-        print argin
         dev = self.dev
         dev.Write(argin)
         #----- PROTECTED REGION END -----#	//	CopleyControl.SendCommand
@@ -191,7 +189,7 @@ class CopleyControl (PyTango.Device_4Impl):
         self.debug_stream("In MoveMotor2()")
         #----- PROTECTED REGION ID(CopleyControl.MoveMotor2) ENABLED START -----#
         print "In ", self.get_name(), "::Move()"
-        self.SendCommand('2 t 1')
+        self.Write('2 t 1')
         #----- PROTECTED REGION END -----#	//	CopleyControl.MoveMotor2
         
     def InitMotors(self):
@@ -200,7 +198,7 @@ class CopleyControl (PyTango.Device_4Impl):
         self.debug_stream("In InitMotors()")
         #----- PROTECTED REGION ID(CopleyControl.InitMotors) ENABLED START -----#
         print "In ", self.get_name(), "::InitMotors()"
-        self.SendCommand('s r0x24 31\n s r0xC8 257\n 2 s r0x24 31\n 2 s r0xC8 257')
+        self.Write('s r0x24 31\n s r0xC8 257\n 2 s r0x24 31\n 2 s r0xC8 257')
     
         
         #----- PROTECTED REGION END -----#	//	CopleyControl.InitMotors
@@ -218,38 +216,37 @@ class CopleyControl (PyTango.Device_4Impl):
         dev.Write(argin)
         #----- PROTECTED REGION END -----#	//	CopleyControl.Write
         
-    def ReadCheckReply(self):
-        """ 
-        :rtype: PyTango.DevString
-        """
-        self.debug_stream("In ReadCheckReply()")
-        argout = ""
-        #----- PROTECTED REGION ID(CopleyControl.ReadCheckReply) ENABLED START -----#
-        print "In ", self.get_name(), "::CheckReply()"
-        result = self.SendCommandGetResult("g r0xA0")
-        return self.getResult(result)
-
-       
-        #----- PROTECTED REGION END -----#	//	CopleyControl.ReadCheckReply
-        return argout
-        
     def ResetMotors(self):
         """ 
         """
         self.debug_stream("In ResetMotors()")
         #----- PROTECTED REGION ID(CopleyControl.ResetMotors) ENABLED START -----#
         print "In ", self.get_name(), "::ResetMotors()"
-        self.SendCommand("r\n 2 r")
+        self.Write("r\n 2 r")
         #----- PROTECTED REGION END -----#	//	CopleyControl.ResetMotors
         
-    def SendCheckCommand(self):
+    def DriveCheck(self):
         """ 
+        :rtype: PyTango.DevString
         """
-        self.debug_stream("In SendCheckCommand()")
-        #----- PROTECTED REGION ID(CopleyControl.SendCheckCommand) ENABLED START -----#
+        self.debug_stream("In DriveCheck()")
+        argout = ""
+        #----- PROTECTED REGION ID(CopleyControl.DriveCheck) ENABLED START -----#
         print "In ", self.get_name(), "::SendCheckCommand()"
-        self.SendCommand("s r0xA1 268435455")
-        #----- PROTECTED REGION END -----#	//	CopleyControl.SendCheckCommand
+        result = self.SendCommandGetResult("g r0xA0")
+        print result
+        if result[0:2] != "v ":
+            print("unexpected reply from Copley controller")
+            return "unexpected reply from Copley controller"
+        elif int(result[2:3])  == 0:
+            print("motion stopped")
+            return "motion stopped"
+        else:
+            print "in motion"        
+            return 'in motion'
+       
+        #----- PROTECTED REGION END -----#	//	CopleyControl.DriveCheck
+        return argout
         
     def SendCommandGetResult(self, argin):
         """ 
@@ -262,9 +259,9 @@ class CopleyControl (PyTango.Device_4Impl):
         #----- PROTECTED REGION ID(CopleyControl.SendCommandGetResult) ENABLED START -----#
         print "In ", self.get_name(), "::Write()"
         print argin
-        result = ""
+    
         # send command with LF (line feed)
-        self.SendCommand(argin+"\n")
+        self.Write(argin)
         while True:
             # read reply until LF
             data = self.Read()
@@ -274,9 +271,9 @@ class CopleyControl (PyTango.Device_4Impl):
                 break
             if data == '\r': # CR -> ignored
                 continue     
-            result += data
-      
-        return result
+            
+            argout += data
+        return argout
         #----- PROTECTED REGION END -----#	//	CopleyControl.SendCommandGetResult
         return argout
         
@@ -285,7 +282,12 @@ class CopleyControl (PyTango.Device_4Impl):
         """
         self.debug_stream("In Open()")
         #----- PROTECTED REGION ID(CopleyControl.Open) ENABLED START -----#
+        #self.set_state(PyTango.DevState.ON)
+        
+        dev= self.dev
+        dev.Open()
         self.set_state(PyTango.DevState.ON)
+        self.set_status("The status is 0N")
         #----- PROTECTED REGION END -----#	//	CopleyControl.Open
         
     def Close(self):
@@ -293,27 +295,14 @@ class CopleyControl (PyTango.Device_4Impl):
         """
         self.debug_stream("In Close()")
         #----- PROTECTED REGION ID(CopleyControl.Close) ENABLED START -----#
-        try:
-            self.serial.close()
-            self.set_state(PyTango.DevState.OFF)
-        except:
-            pass
-
+        dev= self.dev
+        dev.Close()
+        self.set_state(PyTango.DevState.OFF)
+        self.set_status("The status is 0FF")
         #----- PROTECTED REGION END -----#	//	CopleyControl.Close
         
 
     #----- PROTECTED REGION ID(CopleyControl.programmer_methods) ENABLED START -----#
-    def getResult(self, readString):
-        print(readString)        
-        if readString[0:2] != "v ":
-            print("unexpected reply from Copley controller")
-            return "unexpected reply from Copley controller"
-        elif (int(readString[2:]) & (1<<27)) == 0:
-            print("motion stopped")
-            return "motion stopped"
-        else:
-            return readString
-       
   
     #----- PROTECTED REGION END -----#	//	CopleyControl.programmer_methods
 
@@ -357,15 +346,12 @@ class CopleyControlClass(PyTango.DeviceClass):
         'Write':
             [[PyTango.DevString, "none"],
             [PyTango.DevVoid, "none"]],
-        'ReadCheckReply':
-            [[PyTango.DevVoid, "none"],
-            [PyTango.DevString, "none"]],
         'ResetMotors':
             [[PyTango.DevVoid, "none"],
             [PyTango.DevVoid, "none"]],
-        'SendCheckCommand':
+        'DriveCheck':
             [[PyTango.DevVoid, "none"],
-            [PyTango.DevVoid, "none"]],
+            [PyTango.DevString, "none"]],
         'SendCommandGetResult':
             [[PyTango.DevString, "none"],
             [PyTango.DevString, "none"]],
