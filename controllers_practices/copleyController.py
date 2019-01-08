@@ -64,14 +64,13 @@ class SerialObject(object):
         data =ser.read(n) 
         print "Read::", data
         return data 
-    
 class CopleyController(MotorController):
    
     ctrl_properties = \
         {
          "Port": {Type : str,
                   Description : "Serial Port",
-                  DefaultValue : "/dev/ttyS0"},
+                  DefaultValue : '/dev/ttyS0'},
         }
     AXIS_NAMES = {1: "stepnet01", 2: "stepnet02"}
 
@@ -88,37 +87,39 @@ class CopleyController(MotorController):
     def StateOne(self, axis):
         axis_name = self.AXIS_NAMES[axis]
         copleyController = self.copleyController
-        if axis_name == "stepnet01":            
-            copleyController.write("g r0x24\n")  
-        elif axis_name == "stepnet02":          
-            copleyController.write("2 g r0x24\n") 
-        result = copleyController.readStateVariable()
+        copleyController.write("g r0x24\n") 
+    	result = copleyController.readStateVariable()
         print result
-        if result:           
+    	if result:           
             state = self.STATES["ON"]
         else: 
-            state = self.STATES["OFF"]
+           state = self.STATES["OFF"]
         limit_switches = MotorController.NoLimitSwitch
+        #print state, limit_switches
         return state, limit_switches
     
     def ReadOne(self, axis):
         axis_name = self.AXIS_NAMES[axis]
         copleyController = self.copleyController
         if axis_name == "stepnet01":            
-            copleyController.write("g r0xa0\n")     
-        if axis_name =="stepnet02":
-            copleyController.write("2 g r0xa0\n")        
+            copleyController.write("g r0xA0\n")     
+        elif axis_name =="stepnet02":
+            copleyController.write("2 g r0xA0\n")        
         position = copleyController.readPosition()
         return position
     
     def StartOne(self, axis, position):   
         axis_name = self.AXIS_NAMES[axis]
         copleyController = self.copleyController
-        if axis_name =="stepnet01":
-            ans = copleyController.write("s r0xca {0}\n t 1\n".format(str(position)))            
-        else:
-            ans = copleyController.write("{0} s r0xca {1}\n {2} t 1\n".format(str(axis), str(position), str(axis)))   
-           
+        if axis_name =="stepnet02":
+	    copleyController.write("2 s r0xca {}\n".format(position))
+            copleyController.write("2 t 1\n")
+	    sleep(1)            
+        elif axis_name =="stepnet01":
+	    ans = copleyController.write("s r0xca {}\n t 1\n".format(position))
+	    sleep(1)
+
     def AbortOne(self, axis):
         copleyController = self.copleyController
         copleyController.write("r\n 2 r\n")
+
