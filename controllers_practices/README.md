@@ -124,3 +124,13 @@ axis_attributes = {
         self._positions = self.springfield.getMultiplePosition(self._position_info)
         
    
+About the copleyController:
+I have written the controller script and put it in the "/controller" and it works.
+I have configured the motors "stepnet01" and "stepnet02" for the first and second motor in sardana. We can get the positions and states of the two motors, We can move the first motor. But the second motor does not work. The commands are different.
+
+For the first motor, the execution oder is: set the position using "s r0xca 10000\n" and then triger the motion using "t 1\n", the the first motor moves.
+For the second motor, the execution oder is: set the position using "2 s r0xca 10000" and the triger the motion using "2 t 1\n", then the second motor moves.
+
+The problem is: using a combined command "s r0xca 10000\n t 1\n" we can make the first motor move.
+But using command "2 s r0xca 10000\n 2 t 1\n" the second motor can not be moved. This command works not in the second motor controller. That means, in the method StartOne(self,axis,position), we can not write a single command to make the second motor move. It is the main problem to be solved. 
+How can we write the position and make the motor move with only one command in the method?
