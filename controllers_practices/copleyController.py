@@ -1,3 +1,7 @@
+"""
+This program is a copley controller program for sardana system, it should be put in the folder such as "/controllers" and set this folder as the controller path which can be recognized by sardana, then this controller can be recognized by sardana and set the stepnet01 as the axis 1 of the controller and stepnet02 as the axis 2 of the controller. Then we can get the position of the 2 motors and make them move.  
+"""
+
 import serial
 from time import sleep
 from sardana import State, SardanaValue
@@ -9,6 +13,9 @@ class SerialObject(object):
         self.ser = serial.Serial(port, 9600, timeout=0.5)
 
     def readPosition1(self):
+        """
+        read the first motor position.
+        """
         ser= self.ser
         result =""
         ser.write("g r0xa0\n")
@@ -28,6 +35,9 @@ class SerialObject(object):
         return float(position)
 
     def readPosition2(self):
+        """
+        read the second motor position, which has node ID of 2.
+        """
         ser= self.ser
         result =""
         ser.write("2 g r0xa0\n")
@@ -47,6 +57,9 @@ class SerialObject(object):
         return float(position)
 
     def readStateVariable1(self):
+        """
+        read the first motor state variable.
+        """
         ser= self.ser
         result =""
         ser.write("g r0x24\n")
@@ -66,6 +79,9 @@ class SerialObject(object):
         return int(state_id)
 
     def readStateVariable2(self):
+        """
+        read the second motor state variable.
+        """
         ser= self.ser
         result =""
         ser.write("2 g r0x24\n")
@@ -85,6 +101,9 @@ class SerialObject(object):
         return int(state_id)
 
     def setMotorPosition1(self, position):
+        """
+        set the position of the first motor.
+        """
         ser= self.ser
         result =""
         ser.write("s r0xca {}\n".format(position))
@@ -103,6 +122,9 @@ class SerialObject(object):
         return result
 
     def setMotorPosition2(self, position):
+        """
+        set the position of the second motor.
+        """
         ser= self.ser
         result =""
         ser.write("2 s r0xca {}\n".format(position))
@@ -121,6 +143,9 @@ class SerialObject(object):
         return result
 
     def moveMotor2(self):
+        """
+        move the second motor.
+        """
         ser= self.ser
         result =""
         ser.write("2 t 1\n")
@@ -138,6 +163,9 @@ class SerialObject(object):
         return result
 
     def moveMotor1(self):
+        """
+        move the first motor.
+        """
         ser= self.ser
         result =""
         ser.write("t 1\n")
@@ -155,21 +183,17 @@ class SerialObject(object):
         return result
 
     def write(self,data):
+        """
+        write data into serial line.
+        """
         ser=self.ser
         print "Write::", data
         ser.write(data)
 
-    def writePosition(self,position):
-        ser=self.ser
-        print "Write motor Position::", position
-        ser.write("t 1\n")
-
-    def writePosition2(self,position):
-        ser=self.ser
-        print "Write motor2 Position::", position
-        ser.write("2 t 1\n")
-
     def read(self,n):
+        """
+        read n size bytes from serial line.
+        """
         ser= self.ser
         data =ser.read(n)
         print "Read::", data
@@ -195,6 +219,9 @@ class CopleyController(MotorController):
         del self.copleyController
 
     def StateOne(self, axis):
+        """
+        Read the axis state. asix can be 1, 2, 3, 4. One axis is defined as one motor in spock console. A normal motor controller has 4 axis, which means one motor controller can controll 4 motors. This method is used when "motor1.state()" is called in spock. Before executing the actions like read position or move, the sardana system check the states of the motor. 
+        """
         axis_name = self.AXIS_NAMES[axis]
         copleyController = self.copleyController
         if axis_name == "stepnet01":
@@ -210,6 +237,9 @@ class CopleyController(MotorController):
         return state, limit_switches
 
     def ReadOne(self, axis):
+        """
+        Read the position of the axis(motor). When "wa" or "wm motor_name"is called in spock, this method is used. 
+        """
         axis_name = self.AXIS_NAMES[axis]
         copleyController = self.copleyController
         if axis_name == "stepnet01":
@@ -219,6 +249,9 @@ class CopleyController(MotorController):
         return position
 
     def StartOne(self, axis, position):
+        """
+        Move the axis(motor) to the given position. 
+        """
         axis_name = self.AXIS_NAMES[axis]
         copleyController = self.copleyController
         if axis_name =="stepnet01":
@@ -236,5 +269,8 @@ class CopleyController(MotorController):
                 print a
 
     def AbortOne(self, axis):
+        """
+        Abort the axis(motor).
+        """
         copleyController = self.copleyController
         copleyController.write("r\n 2 r\n")
