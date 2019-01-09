@@ -147,8 +147,12 @@ How can we write the position and make the motor move with only one command in t
 
   The program consists of two parts, one is the api object which can be used for the direct connection between the motor and the raw commands, in this part we need something like serial or socket module from python.
 
-  The other one is the main part, which is the subclass of motorcontroller in sardana system, in this part we need to define some standard methods like StateOne,which is used to read the states of the motors, ReadOne is used to read the positions of the motors, StartOne is used to move the motors to the given position, AbortOne is used to abort the motion. init is used to initial the motor controller and connect with the above object, "__del__"" method is used to delete the whole thing. Some properties should also be defined in front of the methods using dict format.  Following structures are basically the standard things for a normal motor, which we just need to change some content.  
+(2):
 
+  The other one is the main part, which is the subclass of motorcontroller in sardana system, in this part we need to define some standard methods like StateOne,which is used to read the states of the motors, ReadOne is used to read the positions of the motors, StartOne is used to move the motors to the given position, AbortOne is used to abort the motion. init is used to initial the motor controller and connect with the above object. Some properties should also be defined in front of the methods using dict format.  Following structures are basically the standard things for a normal motor, which we just need to change some content.  
+
+
+class CopleyController(MotorController):
 
     ctrl_properties = \
         {
@@ -160,4 +164,9 @@ How can we write the position and make the motor move with only one command in t
 
     STATES = {"ON": State.On, "OFF": State.Off}
 
-
+    def __init__(self,inst, props, *args, **kwargs):
+    def __del__(self):
+    def StateOne(self, axis):
+    def ReadOne(self, axis):
+    def StartOne(self, axis, position):
+    def AbortOne(self, axis):
