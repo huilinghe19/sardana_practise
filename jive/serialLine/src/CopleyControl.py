@@ -46,7 +46,7 @@ import PyTango
 import sys
 # Add additional import
 #----- PROTECTED REGION ID(CopleyControl.additionnal_import) ENABLED START -----#
-import time 
+
 #----- PROTECTED REGION END -----#	//	CopleyControl.additionnal_import
 
 # Device States Description
@@ -131,7 +131,7 @@ class CopleyControl (PyTango.Device_4Impl):
         #----- PROTECTED REGION ID(CopleyControl.Status) ENABLED START -----#
       
         #----- PROTECTED REGION END -----#	//	CopleyControl.Status
-        #self.set_status(self.argout)
+        self.set_status(self.argout)
         self.__status = PyTango.Device_4Impl.dev_status(self)
         return self.__status
         
@@ -225,27 +225,27 @@ class CopleyControl (PyTango.Device_4Impl):
         self.Write("r\n 2 r")
         #----- PROTECTED REGION END -----#	//	CopleyControl.ResetMotors
         
-    def DriveCheck(self):
+    def DriveCheck0(self):
         """ 
         :rtype: PyTango.DevString
         """
-        self.debug_stream("In DriveCheck()")
+        self.debug_stream("In DriveCheck0()")
         argout = ""
-        #----- PROTECTED REGION ID(CopleyControl.DriveCheck) ENABLED START -----#
-        print "In ", self.get_name(), "::SendCheckCommand()"
+        #----- PROTECTED REGION ID(CopleyControl.DriveCheck0) ENABLED START -----#
+        print "In ", self.get_name(), "::DriveCheck0()"
         result = self.SendCommandGetResult("g r0xA0")
         print result
         if result[0:2] != "v ":
-            print("unexpected reply from Copley controller")
-            return "unexpected reply from Copley controller"
+            print("Unexpected reply from Copley controller for motor 0")
+            return "Unexpected reply from Copley controller for motor 0"
         elif int(result[2:3])  == 0:
-            print("motion stopped")
-            return "motion stopped"
+            print("Motor0 stopped")
+            return "Motor0 stopped"
         else:
-            print "in motion"        
-            return 'in motion'
+            print('Motor0 in motion')
+            return 'Motor0 in motion'
        
-        #----- PROTECTED REGION END -----#	//	CopleyControl.DriveCheck
+        #----- PROTECTED REGION END -----#	//	CopleyControl.DriveCheck0
         return argout
         
     def SendCommandGetResult(self, argin):
@@ -257,7 +257,7 @@ class CopleyControl (PyTango.Device_4Impl):
         self.debug_stream("In SendCommandGetResult()")
         argout = ""
         #----- PROTECTED REGION ID(CopleyControl.SendCommandGetResult) ENABLED START -----#
-        print "In ", self.get_name(), "::Write()"
+        print "In ", self.get_name(), "::SendCommandGetResult()"
         print argin
     
         # send command with LF (line feed)
@@ -283,7 +283,7 @@ class CopleyControl (PyTango.Device_4Impl):
         self.debug_stream("In Open()")
         #----- PROTECTED REGION ID(CopleyControl.Open) ENABLED START -----#
         #self.set_state(PyTango.DevState.ON)
-        
+        print "In ", self.get_name(), "::Open()"
         dev= self.dev
         dev.Open()
         self.set_state(PyTango.DevState.ON)
@@ -300,6 +300,29 @@ class CopleyControl (PyTango.Device_4Impl):
         self.set_state(PyTango.DevState.OFF)
         self.set_status("The status is 0FF")
         #----- PROTECTED REGION END -----#	//	CopleyControl.Close
+        
+    def DriveCheck2(self):
+        """ 
+        :rtype: PyTango.DevString
+        """
+        self.debug_stream("In DriveCheck2()")
+        argout = ""
+        #----- PROTECTED REGION ID(CopleyControl.DriveCheck2) ENABLED START -----#
+        print "In ", self.get_name(), "::DriveCheck2()"
+        result = self.SendCommandGetResult("2 g r0xA0")
+        print result
+        if result[0:2] != "v ":
+            print("Unexpected reply from Copley controller for motor2")
+            return "Unexpected reply from Copley controller for motor2 "
+        elif int(result[2:3])  == 0:
+            print("Motor2 stopped")
+            return "Motor2 stopped"
+        else:
+            print("Motor2 in motion")        
+            return 'Motor2 in motion'
+       
+        #----- PROTECTED REGION END -----#	//	CopleyControl.DriveCheck2
+        return argout
         
 
     #----- PROTECTED REGION ID(CopleyControl.programmer_methods) ENABLED START -----#
@@ -349,7 +372,7 @@ class CopleyControlClass(PyTango.DeviceClass):
         'ResetMotors':
             [[PyTango.DevVoid, "none"],
             [PyTango.DevVoid, "none"]],
-        'DriveCheck':
+        'DriveCheck0':
             [[PyTango.DevVoid, "none"],
             [PyTango.DevString, "none"]],
         'SendCommandGetResult':
@@ -361,6 +384,9 @@ class CopleyControlClass(PyTango.DeviceClass):
         'Close':
             [[PyTango.DevVoid, "none"],
             [PyTango.DevVoid, "none"]],
+        'DriveCheck2':
+            [[PyTango.DevVoid, "none"],
+            [PyTango.DevString, "none"]],
         }
 
 
