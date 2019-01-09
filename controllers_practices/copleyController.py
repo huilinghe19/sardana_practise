@@ -15,6 +15,7 @@ class SerialObject(object):
     def getCommandResult(self, command):
         ser= self.ser
         result =""
+        print "command:", command
         ser.write(command)
         while True:
             data =ser.read(1)
@@ -26,45 +27,45 @@ class SerialObject(object):
             if data == "\r":
                 continue
             result += data
-        print result
+        print "getCommandResult:", result
         return result
     
     def readPosition1(self):
         """
         read the first motor position.
         """
-        result = self.getCommandResult("g r0xa0\n")       
-        position = result[2:]
-        print position
-        return float(position)
+        result = self.getCommandResult("g r0x32\n")       
+        position = int(result[2:])
+        print "readPosition1:", position
+        return position
 
     def readPosition2(self):
         """
         read the second motor position, which has node ID of 2.
         """
-        result = self.getCommandResult("2 g r0xa0\n")       
-        position = result[2:]
-        print position
-        return float(position)
+        result = self.getCommandResult("2 g r0x32\n")       
+        position = int(result[2:])
+        print "readPosition2:", position
+        return position
 
-    def readStateVariable1(self):
+    def readState1(self):
         """
         read the first motor state variable. 
         """
-        result = self.getCommandResult("g r0x24\n")       
-        state_id = result[2:4]
-        print state_id
-        return int(state_id)
+        result = self.getCommandResult("g r0xA0\n")       
+        state_id = result[2:]
+        print "readState1:",state_id
+        return str(state_id)
 
-    def readStateVariable2(self):
+    def readState2(self):
         """
         read the second motor state variable. We have already set the StateVariable as 31,
         so the answer is 31.
         """
-        result = self.getCommandResult("g r0x24\n")   
-        state_id = result[2:4]
-        print state_id
-        return int(state_id)
+        result = self.getCommandResult("2 g r0xA0\n")   
+        state_id = result[2:]
+        print "readState2:",state_id
+        return str(state_id)
 
     def setMotorPosition1(self, position):
         """
@@ -121,7 +122,7 @@ class CopleyController(MotorController):
         }
     AXIS_NAMES = {1: "stepnet01", 2: "stepnet02"}
 
-    STATES = {"ON": State.On, "OFF": State.Off}
+    STATES = {"ON": State.On, "MOVING": State.Moving}
 
     def __init__(self, inst, props, *args, **kwargs):
         MotorController.__init__(self,inst, props, *args, **kwargs)
@@ -133,22 +134,20 @@ class CopleyController(MotorController):
     def StateOne(self, axis):
         """
         Read the axis state. asix can be 1, 2, 3, 4. One axis is defined as one motor in spock console. 
-        A normal motor controller has 4 axis, which means one motor controller can controll 4 motors. 
-        This method is used when "motor1.state()" is called in spock. 
-        Before executing the actions like read position or move, the sardana system check 
-        the states of the motor. 
+        A normal motor controller has 4 axis.
         """
         axis_name = self.AXIS_NAMES[axis]
         copleyController = self.copleyController
         if axis_name == "stepnet01":
-            result = copleyController.readStateVariable1()
+            result = copleyController.readState1()
         elif axis_name == "stepnet02":
-            result = copleyController.readStateVariable2()
-        print result
-        if result:
+            result = copleyController.readState2()     
+        if result == "0":
+            print "State ON"
             state = self.STATES["ON"]
         else:
-            state = self.STATES["OFF"]
+            print "State MOVING"
+            state = self.STATES["MOVING"]
         limit_switches = MotorController.NoLimitSwitch
         return state, limit_switches
 
