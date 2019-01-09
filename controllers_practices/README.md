@@ -124,3 +124,40 @@ axis_attributes = {
         self._positions = self.springfield.getMultiplePosition(self._position_info)
         
    
+5. About the copleyController:
+
+
+I have written the controller script and put it in the "/controller" and it works.
+I have configured the motors "stepnet01" and "stepnet02" for the first and second motor in sardana. We can get the positions and states of the two motors, We can move the first motor. But the second motor does not work. The commands are different.
+
+For the first motor, the execution oder is: set the position using "s r0xca 10000\n" and then triger the motion using "t 1\n", the the first motor moves.
+For the second motor, the execution oder is: set the position using "2 s r0xca 10000" and the triger the motion using "2 t 1\n", then the second motor moves.
+
+
+
+The problem is: using a combined command "s r0xca 10000\n t 1\n" we can make the first motor move.
+But using command "2 s r0xca 10000\n 2 t 1\n" the second motor can not be moved. This command works not in the second motor controller. That means, in the method StartOne(self,axis,position), we can not write a single command to make the second motor move. It is the main problem to be solved. 
+How can we write the position and make the motor move with only one command in the method?
+
+6. When you have problems with the spock commands and the motors, you can first check the motor state, when the state is fault, then check the controllers in sardana using "lsctrllib", if there is no this controller script, it means the program of the controller is wrong, you should correct the program. When you have changed the program, you should restart sardana again and check the controllers using "lsctrllib".
+
+7. The strategy of writing a normal motor controller is as following:
+
+(1): 
+
+  The program consists of two parts, one is the api object which can be used for the direct connection between the motor and the raw commands, in this part we need something like serial or socket module from python.
+
+  The other one is the main part, which is the subclass of motorcontroller in sardana system, in this part we need to define some standard methods like StateOne,which is used to read the states of the motors, ReadOne is used to read the positions of the motors, StartOne is used to move the motors to the given position, AbortOne is used to abort the motion. init is used to initial the motor controller and connect with the above object, "__del__"" method is used to delete the whole thing. Some properties should also be defined in front of the methods using dict format.  Following structures are basically the standard things for a normal motor, which we just need to change some content.  
+
+
+    ctrl_properties = \
+        {
+         "Port": {Type : str,
+                  Description : "Serial Port",
+                  DefaultValue : '/dev/ttyS0'},
+        }
+    AXIS_NAMES = {1: "stepnet01", 2: "stepnet02"}
+
+    STATES = {"ON": State.On, "OFF": State.Off}
+
+
