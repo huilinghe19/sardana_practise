@@ -1,7 +1,9 @@
-# sardana_practice
 
-My work:
 
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+My work : Sardana practice
+-----------------------------------------------------------------------------------------------------------------------------------------
 
    know how sardana works;
    know how to write the programs of controllers, how to set it in sardana and use it to controll motors;
@@ -17,9 +19,10 @@ My work:
    
    I have written new tango server class to controll the blender blades and the real motors. 
    
+  ----------------------------------------------------------------------------------------------------------------------------------------- 
    
-   
-Here are the steps to use sardana and spock at the beginning:
+Steps to use sardana and spock at the beginning
+-----------------------------------------------------------------------------------------------------------------------------------------
 
 1. In MATE Terminal:
   
@@ -51,7 +54,8 @@ Here are the steps to use sardana and spock at the beginning:
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------
-Some tips:
+Some tips
+-----------------------------------------------------------------------------------------------------------------------------------------
 
 
 1. After installation, following commands can be used in the terminal to check if the related software works well:
