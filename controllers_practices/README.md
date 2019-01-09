@@ -138,3 +138,5 @@ For the second motor, the execution oder is: set the position using "2 s r0xca 1
 The problem is: using a combined command "s r0xca 10000\n t 1\n" we can make the first motor move.
 But using command "2 s r0xca 10000\n 2 t 1\n" the second motor can not be moved. This command works not in the second motor controller. That means, in the method StartOne(self,axis,position), we can not write a single command to make the second motor move. It is the main problem to be solved. 
 How can we write the position and make the motor move with only one command in the method?
+
+6. When you have problems with the spock commands and the motors, you can first check the motor state, when the state is fault, then check the controllers in sardana using "lsctrllib", if there is no this controller script, it means the program of the controller is wrong, you should correct the program. 
