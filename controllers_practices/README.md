@@ -140,3 +140,24 @@ But using command "2 s r0xca 10000\n 2 t 1\n" the second motor can not be moved.
 How can we write the position and make the motor move with only one command in the method?
 
 6. When you have problems with the spock commands and the motors, you can first check the motor state, when the state is fault, then check the controllers in sardana using "lsctrllib", if there is no this controller script, it means the program of the controller is wrong, you should correct the program. When you have changed the program, you should restart sardana again and check the controllers using "lsctrllib".
+
+7. The strategy of writing a normal motor controller is as following:
+
+(1): 
+
+  The program consists of two parts, one is the api object which can be used for the direct connection between the motor and the raw commands, in this part we need something like serial or socket module from python.
+
+  The other one is the main part, which is the subclass of motorcontroller in sardana system, in this part we need to define some standard methods like StateOne,which is used to read the states of the motors, ReadOne is used to read the positions of the motors, StartOne is used to move the motors to the given position, AbortOne is used to abort the motion. init is used to initial the motor controller and connect with the above object, "__del__"" method is used to delete the whole thing. Some properties should also be defined in front of the methods using dict format.  Following structures are basically the standard things for a normal motor, which we just need to change some content.  
+
+
+    ctrl_properties = \
+        {
+         "Port": {Type : str,
+                  Description : "Serial Port",
+                  DefaultValue : '/dev/ttyS0'},
+        }
+    AXIS_NAMES = {1: "stepnet01", 2: "stepnet02"}
+
+    STATES = {"ON": State.On, "OFF": State.Off}
+
+
