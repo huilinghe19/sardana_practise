@@ -27,7 +27,7 @@ Steps to use sardana and spock at the beginning
 1. In MATE Terminal:
   
     After installing Sardana and sardana training (https://sardana-controls.org/users/getting_started/installing.html) using git method. We can start Sardana Server with 'Sardana demo1' or 'Sardana demo1 --log-level=debug'.
-    
+    If sardana can not be opened after the computer is just started, then do not check other things, restart the computer again, then the problem should be solved. Sometimes tango database can not run properly at once. 
   
 2. Open spock console: 
   
