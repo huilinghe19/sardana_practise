@@ -14,12 +14,12 @@ class SerialObject(object):
     
     def getCommandResult(self, command):
         ser= self.ser
-        result =""
-        print "command:", command
+        result =""        
         ser.write(command)
+        print "Write command:", command
         while True:
             data =ser.read(1)
-            print "Read::", data
+            #print "Read::", data
             if not data:
                 break
             if data =="\n":
@@ -29,89 +29,75 @@ class SerialObject(object):
             result += data
         print "getCommandResult:", result
         return result
+
     
-    def readPosition1(self):
+    def getNodeID(self, axis):
         """
-        read the first motor position.
+        get the node id string. Here the node id string of the first motor controller is none,
+        the node id string of the second motor controller is 2. 
         """
-        result = self.getCommandResult("g r0x32\n")       
-        position = int(result[2:])
-        print "readPosition1:", position
-        return position
-
-    def readPosition2(self):
-        """
-        read the second motor position, which has node ID of 2.
-        """
-        result = self.getCommandResult("2 g r0x32\n")       
-        position = int(result[2:])
-        print "readPosition2:", position
-        return position
-
-    def readState1(self):
-        """
-        read the first motor state variable. 
-        """
-        result = self.getCommandResult("g r0xA0\n")       
-        state_id = result[2:]
-        print "readState1:",state_id
-        return str(state_id)
-
-    def readState2(self):
-        """
-        read the second motor state variable. We have already set the StateVariable as 31,
-        so the answer is 31.
-        """
-        result = self.getCommandResult("2 g r0xA0\n")   
-        state_id = result[2:]
-        print "readState2:",state_id
-        return str(state_id)
-
-    def setMotorPosition1(self, position):
-        """
-        set the position of the first motor.
-        """
-        result = self.getCommandResult("s r0xca {}\n".format(position)) 
-        return result
-
-    def setMotorPosition2(self, position):
-        """
-        set the position of the second motor.
-        """
-        result = self.getCommandResult("2 s r0xca {}\n".format(position)) 
-        return result
-
-    def moveMotor1(self):
-        """
-        move the second motor.
-        """
-        result = self.getCommandResult("t 1\n")   
-        return result
-
-    def moveMotor2(self):
-        """
-        move the first motor.
-        """
-        result = self.getCommandResult("2 t 1\n")   
-        return result
-    
-    def write(self,data):
+        
+        if axis == 1:
+            return ""
+        elif axis == 2:
+            return "2 "
+        
+    def setVariable(self, axis, variable_ID, value):
         """
         write data into serial line.
         """
+        
         ser=self.ser
-        print "Write::", data
-        ser.write(data)
-
+        nodeID = self.getNodeID(axis) 
+        print  "{}s r{} {}\n".format(nodeID, variable_ID, str(value))
+        return self.getCommandResult("{}s r{} {}\n".format(nodeID, variable_ID, value))
+    
+    def getVariable(self, axis, variable_ID):
+        """
+        write data into serial line.
+        """
+        
+        ser=self.ser
+        nodeID = self.getNodeID(axis) 
+        return self.getCommandResult("{}g r{}\n".format(nodeID, variable_ID))
+    
+    def moveMotor(self, axis):
+        """
+        move the axis.
+        """
+        
+        ser=self.ser
+        nodeID = self.getNodeID(axis) 
+        result = self.getCommandResult("{}t 1\n".format(nodeID))   
+        return result
+    
+    def abortMotor(self, axis):
+        """
+        move the axis.
+        """
+        
+        ser=self.ser
+        nodeID = self.getNodeID(axis) 
+        self.getCommandResult("{}r\n".format(nodeID))   
+        
     def read(self,n):
         """
         read n size bytes from serial line.
         """
+        
         ser= self.ser
         data =ser.read(n)
-        print "Read::", data
+        print "Read ::", data
         return data
-
+    
+    def write(self, data):
+        """
+        write data into serial line.
+        """
+        ser=self.ser
+        print "Write data::", data
+        ser.write(data)
+        
 class CopleyController(MotorController):
 
     ctrl_properties = \
@@ -133,20 +119,17 @@ class CopleyController(MotorController):
 
     def StateOne(self, axis):
         """
-        Read the axis state. asix can be 1, 2, 3, 4. One axis is defined as one motor in spock console. 
-        A normal motor controller has 4 axis.
+        Read the axis state. asix can be 1, 2, 3, 4. One axis is defined as one motor in spock. 
+      
         """
         axis_name = self.AXIS_NAMES[axis]
-        copleyController = self.copleyController
-        if axis_name == "stepnet01":
-            result = copleyController.readState1()
-        elif axis_name == "stepnet02":
-            result = copleyController.readState2()     
-        if result == "0":
-            print "State ON"
+        copleyController = self.copleyController       
+        result = copleyController.getVariable(axis, "0xA0")       
+        if result == "v 0":
+            print "State ON, Motion Stopped"
             state = self.STATES["ON"]
         else:
-            print "State MOVING"
+            print "State MOVING, In Moving"
             state = self.STATES["MOVING"]
         limit_switches = MotorController.NoLimitSwitch
         return state, limit_switches
@@ -158,10 +141,8 @@ class CopleyController(MotorController):
         """
         axis_name = self.AXIS_NAMES[axis]
         copleyController = self.copleyController
-        if axis_name == "stepnet01":
-            position = copleyController.readPosition1()
-        elif axis_name =="stepnet02":
-            position = copleyController.readPosition2()
+        position_raw = copleyController.getVariable(axis, "0x32")
+        position = float(position_raw[2:])
         return position
 
     def StartOne(self, axis, position):
@@ -169,23 +150,15 @@ class CopleyController(MotorController):
         Move the axis(motor) to the given position. 
         """
         axis_name = self.AXIS_NAMES[axis]
-        copleyController = self.copleyController
-        if axis_name =="stepnet01":
-            a = copleyController.setMotorPosition1(position)
-            if a:
-                ans = copleyController.moveMotor1()
-            else:
-                print a
-        elif axis_name =="stepnet02":
-            a = copleyController.setMotorPosition2(position)
-            if a:
-                ans = copleyController.moveMotor2()
-            else:
-                print a
-
+        copleyController = self.copleyController     
+        copleyController.setVariable(axis, "0xca", position)
+        ans = copleyController.moveMotor(axis)   
+      
     def AbortOne(self, axis):
         """
         Abort the axis(motor).
         """
         copleyController = self.copleyController
-        copleyController.write("r\n 2 r\n")
+        copleyController.abortMotor(axis)
+
+  
