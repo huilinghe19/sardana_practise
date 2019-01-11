@@ -9,15 +9,13 @@ My work : Sardana practice
    know how to write the programs of controllers, how to set it in sardana and use it to controll motors;
    know the usage of the macros and the GUI like taurus settings.
    know how to create tango server class and use jive to controll the devices 
-
-   I have learned sardana traing (https://github.com/sardana-org/sardana-training) and known how to controll the blender blades motion and how to write blender blades controllers. 
+   know how to use the extra pyserial and socket c++ tango server class and connect it with my own tango server classes in jive. 
+  
+   I have implemented new tango server classes in jive to controll the blender blades and the real motors. 
    
-   I have written copley controller program and put it into sardana and it can make the motors move.
+   I have implemented new copley controller into sardana and it can controll the real motors.
    
-   I have learned how to use the extra pyserial and socket c++ tango server class and connect it with my own tango server classes. 
-   
-   I have written a new tango server class to controll the blender blades and the real motors. 
-   
+  
   ----------------------------------------------------------------------------------------------------------------------------------------- 
  Install Sardana
 -----------------------------------------------------------------------------------------------------------------------------------------
