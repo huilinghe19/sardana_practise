@@ -77,7 +77,16 @@ Some tips
 
     During my use of sardana, I found that sometimes when I first booted up after a day or the weekend , the connection to the tango database could not be connected, then sardana or jive can not be opened, but as soon as I restarted again, the problem was solved. 
     
-    About Door, it is the entry point to the MacroServer, With different doors we can use different macros. 
+    About Door, it is the entry point to the MacroServer, with different doors we can use different macros. you can see which door you have used in spock.
+    
+    When you open spock, see each line in the spock move down, some error appears always, which means, there is a problem inside sardana, either macroserver or pool or Door. 
+    Check Pool: examine the connected door name in front of the spock console line, "Door/demo1/1" or maybe "Door/demo1/2", open jive, check the Door name and the Pool inside sardana, if the used door is the right.
+    Check MacroServer: examine the connected macroserver, "MacroServer/demo1/1" or "MacroServer/demo1/2". In your spock console, it shows you which macroserver you have choosed when something is wrong. When everything about macroserver is right, it shows nothing about macroserver. 
+    
+    There is a point need to be known, when you use "Pool demo1" and "MacroServer demo1" to check these device server, you may create some doors or macroservers, these doors or macroservers are seperate ones, which are not the same with the things you use in sardana. Then you should be more careful with the door name and macro server name you have choosed in sardana. Because when "Door/demo1/1" is already created through Pool, then you use "Sardana demo1", "Door/demo1/2" will be created automatically, when you open the spock, the spock is connected with a specific door, if this door is "Door/demo1/1" , then there is a problem. Because in sardana, the door is "Door/demo1/1". Now you can delete the device servers macroserver and pool, and change all the door devices as "Door/demo1/1" and macrosercer device as "MacroServer/demo1/1".
+    
+    Actually, in jive we can see, sardana is just the combination of some device servers such as Pool, Door, MacroServer. When you open sardana at the first time, you can only see Pool, Door, MacroServer. When you add something like controller and Motors in the future, then you can see more things in sardana.
+    
     
 3. The start-up order of the servers cannot be changed. First, The blender server or other device servers must be started. Then the sardana server can be started, and finally the spock is available. If a new device server has just been started, or the controllers or macros are changed, the sardana server needs to be restarted. In the spock console these changes will be automatically displayed after a few seconds, we do not need to restart spock. The commands 'lsctrl','lsmac' can also be used in the spock to check the controllers and macros.
 
