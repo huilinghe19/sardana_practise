@@ -1,7 +1,3 @@
-"""
-This program is a copley controller program for sardana system, sardana muss be opened at first. This file should be put in the folder such as "/controllers" and set this folder as the controller path which can be recognized by sardana, then this controller can be recognized by sardana and set the stepnet01 as the axis 1 of the controller and stepnet02 as the axis 2 of the controller. Then we can get the position of the 2 motors and make them move.  
-"""
-
 import serial
 from time import sleep
 from sardana import State, SardanaValue
@@ -9,8 +5,8 @@ from sardana.pool.controller import MotorController
 from sardana.pool.controller import DefaultValue, Description, FGet, FSet, Type
 
 class SerialObject(object):
-    def __init__(self, port):
-        self.ser = serial.Serial(port, 9600, timeout=0.5)
+    def __init__(self, port, baudrate, readTimeout):
+        self.ser = serial.Serial(port, baudrate, timeout=readTimeout)
     
     def getCommandResult(self, command):
         ser= self.ser
@@ -102,17 +98,30 @@ class CopleyController(MotorController):
 
     ctrl_properties = \
         {
-         "Port": {Type : str,
-                  Description : "Serial Port",
+         "Device": {Type : str,
+                  Description : "device name",
                   DefaultValue : "/dev/ttyS0"},
+            
+            "Baudrate": {Type : int,
+                  Description : "baud rate",
+                  DefaultValue : 9600},
+            
+            "Timeout": {Type : float,
+                  Description : "read timeout",
+                  DefaultValue : 0.5},
         }
     AXIS_NAMES = {1: "stepnet01", 2: "stepnet02"}
 
     STATES = {"ON": State.On, "MOVING": State.Moving}
 
     def __init__(self, inst, props, *args, **kwargs):
-        MotorController.__init__(self,inst, props, *args, **kwargs)
-        self.copleyController = SerialObject("/dev/ttyS0")
+        #MotorController.__init__(self,inst, props, *args, **kwargs)
+        super_class = super(CopleyController, self)
+        super_class.__init__(inst, props, *args, **kwargs)
+        device_name = self.Device
+        baudrate = self.Baudrate
+        readTimeout = self.Timeout
+        self.copleyController = SerialObject(device_name,baudrate, readTimeout)
 
     def __del__(self):
         del self.copleyController
@@ -153,12 +162,28 @@ class CopleyController(MotorController):
         copleyController = self.copleyController     
         copleyController.setVariable(axis, "0xca", position)
         ans = copleyController.moveMotor(axis)   
-      
+        
+    def GetAxisPar(self, axis, name):
+        axis_name = self.AXIS_NAMES[axis]
+        copleyController = self.copleyController    
+        name = name.lower()
+        if name == "acceleration":
+            ans = copleyController.getVariable(axis, "0xcc")           
+            acc_raw = ans[2:]
+            v = float(acc_raw)
+        elif name == "deceleration":
+            ans = copleyController.getVariable(axis, "0xcd")           
+            dec_raw = ans[2:]
+            v = float(dec_raw)
+        elif name == "velocity":
+            ans = copleyController.getVariable(axis, "0xcb") 
+            vel_raw = ans[2:]
+            v = float(vel_raw)        
+        return v
+    
     def AbortOne(self, axis):
         """
         Abort the axis(motor).
         """
         copleyController = self.copleyController
         copleyController.abortMotor(axis)
-
-  
