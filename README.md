@@ -20,7 +20,30 @@ My work : Sardana practice
    I have written new tango server class to controll the blender blades and the real motors. 
    
   ----------------------------------------------------------------------------------------------------------------------------------------- 
-   
+ Install Sardana
+-----------------------------------------------------------------------------------------------------------------------------------------
+There are different methods to install sardana. My method is
+In console: "sudo apt install python-sardana"
+
+I wanted to use pip to install it, because this is simple to install things with pip. but I have used "apt install" to install some other things, when I use pip to install something, there is a conflict. So I have removed pip and anaconda(for the same reason) things, keep using apt install to install sardana. 
+
+The sardana version is 2.2.2, and some error occurs when we open sardana:
+
+
+          """
+MainThread     WARNING  2019-01-11 11:01:28,744 TaurusRootLogger: /usr/lib/python2.7/dist-packages/sardana/macroserver/msmacromanager.py:45: DeprecationWarning: taurus.external.ordereddict is deprecated since 4.0. Use ordereddict instead
+  from taurus.external.ordereddict import OrderedDict
+
+/usr/lib/python2.7/dist-packages/sardana/pool/poolcontrollers/HklPseudoMotorController.py:52: PyGIWarning: Hkl was imported without specifying a version first. Use gi.require_version('Hkl', '5.0') before import to ensure that the right version gets loaded.
+  from gi.repository import Hkl
+MainThread     WARNING  2019-01-11 11:01:29,171 debian.local:10000.Pool_demo1_1: Received elements error event Pool was shutdown or is inacessible
+TaurusTP.W001  WARNING  2019-01-11 11:01:29,172 TaurusRootLogger: /usr/lib/python2.7/dist-packages/sardana/taurus/core/tango/sardana/pool.py:1688: DeprecationWarning: _get_value is deprecated since 4.0. Use .rvalue instead
+  elems = CodecFactory().decode(evt_value.value, ensure_ascii=True)
+           """
+
+This does not cause problems during this time, and I have not changed anything. Except once, during the taurus practices, I have changed something to adapt the taurus. Now the sardana is complete new without any change. 
+
+
 Steps to use sardana and spock at the beginning
 -----------------------------------------------------------------------------------------------------------------------------------------
 
