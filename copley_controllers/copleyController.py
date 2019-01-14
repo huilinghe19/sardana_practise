@@ -46,7 +46,7 @@ class SerialObject(object):
         ser=self.ser
         nodeID = self.getNodeID(axis) 
         print  "{}s r{} {}\n".format(nodeID, variable_ID, str(value))
-        return self.getCommandResult("{}s r{} {}\n".format(nodeID, variable_ID, value))
+        return self.getCommandResult("{}s r{} {}\n".format(nodeID, variable_ID, str(int(value))))
     
     def getVariable(self, axis, variable_ID):
         """
@@ -153,6 +153,7 @@ class CopleyController(MotorController):
         position_raw = copleyController.getVariable(axis, "0xca")
         position = float(position_raw[2:])
         return position
+    
     def DefinePosition(self, axis, position):
         axis_name = self.AXIS_NAMES[axis]
         copleyController = self.copleyController     
@@ -164,7 +165,7 @@ class CopleyController(MotorController):
         """
         axis_name = self.AXIS_NAMES[axis]
         copleyController = self.copleyController     
-        #copleyController.setVariable(axis, "0xca", position)
+        self.DefinePosition(axis, position)
         copleyController.moveMotor(axis)   
         
     def GetAxisPar(self, axis, name):
@@ -183,10 +184,7 @@ class CopleyController(MotorController):
             ans = copleyController.getVariable(axis, "0xcb") 
             vel_raw = ans[2:]
             v = float(vel_raw)        
-	#elif name == "base_rate":
-            #ans = copleyController.getVariable(axis, "0xca") 
-            #vel_raw = ans[2:]
-            #v = float(vel_raw)  	
+
         return v
     
     def SetAxisPar(self, axis, name, value):
@@ -194,17 +192,15 @@ class CopleyController(MotorController):
         copleyController = self.copleyController    
         name = name.lower()
         if name == "acceleration":
-            ans = copleyController.setVariable(axis, "0xcc", value)           
+            copleyController.setVariable(axis, "0xcc", value)           
             
         elif name == "deceleration":
-            ans = copleyController.setVariable(axis, "0xcd", value)           
+            copleyController.setVariable(axis, "0xcd", value)           
            
         elif name == "velocity":
-            ans = copleyController.setVariable(axis, "0xcb", value) 
+            copleyController.setVariable(axis, "0xcb", value) 
             
-        #elif name == "base_rate":
-            #ans = copleyController.setVariable(axis, "0xca", value) 
-  
+       
     
     def AbortOne(self, axis):
         """
