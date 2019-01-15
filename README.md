@@ -22,11 +22,7 @@ In console: "sudo apt install python-sardana"
 
 I wanted to use pip to install it, because this is simple to install things with pip. but I have used "apt install" to install some other things, when I use pip to install something, there is a conflict. So I have removed pip and anaconda(for the same reason) things, keep using apt install to install sardana. 
 
-The sardana version is 2.2.2, and some error occurs when we open sardana:
-
-
-         """
-MainThread     WARNING  2019-01-11 11:01:28,744 TaurusRootLogger: /usr/lib/python2.7/dist-packages/sardana/macroserver/msmacromanager.py:45: DeprecationWarning: taurus.external.ordereddict is deprecated since 4.0. Use ordereddict instead
+The sardana version is 2.2.2, and some error occurs when we open sardana: """ MainThread     WARNING  2019-01-11 11:01:28,744 TaurusRootLogger: /usr/lib/python2.7/dist-packages/sardana/macroserver/msmacromanager.py:45: DeprecationWarning: taurus.external.ordereddict is deprecated since 4.0. Use ordereddict instead
   from taurus.external.ordereddict import OrderedDict .... """
                 
 This does not cause problems during this time, and I have not changed anything. Except once, during the taurus practices, I have changed something to adapt the taurus. Now the sardana is complete new without any change. 
