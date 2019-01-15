@@ -49,6 +49,9 @@ Actually, the TangoTest DS is also using this method. We use "/usr/lib/tango/Tan
 We can use the existed commands to check if the socket class runs well, such write the "move top 30" to make the blender blades move to 30.  
 When a new device is created by the first time, make sure that the hostname and port are given properly, otherweise the socket device server will stop. The initial value of the hostname and port are not correct.
 
+A point which should be noticed is that, with c++ tango DS class can we get many class properties automatisch 
+when we start it at the first time, but with python DS class we need to change them as soon as we start the server at the first time. 
+
 7. How to use the PySerial source code to create PySerial:
 
 I have downloaded the code:http://svn.code.sf.net/p/tango-ds/code/DeviceClasses/Communication/PySerialLine/.
@@ -58,6 +61,7 @@ A "PySerial.py" file can be found, but no xmi file exists. So I tried to use "py
 When you want to change something in the old "PySerial.py" file, you must be careful to use the original format which I think is from the old version of POGO. The symbol such as "------->" in front of each sentence must be kept.  "PyTango.Device_3Impl"  can not be used, "PyTango.Device_4Impl" is the newest version. "PyTango.PyDeviceClass" should be changed as "PyTango.DeviceClass".
 
 I have also used the Write and Read method of PySerial class, Read method works but Write method did not work. So I have changed something in the Write method. Now the new Write method is available. But it is not like the original write method. Now I write command string into serial,  it works. But from the old code of write method, the input type is not string, but chararray. So I try to figure out this problem.
+
 
 
 7.Usage of PySerial.
