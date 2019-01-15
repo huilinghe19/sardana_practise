@@ -1,4 +1,4 @@
-# Copley Control
+# Copley Control in jive
 
 
 Usage:
