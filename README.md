@@ -36,6 +36,7 @@ https://github.com/huilinghe19/sardana_practise/blob/master/jive/serialLine/src/
 Usge in my computer (all working files are in "/work"): 
 
 open pyserial: "python work/sardana_practise/jive/serialLine/src/PySerial.py test"
+
 open copleyControll: "python work/sardana_practise/jive/serialLine/src/CopleyControl.py test"
 
 
