@@ -1,4 +1,4 @@
-#Usage of macros: 
+# Usage of macros: 
 
 1. Set path of macros in Spock:
 
