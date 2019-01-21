@@ -33,7 +33,7 @@ copleyControl Tango device Server
 https://github.com/huilinghe19/sardana_practise/blob/master/jive/serialLine/src/CopleyControl.py
 
 
-Usge: 
+Usge in my computer (all working files are in "/work"): 
 
 open pyserial: "python work/sardana_practise/jive/serialLine/src/PySerial.py test"
 open copleyControll: "python work/sardana_practise/jive/serialLine/src/CopleyControl.py test"
@@ -45,3 +45,5 @@ Copley Controller in Sardana
 https://github.com/huilinghe19/sardana_practise/blob/master/copley_controllers/copleyController.py
 
 Usge: put this file "copleyController.py" in "/controller".
+
+
