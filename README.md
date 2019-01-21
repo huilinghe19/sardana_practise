@@ -12,21 +12,26 @@ Result
    As for direct tango control with the instruments, I have implemented tango server classes to controll the blender blades and the real motors. 
    
    As for sardana control with the instruments, I have implemented copley controller into sardana and it can controll the real motors.
-   
-  
-Sardana Training
-----------------------------------------------------
-https://github.com/sardana-org/sardana-training
 
-Tango Control
-----------------------------------------------------
-https://tango-controls.readthedocs.io/en/latest/tutorials-and-howtos/how-tos/how-to-pytango.html
 
-PyTango 
-------------------------------------------------------
-https://pytango.readthedocs.io/en/stable/contents.html
-
-Copley Control
+copleyControl Tango device Server
 -------------------------------------------------------
-Controller design with the real motors
+
+https://github.com/huilinghe19/sardana_practise/blob/master/jive/serialLine/src/CopleyControl.py
+
+
+Usge in my computer (all working files are in "/work"): 
+
+open pyserial: "python work/sardana_practise/jive/serialLine/src/PySerial.py test"
+
+open copleyControll: "python work/sardana_practise/jive/serialLine/src/CopleyControl.py test"
+
+
+
+Copley Controller in Sardana
+---------------------------------------
+https://github.com/huilinghe19/sardana_practise/blob/master/copley_controllers/copleyController.py
+
+Usge: put this file "copleyController.py" in "/controller".
+
 
