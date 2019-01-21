@@ -267,33 +267,42 @@ class HhlServer (PyTango.Device_4Impl):
         argout = 0.0
         #----- PROTECTED REGION ID(HhlServer.GetPosition) ENABLED START -----#
         topCtrl = self.topCtrl
-        argout = topCtrl.get_position()      
-        #----- PROTECTED REGION END -----#	//	HhlServer.GetPosition
-        return argout
-        
-    def MoveTo20(self):
-        """ 
-        :rtype: PyTango.DevBoolean
-        """
-        self.debug_stream("In MoveTo20()")
-        argout = False
-        #----- PROTECTED REGION ID(HhlServer.MoveTo20) ENABLED START -----#
+        argout = topCtrl.get_position()   
        
-        topCtrl = self.topCtrl
-        topCtrl.moveMotor('20')
-        argout = True
-        #----- PROTECTED REGION END -----#	//	HhlServer.MoveTo20
+        
+        #----- PROTECTED REGION END -----#	//	HhlServer.GetPosition
         return argout
         
     def MoveTo30(self):
         """ 
         :rtype: PyTango.DevBoolean
         """
+        self.debug_stream("In MoveTo20()")
+        argout = False
+        #----- PROTECTED REGION ID(HhlServer.MoveTo20) ENABLED START -----#        
+        #topCtrl = self.topCtrl
+        #topCtrl.moveMotor('20')
+        
+        dev1 = PyTango.DeviceProxy("s/hhl/1")
+        #dev1.command_inout("Write", "move top 20")
+        dev1.Write('move top 30')
+        argout = True
+        #----- PROTECTED REGION END -----#	//	HhlServer.MoveTo20
+        return argout
+        
+    def MoveTo40(self):
+        """ 
+        :rtype: PyTango.DevBoolean
+        """
         self.debug_stream("In MoveTo30()")
         argout = False
         #----- PROTECTED REGION ID(HhlServer.MoveTo30) ENABLED START -----#
-        topCtrl = self.topCtrl
-        topCtrl.moveMotor('30')
+        #topCtrl = self.topCtrl
+        #topCtrl.moveMotor('30')
+        
+        dev1 = PyTango.DeviceProxy("s/hhl/1")
+        #dev1.command_inout("Write", "move top 30")
+        dev1.Write('move top 40')
         argout = True
         #----- PROTECTED REGION END -----#	//	HhlServer.MoveTo30
         return argout
