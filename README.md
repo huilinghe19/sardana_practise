@@ -14,24 +14,41 @@ Result
    As for sardana control with the instruments, I have implemented copley controller into sardana and it can controll the real motors.
 
 
-copleyControl Tango device Server
+Open copleyControl DS 
 -------------------------------------------------------
+"copleyControl.py" is here:
 
 https://github.com/huilinghe19/sardana_practise/blob/master/jive/serialLine/src/CopleyControl.py
 
+open pyserial: 
 
-Usge in my computer (all working files are in "/work"): 
+     "python work/sardana_practise/jive/serialLine/src/PySerial.py test"
 
-open pyserial: "python work/sardana_practise/jive/serialLine/src/PySerial.py test"
+open copleyControll: 
 
-open copleyControll: "python work/sardana_practise/jive/serialLine/src/CopleyControl.py test"
+      "python work/sardana_practise/jive/serialLine/src/CopleyControl.py test"
 
 
 
+
+Open HhlServer DS to controll blender blades through Socket. 
+------------------------------
+ open blenderblades:
+
+    "blenderplayer work/sardana-training/blender_slits/slits.blend"
+
+ open Socket DS:
+ 
+    "DeviceServers/Socket test"
+   
+  open HhlServer DS:
+   
+    "python work/sardana_practise/tango_practices/programs/HhlServer.py test"
+   
+   
+   
 Copley Controller in Sardana
 ---------------------------------------
 https://github.com/huilinghe19/sardana_practise/blob/master/copley_controllers/copleyController.py
 
 Usge: put this file "copleyController.py" in "/controller".
-
-
