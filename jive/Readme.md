@@ -1,4 +1,4 @@
-Jive 
+# Jive 
 
 1. Basis of jive.
 
@@ -7,7 +7,7 @@ Link: https://tango-controls.readthedocs.io/en/latest/tools-and-extensions/jive/
 Open jive in console: jive
 
 
-2. My work: blenderbladescontroll device server(finished). Socket DS(finished). PySerial DS(finished). ManageServer(finished). CopleyControl DS(processing)
+2. My work: blenderbladescontroll device server. Socket DS. PySerial DS. ManageServer. CopleyControl DS
 
 PySerial and CopleyControl class:
 I habe created a new CopleyControl class, which uses the methods of PySerial class to move the motor.
