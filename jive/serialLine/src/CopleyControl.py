@@ -78,10 +78,14 @@ class CopleyControl (PyTango.Device_4Impl):
     def init_device(self):
         self.debug_stream("In init_device()")
         self.get_device_properties(self.get_device_class())
+        self.attr_Port_read = ""
+        self.attr_Timeout_read = 0
         #----- PROTECTED REGION ID(CopleyControl.init_device) ENABLED START -----#        
         self.set_state(PyTango.DevState.ON)
         self.dev= PyTango.DeviceProxy("pyserial/hhl/1")
-        #----- PROTECTED REGION END -----#	//	CopleyControl.init_device
+        self.attr_Port_read = "/dev/ttyS0"
+        self.attr_Timeout_read = 0.5
+        #----- PROTECTED REGION END -----#	//	Cself.attr_Timeout_read = 0opleyControl.init_device
 
     def always_executed_hook(self):
         self.debug_stream("In always_excuted_hook()")
@@ -93,6 +97,34 @@ class CopleyControl (PyTango.Device_4Impl):
     #    CopleyControl read/write attribute methods
     # -------------------------------------------------------------------------
     
+    def read_Port(self, attr):
+        self.debug_stream("In read_Port()")
+        #----- PROTECTED REGION ID(CopleyControl.Port_read) ENABLED START -----#
+        attr.set_value(self.attr_Port_read)
+        
+        #----- PROTECTED REGION END -----#	//	CopleyControl.Port_read
+        
+    def write_Port(self, attr):
+        self.debug_stream("In write_Port()")
+        data = attr.get_write_value()
+        #----- PROTECTED REGION ID(CopleyControl.Port_write) ENABLED START -----#
+       
+        #----- PROTECTED REGION END -----#	//	CopleyControl.Port_write
+        
+    def read_Timeout(self, attr):
+        self.debug_stream("In read_Timeout()")
+        #----- PROTECTED REGION ID(CopleyControl.Timeout_read) ENABLED START -----#
+        attr.set_value(self.attr_Timeout_read)
+        
+        #----- PROTECTED REGION END -----#	//	CopleyControl.Timeout_read
+        
+    def write_Timeout(self, attr):
+        self.debug_stream("In write_Timeout()")
+        data = attr.get_write_value()
+        #----- PROTECTED REGION ID(CopleyControl.Timeout_write) ENABLED START -----#
+        
+        #----- PROTECTED REGION END -----#	//	CopleyControl.Timeout_write
+        
     
     
             
@@ -135,26 +167,32 @@ class CopleyControl (PyTango.Device_4Impl):
         self.__status = PyTango.Device_4Impl.dev_status(self)
         return self.__status
         
-    def MoveMotor0(self):
-        """ 
-        """
-        self.debug_stream("In MoveMotor0()")
-        #----- PROTECTED REGION ID(CopleyControl.MoveMotor0) ENABLED START -----#
-        print "In ", self.get_name(), "::Move()"
-        self.Write('t 1')
-        #----- PROTECTED REGION END -----#	//	CopleyControl.MoveMotor0
-        
-    def SendCommand(self, argin):
+    def TriggerMotor0(self, argin):
         """ 
         :param argin: 
-        :type argin: PyTango.DevString
+        :type argin: PyTango.DevLong
+        :rtype: PyTango.DevString
         """
-        self.debug_stream("In SendCommand()")
-        #----- PROTECTED REGION ID(CopleyControl.SendCommand) ENABLED START -----#
+        self.debug_stream("In TriggerMotor0()")
+        argout = ""
+        #----- PROTECTED REGION ID(CopleyControl.TriggerMotor0) ENABLED START -----#
+        print "In ", self.get_name(), "::MoveMotor0()"
+        self.SetPosition0(argin)
+        self.Write('t 1')
+        return 's r0xca {}\n t 1'.format(str(argin))
+        #----- PROTECTED REGION END -----#	//	CopleyControl.TriggerMotor0
+        return argout
+        
+    def SetPosition0(self, argin):
+        """ 
+        :param argin: 
+        :type argin: PyTango.DevLong
+        """
+        self.debug_stream("In SetPosition0()")
+        #----- PROTECTED REGION ID(CopleyControl.SetPosition0) ENABLED START -----#
         print "In ", self.get_name(), "::SendComand()"
-        dev = self.dev
-        dev.Write(argin)
-        #----- PROTECTED REGION END -----#	//	CopleyControl.SendCommand
+        self.Write('s r0xca {}\n'.format(str(argin)))
+        #----- PROTECTED REGION END -----#	//	CopleyControl.SetPosition0
         
     def ReadLine(self):
         """ 
@@ -183,14 +221,21 @@ class CopleyControl (PyTango.Device_4Impl):
         #----- PROTECTED REGION END -----#	//	CopleyControl.Read
         return argout
         
-    def MoveMotor2(self):
+    def TriggerMotor2(self, argin):
         """ 
+        :param argin: 
+        :type argin: PyTango.DevLong
+        :rtype: PyTango.DevString
         """
-        self.debug_stream("In MoveMotor2()")
-        #----- PROTECTED REGION ID(CopleyControl.MoveMotor2) ENABLED START -----#
-        print "In ", self.get_name(), "::Move()"
+        self.debug_stream("In TriggerMotor2()")
+        argout = ""
+        #----- PROTECTED REGION ID(CopleyControl.TriggerMotor2) ENABLED START -----#
+        print "In ", self.get_name(), "::TriggerMotor2()"
+        self.SetPosition2(argin)
         self.Write('2 t 1')
-        #----- PROTECTED REGION END -----#	//	CopleyControl.MoveMotor2
+        return '2 s r0xca {}\n 2 t 1'.format(str(argin))
+        #----- PROTECTED REGION END -----#	//	CopleyControl.TriggerMotor2
+        return argout
         
     def InitMotors(self):
         """ 
@@ -324,9 +369,20 @@ class CopleyControl (PyTango.Device_4Impl):
         #----- PROTECTED REGION END -----#	//	CopleyControl.DriveCheck2
         return argout
         
+    def SetPosition2(self, argin):
+        """ 
+        :param argin: 
+        :type argin: PyTango.DevLong
+        """
+        self.debug_stream("In SetPosition2()")
+        #----- PROTECTED REGION ID(CopleyControl.SetPosition2) ENABLED START -----#
+        print "In ", self.get_name(), "::SetPosition2()"
+        self.Write('2 s r0xca {}\n'.format(str(argin)))
+        #----- PROTECTED REGION END -----#	//	CopleyControl.SetPosition2
+        
 
     #----- PROTECTED REGION ID(CopleyControl.programmer_methods) ENABLED START -----#
-  
+    
     #----- PROTECTED REGION END -----#	//	CopleyControl.programmer_methods
 
 class CopleyControlClass(PyTango.DeviceClass):
@@ -348,11 +404,11 @@ class CopleyControlClass(PyTango.DeviceClass):
 
     #    Command definitions
     cmd_list = {
-        'MoveMotor0':
-            [[PyTango.DevVoid, "none"],
-            [PyTango.DevVoid, "none"]],
-        'SendCommand':
-            [[PyTango.DevString, "none"],
+        'TriggerMotor0':
+            [[PyTango.DevLong, "none"],
+            [PyTango.DevString, "none"]],
+        'SetPosition0':
+            [[PyTango.DevLong, "none"],
             [PyTango.DevVoid, "none"]],
         'ReadLine':
             [[PyTango.DevVoid, "none"],
@@ -360,9 +416,9 @@ class CopleyControlClass(PyTango.DeviceClass):
         'Read':
             [[PyTango.DevVoid, "none"],
             [PyTango.DevString, "none"]],
-        'MoveMotor2':
-            [[PyTango.DevVoid, "none"],
-            [PyTango.DevVoid, "none"]],
+        'TriggerMotor2':
+            [[PyTango.DevLong, "none"],
+            [PyTango.DevString, "none"]],
         'InitMotors':
             [[PyTango.DevVoid, "none"],
             [PyTango.DevVoid, "none"]],
@@ -387,11 +443,28 @@ class CopleyControlClass(PyTango.DeviceClass):
         'DriveCheck2':
             [[PyTango.DevVoid, "none"],
             [PyTango.DevString, "none"]],
+        'SetPosition2':
+            [[PyTango.DevLong, "none"],
+            [PyTango.DevVoid, "none"]],
         }
 
 
     #    Attribute definitions
     attr_list = {
+        'Port':
+            [[PyTango.DevString,
+            PyTango.SCALAR,
+            PyTango.READ_WRITE],
+            {
+                'Memorized':"true"
+            } ],
+        'Timeout':
+            [[PyTango.DevShort,
+            PyTango.SCALAR,
+            PyTango.READ_WRITE],
+            {
+                'Memorized':"true_without_hard_applied"
+            } ],
         }
 
 

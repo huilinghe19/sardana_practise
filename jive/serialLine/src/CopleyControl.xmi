@@ -23,18 +23,18 @@
       </argout>
       <status abstract="true" inherited="true" concrete="true" concreteHere="true"/>
     </commands>
-    <commands name="MoveMotor0" description="" execMethod="move_motor0" displayLevel="OPERATOR" polledPeriod="0" isDynamic="false">
+    <commands name="TriggerMotor0" description="" execMethod="trigger_motor0" displayLevel="OPERATOR" polledPeriod="0" isDynamic="false">
       <argin description="">
-        <type xsi:type="pogoDsl:VoidType"/>
+        <type xsi:type="pogoDsl:IntType"/>
       </argin>
       <argout description="">
-        <type xsi:type="pogoDsl:VoidType"/>
+        <type xsi:type="pogoDsl:StringType"/>
       </argout>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </commands>
-    <commands name="SendCommand" description="" execMethod="send_command" displayLevel="OPERATOR" polledPeriod="0" isDynamic="false">
+    <commands name="SetPosition0" description="" execMethod="set_position0" displayLevel="OPERATOR" polledPeriod="0" isDynamic="false">
       <argin description="">
-        <type xsi:type="pogoDsl:StringType"/>
+        <type xsi:type="pogoDsl:IntType"/>
       </argin>
       <argout description="">
         <type xsi:type="pogoDsl:VoidType"/>
@@ -59,12 +59,12 @@
       </argout>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </commands>
-    <commands name="MoveMotor2" description="" execMethod="move_motor2" displayLevel="OPERATOR" polledPeriod="0" isDynamic="false">
+    <commands name="TriggerMotor2" description="" execMethod="trigger_motor2" displayLevel="OPERATOR" polledPeriod="0" isDynamic="false">
       <argin description="">
-        <type xsi:type="pogoDsl:VoidType"/>
+        <type xsi:type="pogoDsl:IntType"/>
       </argin>
       <argout description="">
-        <type xsi:type="pogoDsl:VoidType"/>
+        <type xsi:type="pogoDsl:StringType"/>
       </argout>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </commands>
@@ -140,6 +140,31 @@
       </argout>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </commands>
+    <commands name="SetPosition2" description="" execMethod="set_position2" displayLevel="OPERATOR" polledPeriod="0" isDynamic="false">
+      <argin description="">
+        <type xsi:type="pogoDsl:IntType"/>
+      </argin>
+      <argout description="">
+        <type xsi:type="pogoDsl:VoidType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
+    <attributes name="Port" attType="Scalar" rwType="READ_WRITE" displayLevel="OPERATOR" polledPeriod="0" maxX="" maxY="" memorized="true" memorizedAtInit="true" allocReadMember="true" isDynamic="false">
+      <dataType xsi:type="pogoDsl:StringType"/>
+      <changeEvent fire="false" libCheckCriteria="false"/>
+      <archiveEvent fire="false" libCheckCriteria="false"/>
+      <dataReadyEvent fire="false" libCheckCriteria="true"/>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+      <properties description="" label="" unit="" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
+    </attributes>
+    <attributes name="Timeout" attType="Scalar" rwType="READ_WRITE" displayLevel="OPERATOR" polledPeriod="0" maxX="" maxY="" memorized="true" allocReadMember="true" isDynamic="false">
+      <dataType xsi:type="pogoDsl:ShortType"/>
+      <changeEvent fire="false" libCheckCriteria="false"/>
+      <archiveEvent fire="false" libCheckCriteria="false"/>
+      <dataReadyEvent fire="false" libCheckCriteria="true"/>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+      <properties description="" label="" unit="" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
+    </attributes>
     <preferences docHome="./doc_html" makefileHome="/usr/share/pogo/preferences"/>
   </classes>
 </pogoDsl:PogoSystem>
