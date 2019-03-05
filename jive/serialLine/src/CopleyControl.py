@@ -64,9 +64,17 @@ class CopleyControl (PyTango.Device_4Impl):
     def __init__(self, cl, name):
         PyTango.Device_4Impl.__init__(self,cl,name)
         self.debug_stream("In __init__()")
-        CopleyControl.init_device(self)
+        #CopleyControl.init_device(self)
+        self.Desired_State = 31
+        self.Trajectory_Profile_Mode = 257
+        self.attr_Position_write = 0.0
+        self.attr_Velocity_write = 7000.0
+        self.attr_Acceleration_write = 200000.0        
+        self.attr_Deceleration_write = 200000.0
+        self.attr_NodeID_write = 0  
+
         #----- PROTECTED REGION ID(CopleyControl.__init__) ENABLED START -----#
-          
+        
         #----- PROTECTED REGION END -----#	//	CopleyControl.__init__
         
     def delete_device(self):
@@ -82,20 +90,14 @@ class CopleyControl (PyTango.Device_4Impl):
         self.attr_Acceleration_read = 0.0
         self.attr_Position_read = 0.0
         self.attr_Velocity_read = 0.0
-        self.attr_NodeID_read = 0
-        self.attr_NodeID_write = 0
+        self.attr_NodeID_read = 0      
         self.attr_Deceleration_read = 0.0
         #----- PROTECTED REGION ID(CopleyControl.init_device) ENABLED START -----#  
         print "In ", self.get_name(), "::init_device()"
-        self.connectSerial()                                 
-        self.set_state(PyTango.DevState.STANDBY)      
-        self.dev =  PyTango.DeviceProxy("pyserial/hhl/1")            
-        self.attr_Port_read = "/dev/ttyS0"  
-        self.attr_NodeID_read = 0
-        self.attr_Acceleration_read = 200000
-        self.attr_Deceleration_read = 200000
-        self.attr_Velocity_read = 7000
-        self.Write('s r0x24 31\n s r0xC8 257\n')
+        self.dev_serial =  self.connectSerial()         
+        self.set_state(PyTango.DevState.ON)   
+     
+        self.initControlParameters()
         #----- PROTECTED REGION END -----#	//	Cself.attr_Timeout_read = 0opleyControl.init_device
 
     def always_executed_hook(self):
@@ -107,155 +109,119 @@ class CopleyControl (PyTango.Device_4Impl):
     # -------------------------------------------------------------------------
     #    CopleyControl read/write attribute methods
     # -------------------------------------------------------------------------
-    def connectSerial(self):                            
-        dev = PyTango.DeviceProxy("pyserial/hhl/1")            
-        if dev.State() == PyTango.DevState.OFF:
-            dev.Open()
-        else:
-            pass
-        
+              
     def read_Port(self, attr):
         self.debug_stream("In read_Port()")
         #----- PROTECTED REGION ID(CopleyControl.Port_read) ENABLED START -----#
-        attr.set_value(self.attr_Port_read)
-        
+        print "In ", self.get_name(), "::read_Port()"        
+        dev = self.dev_serial
+        attr_Port_read = dev.Port
+        attr.set_value(attr_Port_read)       
         #----- PROTECTED REGION END -----#	//	CopleyControl.Port_read
-        
-    def write_Port(self, attr):
-        self.debug_stream("In write_Port()")
-        data = attr.get_write_value()
-        #----- PROTECTED REGION ID(CopleyControl.Port_write) ENABLED START -----#
-        self.attr_Port_write = data
-        #----- PROTECTED REGION END -----#	//	CopleyControl.Port_write
-        
+         
     def read_Acceleration(self, attr):
         self.debug_stream("In read_Acceleration()")
         #----- PROTECTED REGION ID(CopleyControl.Acceleration_read) ENABLED START -----#
+        print "In ", self.get_name(), "::read_Acceleration()"
         nodeID = self.attr_NodeID_write
         command = self.getParameterCommand(nodeID, "g r0xcc")
         attr_Acceleration_read =  self.SendCommandGetResult(command)
+        attr.set_value(int(self.attr_Acceleration_read))
         if attr_Acceleration_read != '':
-            attr.set_value(int(attr_Acceleration_read))
-      
-        
+            attr.set_value(int(attr_Acceleration_read))         
         #----- PROTECTED REGION END -----#	//	CopleyControl.Acceleration_read
         
     def write_Acceleration(self, attr):
         self.debug_stream("In write_Acceleration()")
         data = attr.get_write_value()
         #----- PROTECTED REGION ID(CopleyControl.Acceleration_write) ENABLED START -----#
-        nodeID = self.attr_NodeID_write
-        command = self.setParameterCommand(nodeID, "s r0xcc", data)
-        self.SendCommandGetResult(command)   
-        #----- PROTECTED REGION END -----#	//	CopleyControl.Acceleration_write
-        
+        print "In ", self.get_name(), "::write_Acceleration()", str(data)
+        self.attr_Acceleration_write = data
+        #----- PROTECTED REGION END -----#	//	CopleyControl.Acceleration_write        
    
     def read_Position(self, attr):
         self.debug_stream("In read_Position()")
-        #----- PROTECTED REGION ID(CopleyControl.Position_read) ENABLED START -----#        
+        #----- PROTECTED REGION ID(CopleyControl.Position_read) ENABLED START -----# 
+        print "In ", self.get_name(), "::read_Position()"
         nodeID = self.attr_NodeID_write
         command = self.getParameterCommand(nodeID, "g r0xca")
         attr_Position_read =  self.SendCommandGetResult(command)
         if attr_Position_read != '':
-            attr.set_value(int(attr_Position_read))
-     
+            attr.set_value(int(attr_Position_read))     
         #----- PROTECTED REGION END -----#	//	CopleyControl.Position_read
         
     def write_Position(self, attr):
         self.debug_stream("In write_Position()")
         data = attr.get_write_value()
         #----- PROTECTED REGION ID(CopleyControl.Position_write) ENABLED START -----#
-        #self.attr_Position_write = data    
-        nodeID = self.attr_NodeID_write
-        command = self.setParameterCommand(nodeID, "s r0xca", data)
-        self.SendCommandGetResult(command)    
-
-      
+        print "In ", self.get_name(), "::write_Position()", str(data)
+        self.attr_Position_write = str(data)
         #----- PROTECTED REGION END -----#	//	CopleyControl.Position_write
         
     def read_Velocity(self, attr):
         self.debug_stream("In read_Velocity()")
         #----- PROTECTED REGION ID(CopleyControl.Velocity_read) ENABLED START -----#
+        print "In ", self.get_name(), "::read_Velocity()"
         nodeID = self.attr_NodeID_write
         command = self.getParameterCommand(nodeID, "g r0xca")
         attr_Velocity_read =  self.SendCommandGetResult(command)
         if attr_Velocity_read != '':
             attr.set_value(int(attr_Velocity_read))
-
         #----- PROTECTED REGION END -----#	//	CopleyControl.Velocity_read
         
     def write_Velocity(self, attr):
         self.debug_stream("In write_Velocity()")
         data = attr.get_write_value()
         #----- PROTECTED REGION ID(CopleyControl.Velocity_write) ENABLED START -----#
-        nodeID = self.attr_NodeID_write
-        command = self.setParameterCommand(nodeID, "s r0xcb", data)
-        self.SendCommandGetResult(command)    
-
-    
+        print "In ", self.get_name(), "::write_Velocity()", str(data) 
+        self.attr_Velocity_write = data
         #----- PROTECTED REGION END -----#	//	CopleyControl.Velocity_write
         
-    def setParameterCommand(self, nodeID, command, data):
-        if nodeID == 0:
-            return '{} {}\n'.format(command, str(int(data)))
-        else:
-            return '{} {} {}\n'.format(str(int(nodeID)), command, str(int(data)))
-            
-    def getParameterCommand(self, nodeID, command):
-        if nodeID == 0:
-            return '{}\n'.format(command)
-        else:
-            return '{} {} {}\n'.format(str(int(nodeID)), command)
-            
+    
     def read_NodeID(self, attr):
         self.debug_stream("In read_NodeID()")
         #----- PROTECTED REGION ID(CopleyControl.NodeID_read) ENABLED START -----#
-        attr.set_value(self.attr_NodeID_read)
-        
+        print "In ", self.get_name(), "::read_NodeID()"
+        attr.set_value(self.attr_NodeID_read)        
         #----- PROTECTED REGION END -----#	//	CopleyControl.NodeID_read
         
     def write_NodeID(self, attr):
         self.debug_stream("In write_NodeID()")
         data = attr.get_write_value()
         #----- PROTECTED REGION ID(CopleyControl.NodeID_write) ENABLED START -----#
+        print "In ", self.get_name(), "::write_NodeID()", str(data)
         self.attr_NodeID_write = data
         #----- PROTECTED REGION END -----#	//	CopleyControl.NodeID_write
         
     def read_Deceleration(self, attr):
         self.debug_stream("In read_Deceleration()")
         #----- PROTECTED REGION ID(CopleyControl.Deceleration_read) ENABLED START -----#
+        print "In ", self.get_name(), "::read_Deceleration()"
         nodeID = self.attr_NodeID_write
         command = self.getParameterCommand(nodeID, "g r0xcd")
         attr_Deceleration_read =  self.SendCommandGetResult(command)
         if attr_Deceleration_read != '':
-            attr.set_value(int(attr_Deceleration_read))
-        
+            attr.set_value(int(attr_Deceleration_read))       
         #----- PROTECTED REGION END -----#	//	CopleyControl.Deceleration_read
         
-    def write_Deceleration(self, attr):
+    def write_Deceleration(self, attr):       
         self.debug_stream("In write_Deceleration()")
         data = attr.get_write_value()
         #----- PROTECTED REGION ID(CopleyControl.Deceleration_write) ENABLED START -----#
-        nodeID = self.attr_NodeID_write
-        command = self.setParameterCommand(nodeID, "s r0xcd", data)
-        self.SendCommandGetResult(command)   
+        print "In ", self.get_name(), "::write_Deceleration()", str(data)
+        self.attr_Deceleration_write = data
         #----- PROTECTED REGION END -----#	//	CopleyControl.Deceleration_write
         
-    
-    
             
     def read_attr_hardware(self, data):
         self.debug_stream("In read_attr_hardware()")
         #----- PROTECTED REGION ID(CopleyControl.read_attr_hardware) ENABLED START -----#
-        
         #----- PROTECTED REGION END -----#	//	CopleyControl.read_attr_hardware
-
 
     # -------------------------------------------------------------------------
     #    CopleyControl command methods
-    # -------------------------------------------------------------------------
-  
-     
+    # -------------------------------------------------------------------------  
+    
             
     def dev_state(self):
         """ This command gets the device state (stored in its device_state data member) and returns it to the caller.
@@ -265,16 +231,7 @@ class CopleyControl (PyTango.Device_4Impl):
         self.debug_stream("In dev_state()")
         argout = PyTango.DevState.UNKNOWN
         #----- PROTECTED REGION ID(CopleyControl.State) ENABLED START -----#
-        nodeID = self.attr_NodeID_write
-        command_DriveEventStatus = self.getParameterCommand(nodeID, "g r0xa0")        
-        DriveEventStatus = self.SendCommandGetResult(command_DriveEventStatus)  
-        if DriveEventStatus == '':
-            argout = PyTango.DevState.ON
-        elif DriveEventStatus != '0' and DriveEventStatus != '':
-            argout = PyTango.DevState.MOVING   
-        else:
-            argout = PyTango.DevState.STANDBY
-        self.set_state(argout)
+        
         #----- PROTECTED REGION END -----#	//	CopleyControl.State
         if argout != PyTango.DevState.ALARM:
             PyTango.Device_4Impl.dev_state(self)
@@ -288,19 +245,16 @@ class CopleyControl (PyTango.Device_4Impl):
         self.debug_stream("In dev_status()")
         argout = ""
         #----- PROTECTED REGION ID(CopleyControl.Status) ENABLED START -----#
+        print "In ", self.get_name(), "::dev_status()"
         nodeID = self.attr_NodeID_write
         command_DriveEventStatus = self.getParameterCommand(nodeID, "g r0xa0")
-
         DriveEventStatus = self.SendCommandGetResult(command_DriveEventStatus)   
         if DriveEventStatus == '':
             argout = "Status is ON"
         if DriveEventStatus != "0"  and DriveEventStatus != "":
             argout = "Status is MOVING"    
         else:
-            argout = "Status is STANDBY"
-            
-      
-       
+            argout = "Status is STANDBY" 
         #----- PROTECTED REGION END -----#	//	CopleyControl.Status
         self.set_status(argout)
         self.__status = PyTango.Device_4Impl.dev_status(self)
@@ -313,8 +267,8 @@ class CopleyControl (PyTango.Device_4Impl):
         self.debug_stream("In Read()")
         argout = ""
         #----- PROTECTED REGION ID(CopleyControl.Read) ENABLED START -----#
-        print "In ", self.get_name(), "::Read()"
-        dev = self.dev
+        #print "In ", self.get_name(), "::Read()"
+        dev = self.dev_serial
         argout = dev.Read(1) 
         #----- PROTECTED REGION END -----#	//	CopleyControl.Read
         return argout
@@ -326,8 +280,8 @@ class CopleyControl (PyTango.Device_4Impl):
         """
         self.debug_stream("In Write()")
         #----- PROTECTED REGION ID(CopleyControl.Write) ENABLED START -----#
-        print argin
-        dev = PyTango.DeviceProxy("pyserial/hhl/1")
+        print "In ", self.get_name(), "::Write()", str(argin)       
+        dev = self.dev_serial
         dev.Write(argin)
         #----- PROTECTED REGION END -----#	//	CopleyControl.Write
         
@@ -336,14 +290,13 @@ class CopleyControl (PyTango.Device_4Impl):
         """
         self.debug_stream("In Stop()")
         #----- PROTECTED REGION ID(CopleyControl.Stop) ENABLED START -----#
-        print "In ", self.get_name(), "::ResetMotors()"
-        a = self.attr_NodeID_write
-        if a == 0:
+        print "In ", self.get_name(), "::Stop()"
+        nodeID = self.attr_NodeID_write
+        if nodeID == 0:
             self.Write("r\n")
         else:
             self.Write("{} r\n".format(str(a)))
-        self.set_state(PyTango.DevState.STANDBY)
-        self.set_status("The status is STANDBY")
+      
         #----- PROTECTED REGION END -----#	//	CopleyControl.Stop
          
     def SendCommandGetResult(self, argin):
@@ -356,8 +309,7 @@ class CopleyControl (PyTango.Device_4Impl):
         argout = ""
         #----- PROTECTED REGION ID(CopleyControl.SendCommandGetResult) ENABLED START -----#
         raw_result = ""
-        print "In ", self.get_name(), "::SendCommandGetResult()"
-        print argin      
+        print "In ", self.get_name(), "::SendCommandGetResult()", str(argin)         
         self.Write(argin)
         while True:         
             data = self.Read()
@@ -367,34 +319,98 @@ class CopleyControl (PyTango.Device_4Impl):
                 break
             if data == '\r': # CR -> ignored
                 continue     
-            raw_result += data
-            
+            raw_result += data            
         new_result = filter(str.isdigit, raw_result)
-        result = ''.join(list(new_result))
-  
+        result = ''.join(list(new_result)) 
         if result != '' and result != '033' and result != '33':
-            argout = result
-            return argout
-      
+            argout = result            
+        print "Result: ", str(argout)
         #----- PROTECTED REGION END -----#	//	CopleyControl.SendCommandGetResult
-        return argout
-        
+        return argout    
+     
     def Move(self):
         """ 
         """
         self.debug_stream("In Move()")
         #----- PROTECTED REGION ID(CopleyControl.Move) ENABLED START -----#
-        print "In ", self.get_name(), "::Move()"     
+        print "In ", self.get_name(), "::Move()"             
+        self.setParameters()
         nodeID = self.attr_NodeID_write
-        command = self.setParameterCommand(nodeID, "t", 1)
-        self.SendCommandGetResult(command)
-        
-        
+        command_move = self.setParameterCommand(nodeID, "t", 1)
+        self.Write(command_move)
         #----- PROTECTED REGION END -----#	//	CopleyControl.Move
         
 
     #----- PROTECTED REGION ID(CopleyControl.programmer_methods) ENABLED START -----#
+    def initControlParameters(self):
+        """
+        Set Desired State as Programmed Position Mode(31), Set Trajectory Profile Mode 
+        as Relative move, S-curve profile(257).
+        """
+        print "In ", self.get_name(), "::initControlParameters()"
+        nodeID = self.attr_NodeID_write    
+        command_state = self.setParameterCommand(nodeID, "s r0x24", int(self.Desired_State))
+        command_profile = self.setParameterCommand(nodeID, "s r0xc8", int(self.Trajectory_Profile_Mode))
+        command_pos = self.setParameterCommand(nodeID, "s r0xca", int(self.attr_Position_write))
+        command_vel = self.setParameterCommand(nodeID, "s r0xcb", int(self.attr_Velocity_write))
+        command_acc = self.setParameterCommand(nodeID, "s r0xcc", int(self.attr_Acceleration_write))
+        command_dec = self.setParameterCommand(nodeID, "s r0xcd", int(self.attr_Deceleration_write))
+        command = command_state + command_profile + command_vel + command_acc + command_dec + command_pos 
+        self.Write(command)
+        
+    def get_state(self):
+        nodeID = self.attr_NodeID_write
+        command_DriveEventStatus = self.getParameterCommand(nodeID, "g r0xa0")        
+        DriveEventStatus = self.SendCommandGetResult(command_DriveEventStatus)  
+        if DriveEventStatus == '':
+            argout = PyTango.DevState.ON
+        elif DriveEventStatus != '0' and DriveEventStatus != '':
+            argout = PyTango.DevState.MOVING   
+        else:
+            argout = PyTango.DevState.STANDBY
+        return argout
+        self.set_state(argout)   
+        
+    def setParameters(self):
+        nodeID = self.attr_NodeID_write       
+        command_state = self.setParameterCommand(nodeID, "s r0x24", int(self.Desired_State))
+        command_profile = self.setParameterCommand(nodeID, "s r0xc8", int(self.Trajectory_Profile_Mode))
+        command_pos = self.setParameterCommand(nodeID, "s r0xca", int(self.attr_Position_write))
+        command_vel = self.setParameterCommand(nodeID, "s r0xcb", int(self.attr_Velocity_write))
+        command_acc = self.setParameterCommand(nodeID, "s r0xcc", int(self.attr_Acceleration_write))
+        command_dec = self.setParameterCommand(nodeID, "s r0xcd", int(self.attr_Deceleration_write))
+        command_parameters =  command_state + command_profile + command_vel + command_acc + command_dec + command_pos 
+        return command_parameters
     
+    
+    
+    def setParameterCommand(self, nodeID, command, data):
+        if nodeID == 0:
+            return '{} {}\n'.format(command, str(int(data)))
+        else:
+            return '{} {} {}\n'.format(str(int(nodeID)), command, str(int(data)))
+            
+    def getParameterCommand(self, nodeID, command):
+        if nodeID == 0:
+            return '{}\n'.format(command)
+        else:
+            return '{} {}\n'.format(str(int(nodeID)), command)
+       
+   
+    def connectSerial(self):            
+        print "In ", self.get_name(), "::connectSerial()"
+        try:
+            dev = PyTango.DeviceProxy("pyserial/hhl/1")            
+            if dev.State() == PyTango.DevState.OFF:
+                dev.Open()
+                return dev
+            elif dev.State() == PyTango.DevState.ON:
+                return dev
+            else:
+                print "PyTango DevState Unknown"
+        except:
+            print("An exception with connectSerial() occurred")          
+            
     #----- PROTECTED REGION END -----#	//	CopleyControl.programmer_methods
 
 class CopleyControlClass(PyTango.DeviceClass):
@@ -411,6 +427,7 @@ class CopleyControlClass(PyTango.DeviceClass):
 
     #    Device Properties
     device_property_list = {
+       
         }
 
 
@@ -439,10 +456,8 @@ class CopleyControlClass(PyTango.DeviceClass):
         'Port':
             [[PyTango.DevString,
             PyTango.SCALAR,
-            PyTango.READ_WRITE],
-            {
-                'Memorized':"true"
-            } ],
+            PyTango.READ]],
+          
         'Acceleration':
             [[PyTango.DevDouble,
             PyTango.SCALAR,
