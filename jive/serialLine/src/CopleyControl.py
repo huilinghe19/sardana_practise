@@ -267,8 +267,10 @@ class CopleyControl (PyTango.Device_4Impl):
         #----- PROTECTED REGION ID(CopleyControl.State) ENABLED START -----#
         nodeID = self.attr_NodeID_write
         command_DriveEventStatus = self.getParameterCommand(nodeID, "g r0xa0")        
-        DriveEventStatus = self.SendCommandGetResult(command_DriveEventStatus)               
-        if DriveEventStatus != '0' and DriveEventStatus != '':
+        DriveEventStatus = self.SendCommandGetResult(command_DriveEventStatus)  
+        if DriveEventStatus == '':
+            argout = PyTango.DevState.ON
+        elif DriveEventStatus != '0' and DriveEventStatus != '':
             argout = PyTango.DevState.MOVING   
         else:
             argout = PyTango.DevState.STANDBY
@@ -290,7 +292,8 @@ class CopleyControl (PyTango.Device_4Impl):
         command_DriveEventStatus = self.getParameterCommand(nodeID, "g r0xa0")
 
         DriveEventStatus = self.SendCommandGetResult(command_DriveEventStatus)   
-    
+        if DriveEventStatus == '':
+            argout = "Status is ON"
         if DriveEventStatus != "0"  and DriveEventStatus != "":
             argout = "Status is MOVING"    
         else:
