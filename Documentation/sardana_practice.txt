@@ -53,7 +53,7 @@ Steps to use sardana and spock at the beginning
    
    Set path of recorder with _MACRO_SERVER.put_property({"RecorderPath":["/usr/lib/python2.7/dist-packages/sardana/macroserver/recorders/examples"]})
    
-   Using Spock commands to execute operation: 'wa', 'lsdef','addctrllib', 'defctrl''lsm', 'lsctrllib', 'mv top 20', 'net.value', 'defmeas', 'ct 1',
+   Using Spock commands to execute operation: 'wa', 'lsdef','addctrllib', 'defctrl''lsm', 'lsctrllib', 'mv top 20', 'net.value', 'defmeas', 'ct 1', the experiment channel can be got by 'sar_demo'. 
    
  5. Execution with Taurus widgets is here: https://github.com/huilinghe19/sardana_practise/tree/master/macros_huiling/general_scan
    
