@@ -1,6 +1,23 @@
-# Sardana practice
+## Sardana practice
+---------------------------------------------------------------------
 
-Result
+Progress:
+
+Problem: At the beginning of Oktober, there is a problem with the Dserver and sardana. Maybe because of the unstability of Dserver, maybe because of the to many false ipython spock profiles, the sardana shows almost always "the dServer is not initialised". I have deleted all the /tmp files and .ipython files under /home/huiling. It does not work. If a new sardana demo is created, it works at once and just once, if I close it and open it once again, sardana does not work.  
+
+
+Method: I delete all the relate files in /tmp und .ipython profile files, restart the computer. Check the tango device server using "ps uax". We can get this if the computer is on the condition of new start:
+
+
+tango     1107  0.0  0.2 968588 23116 ?        Sl   12:16   0:00 /usr/lib/tango/DataBaseds 2 -ORBendPoint giop:tcp::10000
+tango     1191  0.0  0.2 467744 21820 ?        Sl   12:16   0:00 /usr/lib/tango/TangoAccessControl 1
+
+then I create a new demo(Sardana demo4), which is sehr new without any use before. Then open spock using "spock"(all the spock profiles are already deleted before.), then it works at this time. we can check if sardana works in jive. If Pool, Door, MacroServer devices work, then we know that sardana works. In spock, you can use "sar_demo" to add some motors. 
+
+Next step is to use the spock commands to add self-defined controllers and macros. At first, add your controller program such as "NetworkTrafficCTCtrl.py" under "/controllers/test". (I used to put my controller programs under "/controllers" in the previous time, this time I use a new folder to prevent the risk with the previous things.) then use the command "Pool_demo4_1.put_property({"PoolPath":["/controllers/test"]})" to set the pool path. Close the sardana and restart it again, then you can get the NetworkTrafficCounterTimerController using "lsctrllib".
+
+
+result:
 ---------------------------------------------------------------------------------------------------------------------------------------
 
    know how sardana works;
