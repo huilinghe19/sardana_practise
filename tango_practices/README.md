@@ -1,4 +1,6 @@
-nano /etc/tangorc
+The tango host can be found:
+
+    nano /etc/tangorc
     "TANGO_HOST= debian.local:10000"
 
 When I use the function of taurusform, the functions about sardana and spock work well. But some device servers do not work well, such as tango test, and tango starter. 
