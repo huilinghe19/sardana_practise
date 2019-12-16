@@ -1,3 +1,6 @@
+nano /etc/tangorc
+    "TANGO_HOST= debian.local:10000"
+
 When I use the function of taurusform, the functions about sardana and spock work well. But some device servers do not work well, such as tango test, and tango starter. 
 I have spent lots of time to check the problem, why tango test and tango starter can not work. During this time, I have learned somthing about tango control,  how to operate the tango device servers or devices in jive, and also astor.  Up to now, I have already known how tango test and starter work and how to start them. 
 
