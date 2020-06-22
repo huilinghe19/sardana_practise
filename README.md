@@ -56,11 +56,16 @@ Usge: put this file "copleyController.py" in "/controller".
 
 # Change Python2 files into python3 files:
 Tango DS staten:
+
 python3 ~/work/copleyCtrlRepository/CopleyControlProgramsHHL/PySerial.py copleyCtrlSerialLine
+
 python3 ~/work/copleyCtrlRepository/CopleyControlProgramsHHL/CopleyControl.py beamline
 
 Sardana Starten:
+
+
 Terminal 1: Sardana test
+
 
 Terminal 2: spock --profile=python3test
 
