@@ -93,3 +93,8 @@ Using PyCharm we can change the program easily.
 >>> pip install -r requirements.txt
 
 >>> deactivate
+
+
+# Camera
+http://192.168.1.90
+
