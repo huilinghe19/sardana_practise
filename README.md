@@ -64,10 +64,11 @@ python3 ~/work/copleyCtrlRepository/CopleyControlProgramsHHL/CopleyControl.py be
 Sardana Starten:
 
 
-Terminal 1: Sardana test
+Terminal 1: Sardana python3TangoDS
 
 
-Terminal 2: spock --profile=python3test
+Terminal 2: spock --profile=python3TangoDS
+
 
 Note: when we run "sar_demo" in spock interface, there are already many sample devices. So I have deleted all related devices, the sar_demo works. That means, the same name for controllers and motors can not be used twice. 
 
