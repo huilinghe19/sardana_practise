@@ -82,6 +82,7 @@ Using PyCharm we can change the program easily.
 >>> source tutorial-env/bin/activate
 
 >>> pip install requests
+>>> pip install wheel
 
 >>> pip list
 
