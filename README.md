@@ -71,5 +71,9 @@ Terminal 2: spock --profile=python3test
 
 Note: when we run "sar_demo" in spock interface, there are already many sample devices. So I have deleted all related devices, the sar_demo works. That means, the same name for controllers and motors can not be used twice. 
 
+# PyCharm starten
+Using PyCharm we can change the program easily.
+
+/snap/pycharm-community/197/bin/pycharm.sh
 
 
