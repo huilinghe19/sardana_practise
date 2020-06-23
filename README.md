@@ -74,6 +74,21 @@ Note: when we run "sar_demo" in spock interface, there are already many sample d
 # PyCharm starten
 Using PyCharm we can change the program easily.
 
-/snap/pycharm-community/197/bin/pycharm.sh
+>>> /snap/pycharm-community/197/bin/pycharm.sh
 
+# virtual environment aktivate/deactivate
+>>> python3 -m venv tutorial-env
 
+>>> source tutorial-env/bin/activate
+
+>>> pip install requests
+
+>>> pip list
+
+>>> pip freeze > requirements.txt
+
+>>> cat requirements.txt
+
+>>> pip install -r requirements.txt
+
+>>> deactivate
