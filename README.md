@@ -1,6 +1,6 @@
 # Sardana practice
 
-Usage of BlenderbladesMotorCtrl:
+Usage of BlenderbladesMotorCtrl in Sardana:
 
 Terminal 1: blenderplayer work/sardana-training/blender_slits/slits.blend
 
