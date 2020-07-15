@@ -1,5 +1,14 @@
 # Sardana practice
 
+Usage of BlenderbladesMotorCtrl:
+
+Terminal 1: blenderplayer work/sardana-training/blender_slits/slits.blend
+
+Terminal 2: Sardana Blender
+
+Terminal 3: spock --profile=Blender
+ 
+
 Result
 ---------------------------------------------------------------------------------------------------------------------------------------
 
