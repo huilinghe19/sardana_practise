@@ -106,6 +106,6 @@ Python 3 is installed.
 mariadb-server, mariadb-server-10.3, mariadb-server-core-10.3 are installed.
 Tango-db, tango-starter, tango-test, libtango9,  libtango-dev, libtango-tools, python3-pytango, python3-itango are installed.
 
-Problem: But “import tango” does not work. ModuleNotFoundError: No module named 'tango'
+Problem: Tango Databank is there, jive works, but “import tango” does not work. ModuleNotFoundError: No module named 'tango'
 
 
