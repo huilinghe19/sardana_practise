@@ -89,7 +89,7 @@ Using PyCharm we can change the program easily.
 
 >>> pip install -r requirements.txt
 
->>> deactivate
+>>> deactivateModuleNotFoundError: No module named 'tango'
 
 
 # Camera
@@ -106,6 +106,6 @@ Python 3 is installed.
 mariadb-server, mariadb-server-10.3, mariadb-server-core-10.3 are installed.
 Tango-db, tango-starter, tango-test, libtango9,  libtango-dev, libtango-tools, python3-pytango, python3-itango are installed.
 
-Problem: But “import tango” does not work. 
+Problem: But “import tango” does not work. ModuleNotFoundError: No module named 'tango'
 
 
