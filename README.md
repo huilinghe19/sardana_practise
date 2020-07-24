@@ -1,7 +1,7 @@
 # NOTE
 Do not put different similar controller programs in a Pool. 
 
-Do not change the existing controller with a different controller name and file name. Once controller program is different, it takes time for sardana(in fact , tango) to adapt to it. That means, when the controller name is fixed, do not change the file name and controller name. You can change the content of the program.   
+Do not change the existing controller with a different controller class name. Once controller program is different, it takes time for sardana(in fact , tango) to adapt to it. That means, when the controller name is fixed, and the motor controller and motors are already in Sardana. Do not change the file name and controller name. You can change the content of the program.   
 
 
 # Version update
