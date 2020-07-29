@@ -1,5 +1,5 @@
 # NOTE
-1. There is controller and motors in Sardana Pool, but you can use them. The main problem is the permission problem.
+1. There are controllers and motors in Sardana, but you can not use them because of the permission problem.
 
 """ 
 An error occurred while running wa:
