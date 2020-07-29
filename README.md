@@ -1,5 +1,15 @@
 # NOTE
-Do not put different similar controller programs in a Pool. 
+1. There is controller and motors in Sardana Pool, but you can use them. The main problem is the permission problem.
+
+""" 
+An error occurred while running wa:
+TypeError: must be real number, not NoneType
+Hint: in Spock execute `www`to get more details
+"""
+
+This message shows that, the controller program can not be used. It happens usually after new start. The permissions of the file should be changed.
+
+2. Do not put different similar controller programs in a Pool. 
 
 Do not change the existing controller with a different controller class name. Once controller program is different, it takes time for sardana(in fact , tango) to adapt to it. That means, when the controller name is fixed, and the motor controller and motors are already in Sardana. Do not change the file name and controller name. You can change the content of the program.   
 
