@@ -1,4 +1,18 @@
 # NOTE
+In spock(python3TangoDS):
+
+>>> wa
+  tango://dide17.basisit.de:10000/motor/copleyctrl/1
+User 10000.000000000000000000000000000000000000000000000
+Dial 10000.000000000000000000000000000000000000000000000
+                                                       
+     tango://dide17.basisit.de:10000/motor/copleyctrl/2
+User 7001.000000000000000000000000000000000000000000000
+Dial 7001.000000000000000000000000000000000000000000000
+
+The positions and the motor names are different as usual. I will check the connections.
+
+
 1. There are controllers and motors in Sardana, but you can not use them because of the permission problem.
 
 """ 
