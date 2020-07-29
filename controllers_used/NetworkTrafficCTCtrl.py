@@ -33,7 +33,8 @@ class NetworkTrafficCounterTimerController(CounterTimerController):
     It counts the number of bytes of data transmitted or received by a network
     interface over the integration time.
     """
-
+    default_timer = 1
+    
     ctrl_properties = \
         {'interface': {Type : str,
                        Description : 'network interface to count packages',
@@ -70,4 +71,4 @@ class NetworkTrafficCounterTimerController(CounterTimerController):
         return counts - self.start_counts
 
     def AbortOne(self, axis):
-	self.acq_end_time = time.time()
+        self.acq_end_time = time.time()
