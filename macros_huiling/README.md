@@ -3,7 +3,10 @@
 1. Set path of macros in Spock:
 
 Method 1: 
-_MACRO_SERVER.put_property({"MacroPath":["/macros", "/usr/lib/python2.7/dist-packages/sardana/macroserver/macros/example", "/usr/lib/python2.7/dist-packages/sardana/macroserver/macros"]}), "/macros" is the path of the new custom macros, which we define by ourselves. 
+          
+            _MACRO_SERVER.put_property({"MacroPath":["/macros", "/usr/lib/python2.7/dist-packages/sardana/macroserver/macros/example", "/usr/lib/python2.7/dist-packages/sardana/macroserver/macros"]}),
+           
+  "/macros" is the path of the new custom macros, which are created by users. The default macro path are in "/usr/lib/python3/dist-packages/sardana/src/sardana/macroserver/macros/".
 
 Method 2: 
 In jive, we can set the path of macro server directly in the Property name and the Value. 
