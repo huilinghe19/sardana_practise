@@ -179,8 +179,11 @@ Using PyCharm we can change the program easily.
 http://192.168.1.90
 
 # Problem after replacing huiling@dide17 as oil@dide17 on 21.07.2020. 
+Green oil is old huiling account. White oil is new oil account. 
 
-check the Installation after the Buster version update and switch user from huiling@dide17 to oil@dide17
+After the Buster version update and switch user from huiling@dide17 to oil@dide17. Something is the same, something not.
+
+Actually I am always using the old huiling(green oil) account. Sardana works just in this account.
 
 
 1, check Python version: Python 3 is installed.
