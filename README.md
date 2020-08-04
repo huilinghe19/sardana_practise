@@ -178,11 +178,12 @@ Using PyCharm we can change the program easily.
 # Camera
 http://192.168.1.90
 
-# replace huiling@dide17 as oil@dide17 on 21.07.2020. check the Installation 
------- after the Buster version update and switch user from huiling@dide17 to oil@dide17
+# Problem after replacing huiling@dide17 as oil@dide17 on 21.07.2020. 
 
-1, check Python version
-Python 3 is installed.
+check the Installation after the Buster version update and switch user from huiling@dide17 to oil@dide17
+
+
+1, check Python version: Python 3 is installed.
 
 2, check Tango things.
 
