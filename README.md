@@ -100,11 +100,12 @@ https://github.com/huilinghe19/sardana_practise/blob/master/jive/serialLine/src/
 
 open pyserial: 
 
-     "python work/sardana_practise/jive/serialLine/src/PySerial.py test"
-
+    #"python work/sardana_practise/jive/serialLine/src/PySerial.py test"(python2 version)
+    python3 ~/work/copleyCtrlRepository/CopleyControlProgramsHHL/PySerial.py copleyCtrlSerialLine
 open copleyControll: 
 
-      "python work/sardana_practise/jive/serialLine/src/CopleyControl.py test"
+      "python work/sardana_practise/jive/serialLine/src/CopleyControl.py test"(python2 version)
+      python3 ~/work/copleyCtrlRepository/CopleyControlProgramsHHL/CopleyControl.py beamline
 
 
 
