@@ -59,7 +59,7 @@ sudo pip3 install -e ./taurus_pyqtgraph
 install itango3 with python3 :
 
 uninstall all version. install from this way: sudo apt install python3-itango
-
+pkg_resources.DistributionNotFound: The 'PyTango>=9.2.5' distribution was not found and is required by sardana
 # Install sardana unter python3
 Working directly from Git
 
@@ -181,7 +181,7 @@ http://192.168.1.90
 # Problem after replacing huiling@dide17 as oil@dide17 on 21.07.2020. 
 Green oil is old huiling account. White oil is new oil account. 
 
-After the Buster version update and switch user from huiling@dide17 to oil@dide17. Something is the same, something not.
+After the Buster version update and switch user from huiling@dide17 to oil@dide17. Something is the same, something not. per ssh oil@dide17 or ssh huiling@dide17 is not the same. If I want something, I must use ssh huiling@dide17, although the displayed account is green oil. scp function through these accounts is not the same.
 
 Actually I am always using the old huiling(green oil) account. Sardana works just in this account.
 
