@@ -1,4 +1,7 @@
 # NOTE
+Taurus functions are not the same as before. Something is broken. Once the taurus functions are used, it is better not to change the device or pool name. Otherweise the old history will remain all the time and may have bad effect such as demo4.
+taurus tools: taurus form model, taurus device m1copley, macroexecutor, sequencer
+
 In spock(python3TangoDS):
 
 >>> wa
@@ -11,7 +14,7 @@ In spock(python3TangoDS):
     User 7001.000000000000000000000000000000000000000000000
     Dial 7001.000000000000000000000000000000000000000000000
 
-The positions and the motor names are different as usual. I will check the connections.
+The positions and the motor names are different as usual. I will check the connections. I have deleted these and re-created controllers and motors in sardana.
 
 
 1. There are controllers and motors in Sardana, but you can not use them because of the permission problem.
