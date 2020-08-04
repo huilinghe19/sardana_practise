@@ -190,6 +190,6 @@ check the Installation after the Buster version update and switch user from huil
 mariadb-server, mariadb-server-10.3, mariadb-server-core-10.3 are installed.
 Tango-db, tango-starter, tango-test, libtango9,  libtango-dev, libtango-tools, python3-pytango, python3-itango are installed.
 
-Problem: Tango Databank is there, jive works, but “import tango” does not work. ModuleNotFoundError: No module named 'tango'
+Problem: Tango Databank is there, jive works, but “import tango” "import PyTango" in python3 command line does not work. ModuleNotFoundError: No module named 'tango'.    pkg_resources.DistributionNotFound: The 'PyTango>=9.2.5' distribution was not found and is required by sardana.
 
 
