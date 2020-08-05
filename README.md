@@ -3,6 +3,11 @@ Taurus functions are not the same as before. Something is broken. Once the tauru
 
 taurus tools: taurus form sim1/position, taurus device sim1, macroexecutor, sequencer can work, but not stable. "taurus qwt5 trend" can not work. The old version "taurus trend" does not exist any more. I habe checked the independencies and installed python3-guiqwt. 
 
+>>> sudo apt install python3 guiqwt
+
+>>> sudo apt install libqwt5-qt4 libqwt5-qt4-dev libqwt5-doc
+
+
 In spock(python3TangoDS):
 
 >>> wa
@@ -126,7 +131,7 @@ Open HhlServer DS to controll blender blades through Socket.
     "python work/sardana_practise/tango_practices/programs/HhlServer.py test"
    
    
-   
+   sudo apt install libqwt5-qt4 libqwt5-qt4-dev libqwt5-doc
 Copley Controller in Sardana
 ---------------------------------------
 https://github.com/huilinghe19/sardana_practise/blob/master/copley_controllers/copleyController.py
@@ -175,7 +180,7 @@ Using PyCharm we can change the program easily.
 
 >>> deactivateModuleNotFoundError: No module named 'tango'
 
-
+sudo apt install libqwt5-qt4 libqwt5-qt4-dev libqwt5-doc
 # Camera
 http://192.168.1.90
 
