@@ -1,6 +1,7 @@
 # NOTE
 Taurus functions are not the same as before. Something is broken. Once the taurus functions are used, it is better not to change the device or pool name. Otherweise the old history will remain all the time and may have bad effect such as demo4.
-taurus tools: taurus form model, taurus device m1copley, macroexecutor, sequencer
+
+taurus tools: taurus form sim1/position, taurus device sim1, macroexecutor, sequencer can work, but not stable. "taurus qwt5 trend" can not work. The old version "taurus trend" does not exist any more. I habe checked the independencies and installed python3-guiqwt. 
 
 In spock(python3TangoDS):
 
