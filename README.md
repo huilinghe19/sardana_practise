@@ -1,5 +1,5 @@
 # NOTE
-Taurus functions are not the same as before. Something is new. such as taurus trend function is diferent. Now it is taurus tpg trend. new command like taurus device sim and so on, we can check those new commands using taurus tool.  Once the taurus functions are used, it is better not to change the device or pool name. Otherweise the old history will remain all the time and may have bad effect such as demo4.
+Taurus functions are not as the same as before. Some functions are new, such as taurus trend is replaced by taurus tpg trend. There are new commands like taurus device sim and so on, we can check those new commands using taurus.  Once the taurus functions are called, it is better not to change the device or pool name. Otherweise the old history will remain all the time and may have bad effect such as demo4.
 
 taurus tools: taurus form sim1/position, taurus device sim1, macroexecutor, sequencer can work, but not stable. "taurus qwt5 trend" can not work. The old version "taurus trend" does not exist any more. I habe checked the independencies and installed python3-guiqwt. 
 
@@ -32,9 +32,8 @@ Hint: in Spock execute `www`to get more details
 
 This message shows that, the controller program can not be used. It happens usually after new start. The permissions of the file should be changed.
 
-2. Do not put different similar controller programs in a Pool. 
+2. Do not put different similar controller programs with same content in a Pool. 
 
-Do not change the existing controller with a different controller class name. Once controller program is different, it takes time for sardana(in fact , tango) to adapt to it. That means, when the controller name is fixed, and the motor controller and motors are already in Sardana. Do not change the file name and controller name. You can change the content of the program.   
 
 
 # Version update
