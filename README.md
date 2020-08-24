@@ -20,8 +20,7 @@ In spock(python3TangoDS):
     User 7001.000000000000000000000000000000000000000000000
     Dial 7001.000000000000000000000000000000000000000000000
 
-The positions and the motor names are different as usual. I will check the connections. I have deleted these and re-created controllers and motors in sardana.
-
+The positions and the motor names are different as usual. We can rename them in spock with command %renameelem.
 
 1. There are controllers and motors in Sardana, but you can not use them because of the permission problem.
 
