@@ -1,5 +1,5 @@
 # NOTE
-Taurus functions are not the same as before. Something is broken. Once the taurus functions are used, it is better not to change the device or pool name. Otherweise the old history will remain all the time and may have bad effect such as demo4.
+Taurus functions are not the same as before. Something is new. such as taurus trend function is diferent. Now it is taurus tpg trend. new command like taurus device sim and so on, we can check those new commands using taurus tool.  Once the taurus functions are used, it is better not to change the device or pool name. Otherweise the old history will remain all the time and may have bad effect such as demo4.
 
 taurus tools: taurus form sim1/position, taurus device sim1, macroexecutor, sequencer can work, but not stable. "taurus qwt5 trend" can not work. The old version "taurus trend" does not exist any more. I habe checked the independencies and installed python3-guiqwt. 
 
@@ -181,6 +181,7 @@ Using PyCharm we can change the program easily.
 >>> deactivateModuleNotFoundError: No module named 'tango'
 
 sudo apt install libqwt5-qt4 libqwt5-qt4-dev libqwt5-doc
+
 # Camera
 http://192.168.1.90
 
