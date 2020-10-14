@@ -1,4 +1,13 @@
 # NOTE
+Taurus functions are not as the same as before. Some functions are new, such as taurus trend is replaced by taurus tpg trend. There are new commands like taurus device sim and so on, we can check those new commands using taurus.  Once the taurus functions are called, it is better not to change the device or pool name. Otherweise the old history will remain all the time and may have bad effect such as demo4.
+
+taurus tools: taurus form sim1/position, taurus device sim1, macroexecutor, sequencer can work, but not stable. "taurus qwt5 trend" can not work. The old version "taurus trend" does not exist any more. I habe checked the independencies and installed python3-guiqwt. 
+
+>>> sudo apt install python3 guiqwt
+
+>>> sudo apt install libqwt5-qt4 libqwt5-qt4-dev libqwt5-doc
+
+
 In spock(python3TangoDS):
 
 >>> wa
@@ -11,8 +20,7 @@ In spock(python3TangoDS):
     User 7001.000000000000000000000000000000000000000000000
     Dial 7001.000000000000000000000000000000000000000000000
 
-The positions and the motor names are different as usual. I will check the connections.
-
+The positions and the motor names are different as usual. We can rename them in spock with command %renameelem.
 
 1. There are controllers and motors in Sardana, but you can not use them because of the permission problem.
 
@@ -24,9 +32,8 @@ Hint: in Spock execute `www`to get more details
 
 This message shows that, the controller program can not be used. It happens usually after new start. The permissions of the file should be changed.
 
-2. Do not put different similar controller programs in a Pool. 
+2. Do not put different similar controller programs with same content in a Pool. 
 
-Do not change the existing controller with a different controller class name. Once controller program is different, it takes time for sardana(in fact , tango) to adapt to it. That means, when the controller name is fixed, and the motor controller and motors are already in Sardana. Do not change the file name and controller name. You can change the content of the program.   
 
 
 # Version update
@@ -56,7 +63,7 @@ sudo pip3 install -e ./taurus_pyqtgraph
 install itango3 with python3 :
 
 uninstall all version. install from this way: sudo apt install python3-itango
-
+pkg_resources.DistributionNotFound: The 'PyTango>=9.2.5' distribution was not found and is required by sardana
 # Install sardana unter python3
 Working directly from Git
 
@@ -97,11 +104,12 @@ https://github.com/huilinghe19/sardana_practise/blob/master/jive/serialLine/src/
 
 open pyserial: 
 
-     "python work/sardana_practise/jive/serialLine/src/PySerial.py test"
-
+    #"python work/sardana_practise/jive/serialLine/src/PySerial.py test"(python2 version)
+    python3 ~/work/copleyCtrlRepository/CopleyControlProgramsHHL/PySerial.py copleyCtrlSerialLine
 open copleyControll: 
 
-      "python work/sardana_practise/jive/serialLine/src/CopleyControl.py test"
+      "python work/sardana_practise/jive/serialLine/src/CopleyControl.py test"(python2 version)
+      python3 ~/work/copleyCtrlRepository/CopleyControlProgramsHHL/CopleyControl.py beamline
 
 
 
@@ -121,7 +129,7 @@ Open HhlServer DS to controll blender blades through Socket.
     "python work/sardana_practise/tango_practices/programs/HhlServer.py test"
    
    
-   
+   sudo apt install libqwt5-qt4 libqwt5-qt4-dev libqwt5-doc
 Copley Controller in Sardana
 ---------------------------------------
 https://github.com/huilinghe19/sardana_practise/blob/master/copley_controllers/copleyController.py
@@ -170,21 +178,34 @@ Using PyCharm we can change the program easily.
 
 >>> deactivateModuleNotFoundError: No module named 'tango'
 
+sudo apt install libqwt5-qt4 libqwt5-qt4-dev libqwt5-doc
 
 # Camera
 http://192.168.1.90
 
-# replace huiling@dide17 as oil@dide17 on 21.07.2020. check the Installation 
------- after the Buster version update and switch user from huiling@dide17 to oil@dide17
+# Problem after replacing huiling@dide17 as oil@dide17 on 21.07.2020. 
+Green oil is old huiling account. White oil is new oil account. 
 
-1, check Python version
-Python 3 is installed.
+After the Buster version update and switch user from huiling@dide17 to oil@dide17. Something is the same, something not. per ssh oil@dide17 or ssh huiling@dide17 is not the same. If I want something, I must use ssh huiling@dide17, although the displayed account is green oil. scp function through these accounts is not the same.
+
+Actually I am always using the old huiling(green oil) account. Sardana works just in this account.
+
+
+1, check Python version: Python 3 is installed.
 
 2, check Tango things.
 
 mariadb-server, mariadb-server-10.3, mariadb-server-core-10.3 are installed.
 Tango-db, tango-starter, tango-test, libtango9,  libtango-dev, libtango-tools, python3-pytango, python3-itango are installed.
 
-Problem: Tango Databank is there, jive works, but “import tango” does not work. ModuleNotFoundError: No module named 'tango'
+Problem: Tango Databank is there, jive works, but “import tango” "import PyTango" in python3 command line does not work. ModuleNotFoundError: No module named 'tango'.    pkg_resources.DistributionNotFound: The 'PyTango>=9.2.5' distribution was not found and is required by sardana.
 
+# Permissions Problem 
+Once the file comes from another computer with the scp method, then there will be a problem to change it or use it under oil@dide17. Because the permissions for the file need to be reconsidered. Sardana needs the original huiling permissions.
+
+On the same computer dide17, if the user is not original huiling, then Sardana can not be used. The error message is:  
+
+"pkg_resources.DistributionNotFound: The 'PyTango>=9.2.5' distribution was not found and is required by sardana"
+
+The problem occurs with tango installation. Wenn I install tango at the first time, it is necessary to put "tango", "tango" as user and password for MySQL. Just user "huiling" has the right to import tango. "import tango" does not work when the user is different. Although jive can be opened, but the usage of tango can not be sure.
 
